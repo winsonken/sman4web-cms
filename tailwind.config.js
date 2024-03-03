@@ -11,6 +11,7 @@ export default {
         'main-blue': '#7FC7D9',
         'second-blue': '#146C94',
         'main-cream': '#FFFDDE',
+        'main-gray': '#F5F5F5',
       },
     },
   },
