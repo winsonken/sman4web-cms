@@ -85,49 +85,78 @@ const Sidebar = (props) => {
       link: 'link',
       icon: <FaUserPlus />,
     },
-    {
-      name: 'Logout',
-      link: 'link',
-      icon: <MdLogout />,
-    },
   ];
   return (
     <nav
-      className={`h-screen bg-main-blue p-3 relative overflow-x-hidden overflow-y-auto duration-200 ${
-        openSidebar ? 'w-[310px] sm:w-[250px] md:w-[200px]' : 'w-[80px]'
+      className={`h-screen bg-main-blue px-3 relative overflow-x-hidden overflow-y-auto duration-300 ${
+        openSidebar
+          ? 'w-[300px] xs:w-[270px] min-w-[200px]'
+          : 'w-[50px] md:w-[70px] min-w-[50px]'
       }`}
     >
-      <div className="bg-main-blue flex justify-center items-center sticky top-0 left-0">
-        <Link to="/" className="w-full flex justify-center items-center">
-          <img
-            src={openSidebar ? logo : icon}
-            alt="Logo SMAN4"
-            className={` ${openSidebar ? 'w-16 sm:w-28' : 'w-16'}`}
-          />
+      <div className="w-full h-full">
+        <Link to="/">
+          <div className="bg-main-blue pt-3 flex justify-center items-center sticky top-0">
+            <img
+              src={openSidebar ? logo : icon}
+              alt="SMAN4 Logo"
+              className={`${openSidebar ? 'w-32 min-w-16' : 'min-w-4'}`}
+            />
+          </div>
         </Link>
-      </div>
 
-      <div className="mt-5">
-        {openSidebar
-          ? pages.map((pagesList) => (
-              <NavLink to={pagesList.link}>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="text-3xl text-main-cream">
-                    {pagesList.icon}
-                  </span>
-                  <span className="font-medium text-main-cream">
-                    {pagesList.name}
-                  </span>
-                </div>
-              </NavLink>
-            ))
-          : pages.map((pagesList) => (
-              <NavLink to={pagesList.link}>
-                <div className="flex justify-center mt-2">
-                  <p className="text-3xl text-main-cream">{pagesList.icon}</p>
-                </div>
-              </NavLink>
-            ))}
+        <div
+          className={`mt-3 px-2 flex flex-col justify-center ${
+            openSidebar ? 'items-start' : 'items-center'
+          }`}
+        >
+          {openSidebar
+            ? pages.map((pagesList) => (
+                <NavLink to={pagesList.link} className="nav-link">
+                  <div className="flex items-center gap-2 mt-3">
+                    <span className="text-2xl text-main-cream">
+                      {pagesList.icon}
+                    </span>
+                    <span className="text-md font-medium text-main-cream md:text-lg">
+                      {pagesList.name}
+                    </span>
+                  </div>
+                </NavLink>
+              ))
+            : pages.map((pagesList) => (
+                <NavLink to={pagesList.link} className="nav-link">
+                  <div className="flex items-center gap-2 mt-3">
+                    <span className="text-2xl text-main-cream">
+                      {pagesList.icon}
+                    </span>
+                  </div>
+                </NavLink>
+              ))}
+
+          <div>
+            <button>
+              <div className="flex">
+                {openSidebar ? (
+                  <div className="nav-link flex justify-center items-center gap-2 mt-3">
+                    <span className="text-2xl text-main-cream">
+                      <MdLogout />
+                    </span>
+
+                    <span className="nav-link text-md font-medium text-main-cream md:text-lg">
+                      Logout
+                    </span>
+                  </div>
+                ) : (
+                  <div className="nav-link flex gap-2 mt-3">
+                    <span className="text-2xl text-main-cream">
+                      <MdLogout />
+                    </span>
+                  </div>
+                )}
+              </div>
+            </button>
+          </div>
+        </div>
       </div>
     </nav>
   );
