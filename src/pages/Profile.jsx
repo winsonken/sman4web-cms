@@ -1,12 +1,12 @@
 import React from 'react';
 import Layout from '../components/Layout';
 
-const Dashboard = () => {
+const Profile = () => {
   return (
     <Layout>
       <div className="flex flex-col">
         <div>
-          <h1 className="text-xl font-semibold md:text-2xl">Dashboard</h1>
+          <h1 className="text-xl font-semibold md:text-2xl">Profile</h1>
         </div>
 
         <div></div>
@@ -15,4 +15,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Profile;

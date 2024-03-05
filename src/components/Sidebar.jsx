@@ -27,12 +27,12 @@ const Sidebar = (props) => {
     },
     {
       name: 'Profile',
-      link: '/',
+      link: '/profile',
       icon: <BiSolidUser />,
     },
     {
       name: 'Angkatan',
-      link: 'link',
+      link: '/angkatan',
       icon: <MdStairs />,
     },
     {
@@ -88,9 +88,9 @@ const Sidebar = (props) => {
   ];
   return (
     <nav
-      className={`h-screen bg-main-blue px-3 relative overflow-x-hidden overflow-y-auto duration-300 ${
+      className={`h-screen bg-main-blue px-1 relative overflow-x-hidden overflow-y-auto duration-300 md:px-3 ${
         openSidebar
-          ? 'w-[300px] xs:w-[270px] min-w-[200px]'
+          ? 'w-[300px] xs:w-[270px] min-w-[160px]'
           : 'w-[50px] md:w-[70px] min-w-[50px]'
       }`}
     >

@@ -8,10 +8,12 @@ export default {
       },
       colors: {
         white: '#FFFFFF',
+        black: '#222222',
         'main-blue': '#7FC7D9',
         'second-blue': '#146C94',
         'main-cream': '#FFFDDE',
         'main-gray': '#F5F5F5',
+        'modal-bg': 'rgb(34,34,34,0.3)',
       },
     },
   },

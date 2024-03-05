@@ -6,10 +6,9 @@ const Layout = (props) => {
   const { children } = props;
   const sideValue = localStorage.getItem('side-open');
   const [openSidebar, setOpenSidebar] = useState(sideValue === 'true');
-  const [deviceWidth] = useState(window.innerWidth);
 
   const handleResize = () => {
-    if (deviceWidth <= 800) {
+    if (window.innerWidth <= 800) {
       setOpenSidebar(false);
     } else {
       setOpenSidebar(true);
@@ -21,7 +20,7 @@ const Layout = (props) => {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('side-open', openSidebar);
+    localStorage.setItem('side-open', openSidebar.toString());
   }, [openSidebar]);
 
   return (
@@ -31,7 +30,11 @@ const Layout = (props) => {
       <div className="flex flex-col w-full">
         <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
 
-        <div className="h-full bg-main-gray p-3 rounded-md">{children}</div>
+        <div className="w-full h-full bg-main-gray p-3 flex justify-center overflow-auto">
+          <div className="w-full max-h-[90vh] bg-white p-5 rounded-lg overflow-x-hidden overflow-y-auto">
+            {children}
+          </div>
+        </div>
       </div>
     </div>
   );
