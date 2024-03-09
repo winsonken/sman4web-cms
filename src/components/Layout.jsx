@@ -27,11 +27,17 @@ const Layout = (props) => {
     <div className="flex flex-row">
       <Sidebar openSidebar={openSidebar} />
 
-      <div className="flex flex-col w-full">
+      <div
+        className={`flex flex-col flex-1 duration-200 ${
+          openSidebar
+            ? 'w-[calc(100%-160px)] xs:w-[calc(100%-270px)]'
+            : 'w-[calc(100%-50px)] md:w-[calc(100%-70px)]'
+        }`}
+      >
         <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
 
-        <div className="w-full h-full bg-main-gray p-3 flex justify-center overflow-auto">
-          <div className="w-full max-h-[90vh] bg-white p-5 rounded-lg overflow-x-hidden overflow-y-auto">
+        <div className={`h-full bg-main-gray p-3 flex justify-center `}>
+          <div className="w-full max-h-[90vh] bg-white p-5 rounded-lg overflow-x-clip">
             {children}
           </div>
         </div>

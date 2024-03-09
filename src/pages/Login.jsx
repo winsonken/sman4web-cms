@@ -2,12 +2,33 @@ import React, { useState } from 'react';
 import logo from '../assets/logo-sman4.png';
 import { FaEye } from 'react-icons/fa';
 import { FaEyeSlash } from 'react-icons/fa';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const validationSchema = yup
+  .object({
+    username: yup.string().required('Username is required'),
+    password: yup.string().required('Password is required'),
+  })
+  .required();
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
   const handlePassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleOnSubmit = (e) => {
+    alert(JSON.stringify(e));
   };
 
   return (
@@ -24,7 +45,7 @@ const Login = () => {
         </div>
 
         <div>
-          <form>
+          <form onSubmit={handleSubmit(handleOnSubmit)}>
             <div className="flex flex-col gap-3">
               <label
                 htmlFor="username"
@@ -34,12 +55,19 @@ const Login = () => {
               </label>
               <input
                 type="text"
+                name="username"
                 id="username"
                 placeholder="Username"
                 className="bg-transparent py-2 border-b border-main-cream placeholder-main-cream placeholder:font-medium focus:outline-0 caret-second-blue"
                 autoComplete="off"
                 style={{ color: '#FFFDDE' }}
+                {...register('username')}
               />
+              {errors.username && (
+                <span className="text-sm font-medium text-main-red">
+                  {errors.username?.message}
+                </span>
+              )}
             </div>
 
             <div className="flex flex-col gap-3 mt-5">
@@ -53,10 +81,12 @@ const Login = () => {
               <div className="relative">
                 <input
                   type={showPassword ? 'password' : 'text'}
+                  name="password"
                   id="password"
                   placeholder="Password"
                   className="w-full bg-transparent py-2 border-b border-main-cream placeholder-main-cream placeholder:font-medium focus:outline-0 caret-second-blue"
                   style={{ color: '#FFFDDE' }}
+                  {...register('password')}
                 />
 
                 <div
@@ -66,17 +96,23 @@ const Login = () => {
                   {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </div>
               </div>
+
+              {errors.password && (
+                <span className="text-sm font-medium text-main-red">
+                  {errors.password?.message}
+                </span>
+              )}
+            </div>
+
+            <div className="mt-5">
+              <button
+                type="submit"
+                className="w-full text-base font-medium text-white bg-second-blue py-3 rounded"
+              >
+                Login
+              </button>
             </div>
           </form>
-        </div>
-
-        <div>
-          <button
-            type="submit"
-            className="w-full text-base font-medium text-white bg-second-blue py-3 rounded"
-          >
-            Login
-          </button>
         </div>
       </div>
     </div>
