@@ -89,7 +89,9 @@ const Sidebar = (props) => {
   return (
     <nav
       className={`h-screen bg-main-blue px-1 relative overflow-x-hidden overflow-y-auto duration-300 md:px-3 ${
-        openSidebar ? 'w-[160px] xs:w-[270px]' : 'w-[50px] md:w-[70px]'
+        openSidebar
+          ? 'w-[160px] xs:w-[200px] sm:w-[270px]'
+          : 'w-[50px] md:w-[70px]'
       }`}
     >
       <div className="w-full h-full">

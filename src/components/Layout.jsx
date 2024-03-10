@@ -30,7 +30,7 @@ const Layout = (props) => {
       <div
         className={`flex flex-col flex-1 duration-200 ${
           openSidebar
-            ? 'w-[calc(100%-160px)] xs:w-[calc(100%-270px)]'
+            ? 'w-[calc(100%-160px)] xs:w-[calc(100%-200px)] sm:w-[calc(100%-270px)]'
             : 'w-[calc(100%-50px)] md:w-[calc(100%-70px)]'
         }`}
       >

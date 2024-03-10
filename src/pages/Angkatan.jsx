@@ -27,6 +27,10 @@ const Angkatan = () => {
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
   const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
   const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPage = 8;
+  const totalRecord = 16;
+  const limitPerPage = 10;
 
   return (
     <Layout>
@@ -53,7 +57,7 @@ const Angkatan = () => {
         </div>
 
         <div className="flex flex-col gap-3">
-          <div className="relative overflow-x-auto rounded-t-lg">
+          <div className="table-scroll relative overflow-x-auto rounded-t-lg">
             <table className="w-full text-sm text-left rtl:text-right text-black">
               <thead className="text-xs text-gray-700 uppercase bg-main-orange">
                 <tr>
@@ -126,7 +130,13 @@ const Angkatan = () => {
             </table>
           </div>
 
-          {/* <Pagination /> */}
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPage={totalPage}
+            totalRecord={totalRecord}
+            limitPerPage={limitPerPage}
+          />
         </div>
 
         <PopUpAdd
