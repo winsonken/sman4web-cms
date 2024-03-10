@@ -37,7 +37,7 @@ const Layout = (props) => {
         <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
 
         <div className={`h-full bg-main-gray p-3 flex justify-center `}>
-          <div className="w-full max-h-[90vh] bg-white p-5 rounded-lg overflow-x-clip">
+          <div className="w-full max-h-[90vh] bg-white p-5 rounded-lg overflow-x-clip overflow-y-auto">
             {children}
           </div>
         </div>
