@@ -5,7 +5,7 @@ const ButtonDetail = (props) => {
   const { isOpenPopUpDetail, setIsOpenPopUpDetail } = props;
   return (
     <div
-      className="w-fit h-fit text-2xl text-black bg-white p-1.5 flex justify-center items-center rounded-md cursor-pointer"
+      className="w-fit h-fit text-2xl text-black bg-white px-1.5 py-1 flex justify-center items-center rounded-md cursor-pointer"
       onClick={() => {
         setIsOpenPopUpDetail(!isOpenPopUpDetail);
       }}

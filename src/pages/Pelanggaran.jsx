@@ -1,12 +1,12 @@
 import React from 'react';
 import { Layout } from '../components';
 
-const Kelas = () => {
+const Pelanggaran = () => {
   return (
     <Layout>
       <div className="flex flex-col">
         <div>
-          <h1 className="text-xl font-semibold md:text-2xl">Kelas</h1>
+          <h1 className="text-xl font-semibold md:text-2xl">Pelanggaran</h1>
         </div>
 
         <div></div>
@@ -15,4 +15,4 @@ const Kelas = () => {
   );
 };
 
-export default Kelas;
+export default Pelanggaran;

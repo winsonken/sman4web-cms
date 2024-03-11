@@ -4,7 +4,7 @@ const ButtonAction = (props) => {
   const { title, isOpenPopUp, setIsOpenPopUp } = props;
   return (
     <button
-      className="bg-blue-100 text-base font-medium px-5 py-1.5 rounded-md"
+      className="bg-[#598392] text-base text-white px-5 py-0.5 rounded-md"
       onClick={() => {
         setIsOpenPopUp(!isOpenPopUp);
       }}

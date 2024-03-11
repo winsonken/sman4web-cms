@@ -40,7 +40,7 @@ const Pagination = (props) => {
     for (let i = 1; i <= totalPage; i++) {
       pageList.push(
         <div
-          className={`w-fit min-w-[35px] text-center px-1 py-1.5 rounded-md cursor-pointer duration-100 ${
+          className={`w-fit min-w-[30px] text-center px-1 py-1 rounded-md cursor-pointer duration-100 ${
             currentPage === i
               ? 'bg-black text-white'
               : 'bg-transparent text-black'
@@ -61,7 +61,7 @@ const Pagination = (props) => {
     for (let i = startPage; i <= endPage; i++) {
       pageList.push(
         <div
-          className={`w-fit min-w-[35px] text-center px-1 py-1.5 rounded-md cursor-pointer duration-100 ${
+          className={`w-fit min-w-[30px] text-center px-1 py-1 rounded-md cursor-pointer duration-100 ${
             currentPage === i
               ? 'bg-black text-white'
               : 'bg-transparent text-black'

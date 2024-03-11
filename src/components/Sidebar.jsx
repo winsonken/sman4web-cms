@@ -37,52 +37,52 @@ const Sidebar = (props) => {
     },
     {
       name: 'Tahun ajaran',
-      link: 'link',
+      link: '/tahun-ajaran',
       icon: <FaCalendar />,
     },
     {
       name: 'Kelas',
-      link: 'link',
+      link: '/kelas',
       icon: <RiDoorOpenFill />,
     },
     {
       name: 'Siswa',
-      link: 'link',
+      link: '/siswa',
       icon: <PiUsersThreeFill />,
     },
     {
       name: 'Guru',
-      link: 'link',
+      link: '/guru',
       icon: <FaChalkboardTeacher />,
     },
     {
       name: 'Alumni',
-      link: 'link',
+      link: '/alumni',
       icon: <FaUserGraduate />,
     },
     {
       name: 'Jurusan',
-      link: 'link',
+      link: '/jurusan',
       icon: <FaBookOpen />,
     },
     {
       name: 'Prestasi',
-      link: 'link',
+      link: '/prestasi',
       icon: <FaMedal />,
     },
     {
       name: 'Rapot siswa',
-      link: 'link',
+      link: '/rapot',
       icon: <PiBookBookmarkFill />,
     },
     {
       name: 'Pelanggaran',
-      link: 'link',
+      link: '/pelanggaran',
       icon: <MdDoNotDisturb />,
     },
     {
       name: 'PPDB',
-      link: 'link',
+      link: '/ppdb',
       icon: <FaUserPlus />,
     },
   ];
@@ -90,7 +90,7 @@ const Sidebar = (props) => {
     <nav
       className={`h-screen bg-main-blue px-1 relative overflow-x-hidden overflow-y-auto duration-300 md:px-3 ${
         openSidebar
-          ? 'w-[160px] xs:w-[200px] sm:w-[270px]'
+          ? 'w-[160px] xs:w-[200px] sm:w-[250px] md:w-[230px]'
           : 'w-[50px] md:w-[70px]'
       }`}
     >

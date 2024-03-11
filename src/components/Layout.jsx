@@ -30,15 +30,15 @@ const Layout = (props) => {
       <div
         className={`flex flex-col flex-1 duration-200 ${
           openSidebar
-            ? 'w-[calc(100%-160px)] xs:w-[calc(100%-200px)] sm:w-[calc(100%-270px)]'
+            ? 'w-[calc(100%-160px)] xs:w-[calc(100%-200px)] sm:w-[calc(100%-250px)] md:w-[calc(100%-230px)]'
             : 'w-[calc(100%-50px)] md:w-[calc(100%-70px)]'
         }`}
       >
         <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
 
-        <div className={`h-full bg-main-gray p-3 flex justify-center `}>
-          <div className="w-full max-h-[90vh] bg-white p-5 rounded-lg overflow-x-clip overflow-y-auto">
-            {children}
+        <div className={`h-full bg-main-gray p-3 flex justify-center`}>
+          <div className="w-full max-h-[85vh] bg-white p-5 rounded-lg overflow-x-clip">
+            <div className="w-full h-full px-1 overflow-y-auto">{children}</div>
           </div>
         </div>
       </div>
