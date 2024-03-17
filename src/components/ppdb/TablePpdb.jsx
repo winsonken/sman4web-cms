@@ -6,7 +6,7 @@ import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
 
-const TableAngkatan = (props) => {
+const TablePpdb = (props) => {
   const {
     data,
     isLoading,
@@ -39,25 +39,23 @@ const TableAngkatan = (props) => {
                 No
               </th>
               <th scope="col" className="px-6 py-4">
-                Angkatan
+                Foto
               </th>
               <th scope="col" className="px-6 py-4">
-                Tahun
+                Nama Calon Siswa
               </th>
               <th scope="col" className="px-6 py-4">
-                Jumlah siswa
+                NIPD
               </th>
               <th scope="col" className="px-6 py-4">
-                Status
-              </th>
-              <th scope="col" className="px-6 py-4">
-                Siswa lulus
+                Status Penerimaan
               </th>
               <th scope="col" className="text-center px-6 py-4">
                 Aksi
               </th>
             </tr>
           </thead>
+
           <tbody>
             <tr className="bg-second-orange border-b">
               <th
@@ -66,24 +64,27 @@ const TableAngkatan = (props) => {
               >
                 1
               </th>
-              <td className="px-6 py-1">5</td>
-              <td className="px-6 py-1">2005</td>
-              <td className="px-6 py-1">300</td>
-              <td className="px-6 py-1">Lulus</td>
-              <td className="px-6 py-1">300</td>
+              <td className="px-6 py-1 size-1/12">
+                <img src="./public/Suki.jpeg" alt="Siswa" />
+              </td>
+              <td className="px-6 py-1">Maria Zhang</td>
+              <td className="px-6 py-1">24.500.128</td>
+              <td className="px-6 py-1">
+                <div className="flex flex-row gap-2">
+                  <ButtonAction
+                    title="Diterima"
+                    isOpenPopUp={isOpenPopUpMulai}
+                    setIsOpenPopUp={setIsOpenPopUpMulai}
+                  />
+
+                  <ButtonAction
+                    title="Ditolak"
+                    isOpenPopUp={isOpenPopUpLulus}
+                    setIsOpenPopUp={setIsOpenPopUpLulus}
+                  />
+                </div>
+              </td>
               <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
-                <ButtonAction
-                  title="Mulai"
-                  isOpenPopUp={isOpenPopUpMulai}
-                  setIsOpenPopUp={setIsOpenPopUpMulai}
-                />
-
-                <ButtonAction
-                  title="Lulus"
-                  isOpenPopUp={isOpenPopUpLulus}
-                  setIsOpenPopUp={setIsOpenPopUpLulus}
-                />
-
                 <ButtonDetail
                   isOpenPopUpDetail={isOpenPopUpDetail}
                   setIsOpenPopUpDetail={setIsOpenPopUpDetail}
@@ -103,7 +104,7 @@ const TableAngkatan = (props) => {
 
             <tr>
               <td
-                colSpan="7"
+                colSpan="6"
                 class="px-6 py-3 whitespace-no-wrap bg-second-orange"
               >
                 <div className="text-sm  text-gray-500 text-center">
@@ -126,4 +127,4 @@ const TableAngkatan = (props) => {
   );
 };
 
-export default TableAngkatan;
+export default TablePpdb;

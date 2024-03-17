@@ -2,7 +2,14 @@ import React from 'react';
 import Icon from './Icon';
 
 const PopUpAdd = (props) => {
-  const { isOpenPopUpAdd, setIsOpenPopUpAdd, title, icon, children } = props;
+  const {
+    isOpenPopUpAdd,
+    setIsOpenPopUpAdd,
+    title,
+    icon,
+    children,
+    className,
+  } = props;
 
   return (
     <div>
@@ -15,12 +22,12 @@ const PopUpAdd = (props) => {
         >
           <div className="w-screen h-screen flex justify-center items-center z-50">
             <div
-              className="bg-white w-4/5 max-w-lg h-fit p-3 rounded-md xl:max-w-2xl duration-200"
+              className={`bg-white w-4/5 max-w-xl h-fit max-h-[80%] p-3 rounded-md xl:max-w-2xl duration-200 overflow-y-auto ${className}`}
               onClick={(e) => {
                 e.stopPropagation();
               }}
             >
-              <div className="w-full flex flex-col gap-3 overflow-x-clip">
+              <div className="w-full  flex flex-col gap-3 overflow-x-clip">
                 <div className="flex items-center gap-2">
                   <Icon icons={icon} type="add" />
                   <h1 className="text-base font-semibold">
