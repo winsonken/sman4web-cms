@@ -12,6 +12,7 @@ import PopUpAction from './PopUpAction';
 import PopUpAdd from './PopUpAdd';
 import PopUpDelete from './PopUpDelete';
 import PopUpDetail from './PopUpDetail';
+import ButtonPage from './ButtonPage';
 import PopUpEdit from './PopUpEdit';
 import SearchFilter from './SearchFilter';
 import SelectFilter from './SelectFilter';
@@ -33,6 +34,7 @@ export {
   PopUpAdd,
   PopUpDelete,
   PopUpDetail,
+  ButtonPage,
   PopUpEdit,
   SearchFilter,
   SelectFilter,

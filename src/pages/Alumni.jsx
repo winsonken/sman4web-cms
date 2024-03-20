@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Layout } from '../components';
 
+<<<<<<< HEAD
 import { FaUserGraduate } from 'react-icons/fa';
 
 import Layout from '../components/Layout';
@@ -24,15 +26,18 @@ const Alumni = () => {
   const totalRecord = 16;
   const limitPerPage = 10;
 
+=======
+const Alumni = () => {
+>>>>>>> 4a0c93871762ab55fff11f5d202fc3783a110be0
   return (
     <Layout>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col">
         <div>
-          <h1 className="text-xl font-semibold md:text-2xl">Data Alumni</h1>
+          <h1 className="text-xl font-semibold md:text-2xl">Alumni</h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
         <div></div>
+<<<<<<< HEAD
           <div className="flex flex-reverse">
             <div className="sm:w-48">
               <SearchFilter />
@@ -205,6 +210,8 @@ const Alumni = () => {
         >
           <div>Bagian ini ganti jadi file contoh: DetailAngkatan.jsx</div>
         </PopUpDetail>
+=======
+>>>>>>> 4a0c93871762ab55fff11f5d202fc3783a110be0
       </div>
     </Layout>
   );

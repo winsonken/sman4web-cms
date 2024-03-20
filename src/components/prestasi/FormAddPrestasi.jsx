@@ -4,8 +4,6 @@ import Button from '../Button';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { toast } from 'react-toastify';
-import { useCreateAngkatanMutation } from '../../services/api/angkatanApiSlice';
 
 const validationSchema = yup
   .object({
@@ -14,7 +12,7 @@ const validationSchema = yup
   })
   .required();
 
-const FormAddAngkatan = (props) => {
+const FormAddPrestasi = (props) => {
   const { setIsOpenPopUpAdd } = props;
   const {
     register,
@@ -24,14 +22,10 @@ const FormAddAngkatan = (props) => {
     resolver: yupResolver(validationSchema),
   });
 
-  const [createAngkatan, { isLoading, isError, error }] =
-    useCreateAngkatanMutation();
-
   const initialFormInput = {
     no_angkatan: '',
     tahun: '',
   };
-
   const [formInput, setFormInput] = useState(initialFormInput);
 
   const handleChange = (e) => {
@@ -42,42 +36,51 @@ const FormAddAngkatan = (props) => {
     }));
   };
 
-  const handleSubmitForm = async () => {
-    try {
-      const response = await createAngkatan(formInput).unwrap();
-      if (!response.error) {
-        toast.success('success!', {
-          position: 'top-right',
-          theme: 'light',
-        });
-      }
-      setIsOpenPopUpAdd(false);
-    } catch (error) {
-      const errorMessage = error?.data?.message;
-      toast.error(`${errorMessage}`, {
-        position: 'top-right',
-        theme: 'light',
-      });
-    }
+  const handleSubmitForm = (e) => {
+    alert(JSON.stringify(e));
   };
-
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:grid-cols-2 ">
           <Input
-            type="number"
-            label="Angkatan ke-"
-            name="no_angkatan"
+            type="text"
+            label="Kelas"
+            name="kelas_siswa"
             onChange={handleChange}
             register={register}
             errors={errors}
-            disabled
           />
           <Input
-            type="number"
-            label="Tahun"
-            name="tahun"
+            type="text"
+            label="Nama Siswa"
+            name="nama_siswa"
+            onChange={handleChange}
+            register={register}
+            errors={errors}
+          />
+
+          <Input
+            type="text"
+            label="Prestasi"
+            name="prestasi"
+            onChange={handleChange}
+            register={register}
+            errors={errors}
+          />
+          <Input
+            type="text"
+            label="Nama Prestasi"
+            name="nama_prestasi"
+            onChange={handleChange}
+            register={register}
+            errors={errors}
+          />
+
+          <Input
+            type="date"
+            label="Tanggal Prestasi"
+            name="tanggal_prestasi"
             onChange={handleChange}
             register={register}
             errors={errors}
@@ -90,11 +93,11 @@ const FormAddAngkatan = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpAdd}
           />
-          <Button title="Tambah" type="submit" />
+          <Button title="Simpan" type="submit" />
         </div>
       </div>
     </form>
   );
 };
 
-export default FormAddAngkatan;
+export default FormAddPrestasi;

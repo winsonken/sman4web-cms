@@ -7,14 +7,13 @@ import * as yup from 'yup';
 
 const validationSchema = yup
   .object({
-    tahun_ajaran: yup.string().required('Tahun ajaran is required'),
-    periode_ganjil: yup.string().required('Periode ganjil is required'),
-    periode_genap: yup.string().required('Periode genap is required'),
+    no_angkatan: yup.string().required('No Angkatan is required'),
+    tahun: yup.string().required('Tahun is required'),
   })
   .required();
 
-const FormAddTahunajaran = (props) => {
-  const { setIsOpenPopUpAdd } = props;
+const FormAddDetailRapot = (props) => {
+  const { setIsOpenPopUpUpload } = props;
   const {
     register,
     handleSubmit,
@@ -24,9 +23,8 @@ const FormAddTahunajaran = (props) => {
   });
 
   const initialFormInput = {
-    tahun_ajaran: '',
-    periode_ganjil: '',
-    periode_genap: '',
+    no_angkatan: '',
+    tahun: '',
   };
 
   const [formInput, setFormInput] = useState(initialFormInput);
@@ -48,50 +46,26 @@ const FormAddTahunajaran = (props) => {
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-3">
           <Input
-            type="number"
-            label="Tahun ajaran"
-            name="tahun_ajaran"
+            type="file"
+            label="Upload Rapot"
+            name="upload_rapot"
             onChange={handleChange}
             register={register}
             errors={errors}
           />
-          <div className='flex justify-between'>
-            <Input
-              className="w-80"
-              type="number"
-              label="Periode ganjil"
-              name="periode_ganjil"
-              onChange={handleChange}
-              register={register}
-              errors={errors}
-            />
-            <Input
-            className="w-80"
-              type="number"
-              label="Periode genap"
-              name="periode_genap"
-              onChange={handleChange}
-              register={register}
-              errors={errors}
-            />
-          </div>
         </div>
-        
 
         <div className="flex justify-end gap-2">
           <Button
             title="Batal"
             type="cancel"
-            setIsOpenPopUp={setIsOpenPopUpAdd}
+            setIsOpenPopUp={setIsOpenPopUpUpload}
           />
-          <Button 
-            title="Tambah" 
-            type="submit" 
-          />
+          <Button title="Simpan" type="submit" />
         </div>
       </div>
     </form>
   );
 };
 
-export default FormAddTahunajaran;
+export default FormAddDetailRapot;
