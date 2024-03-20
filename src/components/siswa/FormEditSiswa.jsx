@@ -37,7 +37,7 @@ const FormEditSiswa = (props) => {
   });
 
   const onSubmit = (e) => {
-    toast.success('Tahun Ajaran berhasil diubah!', {
+    toast.success('Siswa berhasil diubah!', {
       position: 'top-right',
       theme: 'light',
     });

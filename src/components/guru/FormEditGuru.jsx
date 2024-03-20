@@ -36,7 +36,7 @@ const FormEditGuru = (props) => {
   });
 
   const onSubmit = (e) => {
-    toast.success('Tahun Ajaran berhasil diubah!', {
+    toast.success('Guru berhasil diubah!', {
       position: 'top-right',
       theme: 'light',
     });
