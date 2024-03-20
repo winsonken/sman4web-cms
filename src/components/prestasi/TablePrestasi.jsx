@@ -6,7 +6,7 @@ import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
 
-const TableAngkatan = (props) => {
+const TablePrestasi = (props) => {
   const {
     data,
     isLoading,
@@ -38,21 +38,23 @@ const TableAngkatan = (props) => {
               <th scope="col" className="px-6 py-4">
                 No
               </th>
+
               <th scope="col" className="px-6 py-4">
-                Angkatan
+                Nama Siswa
+              </th>
+              <th scope="col" className="px-6 py-4">
+                Kelas
+              </th>
+              <th scope="col" className="px-6 py-4">
+                Prestasi
+              </th>
+              <th scope="col" className="px-6 py-4">
+                Nama Prestasi
               </th>
               <th scope="col" className="px-6 py-4">
                 Tahun
               </th>
-              <th scope="col" className="px-6 py-4">
-                Jumlah siswa
-              </th>
-              <th scope="col" className="px-6 py-4">
-                Status
-              </th>
-              <th scope="col" className="px-6 py-4">
-                Siswa lulus
-              </th>
+
               <th scope="col" className="text-center px-6 py-4">
                 Aksi
               </th>
@@ -66,24 +68,12 @@ const TableAngkatan = (props) => {
               >
                 1
               </th>
-              <td className="px-6 py-1">5</td>
-              <td className="px-6 py-1">2005</td>
-              <td className="px-6 py-1">300</td>
-              <td className="px-6 py-1">Lulus</td>
-              <td className="px-6 py-1">300</td>
+              <td className="px-6 py-1">Maria Zhang</td>
+              <td className="px-6 py-1">X IPA</td>
+              <td className="px-6 py-1">Juara 3</td>
+              <td className="px-6 py-1">Olimpiade IPA</td>
+              <td className="px-6 py-1">04/07/2023</td>
               <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
-                <ButtonAction
-                  title="Mulai"
-                  isOpenPopUp={isOpenPopUpMulai}
-                  setIsOpenPopUp={setIsOpenPopUpMulai}
-                />
-
-                <ButtonAction
-                  title="Lulus"
-                  isOpenPopUp={isOpenPopUpLulus}
-                  setIsOpenPopUp={setIsOpenPopUpLulus}
-                />
-
                 <ButtonDetail
                   isOpenPopUpDetail={isOpenPopUpDetail}
                   setIsOpenPopUpDetail={setIsOpenPopUpDetail}
@@ -103,8 +93,8 @@ const TableAngkatan = (props) => {
 
             <tr>
               <td
-                colSpan="7"
-                class="px-6 py-3 whitespace-no-wrap bg-second-orange"
+                colSpan="9"
+                className="px-6 py-3 whitespace-no-wrap bg-second-orange"
               >
                 <div className="text-sm  text-gray-500 text-center">
                   Data tidak ditemukan
@@ -126,4 +116,4 @@ const TableAngkatan = (props) => {
   );
 };
 
-export default TableAngkatan;
+export default TablePrestasi;

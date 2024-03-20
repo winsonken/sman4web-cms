@@ -16,7 +16,7 @@ const PopUpDetail = (props) => {
         >
           <div className="w-screen h-screen flex justify-center items-center z-50">
             <div
-              className="bg-white w-4/5 max-w-lg h-fit p-3 rounded-md xl:max-w-2xl duration-200"
+              className="bg-white w-4/5 max-w-lg h-fit max-h-[80%] p-3 rounded-md xl:max-w-2xl duration-200 overflow-y-auto ${className}"
               onClick={(e) => {
                 e.stopPropagation();
               }}

@@ -16,6 +16,8 @@ import Rapot from './pages/Rapot';
 import Pelanggaran from './pages/Pelanggaran';
 import Ppdb from './pages/Ppdb';
 import Kelas from './pages/Kelas';
+import Error404 from './pages/Error404';
+import DetailRapot from './pages/DetailRapot';
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
         <Route path="/rapot" element={<Rapot />} />
         <Route path="/pelanggaran" element={<Pelanggaran />} />
         <Route path="/ppdb" element={<Ppdb />} />
+        <Route path="/error404" element={<Error404 />} />
+        <Route path="/detailrapot" element={<DetailRapot />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>
