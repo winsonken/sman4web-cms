@@ -22,10 +22,11 @@ const validationSchema = yup
     angkatan: yup.string().required('Angkatan required'),
     no_telp_siswa: yup.string().required('No Telp Siswa required'),
     no_telp_ortu: yup.string().required('No Telp Ortu required'),
+    jurusan: yup.string().required('Jurusan required'),
   })
   .required();
 
-const FormEditSiswa = (props) => {
+const FormEditAlumni = (props) => {
   const { setIsOpenPopUpEdit } = props;
   const {
     control,
@@ -37,7 +38,7 @@ const FormEditSiswa = (props) => {
   });
 
   const onSubmit = (e) => {
-    toast.success('Siswa berhasil diubah!', {
+    toast.success('Alumni berhasil diubah!', {
       position: 'top-right',
       theme: 'light',
     });
@@ -159,7 +160,7 @@ const FormEditSiswa = (props) => {
               errors={errors}
             />
           </div>
-          <div className='flex justify-between gap-0'>
+          <div className='flex justify-between gap-10'>
             <Input
               className="w-72"
               label="No Telp Ortu"
@@ -167,8 +168,14 @@ const FormEditSiswa = (props) => {
               register={register}
               errors={errors}
             />
-            <div className='w-60'></div>
-            <div className='w-60'></div>
+            <Input
+              className="w-72"
+              label="Jurusan"
+              name="jurusan"
+              register={register}
+              errors={errors}
+            />
+            <div className='w-52'></div>
           </div>
         </div>
        </div>
@@ -185,4 +192,4 @@ const FormEditSiswa = (props) => {
   );
 };
 
-export default FormEditSiswa;
+export default FormEditAlumni;

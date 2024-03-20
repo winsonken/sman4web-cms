@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 
-import { PiUsersThreeFill } from 'react-icons/pi';
 import { FaUserGraduate } from 'react-icons/fa';
 
 import Layout from '../components/Layout';
-import ButtonAdd from '../components/ButtonAdd';
-import PopUpAdd from '../components/PopUpAdd';
 import PopUpEdit from '../components/PopUpEdit';
 import PopUpDelete from '../components/PopUpDelete';
 import SearchFilter from '../components/SearchFilter';
@@ -16,15 +13,12 @@ import ButtonDetail from '../components/ButtonDetail';
 import PopUpDetail from '../components/PopUpDetail';
 import Pagination from '../components/Pagination';
 
-import FormAddSiswa from '../components/siswa/FormAddSiswa';
-import FormEditSiswa from '../components/siswa/FormEditSiswa';
+import FormEditAlumni from '../components/alumni/FormEditAlumni';
+
 const Alumni = () => {
-  const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
-  const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
-  const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPage = 8;
   const totalRecord = 16;
@@ -174,22 +168,13 @@ const Alumni = () => {
           />
         </div>
 
-        <PopUpAdd
-          title="Tambah siswa"
-          icon={<FaUserGraduate />}
-          isOpenPopUpAdd={isOpenPopUpAdd}
-          setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-        >
-          <FormAddSiswa setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
-        </PopUpAdd>
-
         <PopUpEdit
-          title="Ubah siswa"
+          title="Ubah Alumni"
           icon={<FaUserGraduate />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
         >
-          <FormEditSiswa setIsOpenPopUpEdit={setIsOpenPopUpEdit} />
+          <FormEditAlumni setIsOpenPopUpEdit={setIsOpenPopUpEdit} />
         </PopUpEdit>
 
         <PopUpDelete
