@@ -4,6 +4,8 @@ import Button from '../Button';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
+import { useCreateAngkatanMutation } from '../../services/api/angkatanApiSlice';
 
 const validationSchema = yup
   .object({
@@ -22,6 +24,9 @@ const FormAddAngkatan = (props) => {
     resolver: yupResolver(validationSchema),
   });
 
+  const [createAngkatan, { isLoading, isError, error }] =
+    useCreateAngkatanMutation();
+
   const initialFormInput = {
     no_angkatan: '',
     tahun: '',
@@ -37,8 +42,23 @@ const FormAddAngkatan = (props) => {
     }));
   };
 
-  const handleSubmitForm = (e) => {
-    alert(JSON.stringify(e));
+  const handleSubmitForm = async () => {
+    try {
+      const response = await createAngkatan(formInput).unwrap();
+      if (!response.error) {
+        toast.success('success!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+      }
+      setIsOpenPopUpAdd(false);
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
   };
 
   return (
@@ -52,6 +72,7 @@ const FormAddAngkatan = (props) => {
             onChange={handleChange}
             register={register}
             errors={errors}
+            disabled
           />
           <Input
             type="number"
