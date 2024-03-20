@@ -7,12 +7,13 @@ import * as yup from 'yup';
 
 const validationSchema = yup
   .object({
-    no_angkatan: yup.string().required('No Angkatan is required'),
-    tahun: yup.string().required('Tahun is required'),
+    tahun_ajaran: yup.string().required('Tahun ajaran is required'),
+    periode_ganjil: yup.string().required('Periode ganjil is required'),
+    periode_genap: yup.string().required('Periode genap is required'),
   })
   .required();
 
-const FormAddAngkatan = (props) => {
+const FormAddTahunajaran = (props) => {
   const { setIsOpenPopUpAdd } = props;
   const {
     register,
@@ -23,8 +24,9 @@ const FormAddAngkatan = (props) => {
   });
 
   const initialFormInput = {
-    no_angkatan: '',
-    tahun: '',
+    tahun_ajaran: '',
+    periode_ganjil: '',
+    periode_genap: '',
   };
 
   const [formInput, setFormInput] = useState(initialFormInput);
@@ -47,21 +49,34 @@ const FormAddAngkatan = (props) => {
         <div className="flex flex-col gap-3">
           <Input
             type="number"
-            label="Angkatan ke-"
-            name="no_angkatan"
+            label="Tahun ajaran"
+            name="tahun_ajaran"
             onChange={handleChange}
             register={register}
             errors={errors}
           />
-          <Input
-            type="number"
-            label="Tahun"
-            name="tahun"
-            onChange={handleChange}
-            register={register}
-            errors={errors}
-          />
+          <div className='flex justify-between'>
+            <Input
+              className="w-80"
+              type="number"
+              label="Periode ganjil"
+              name="periode_ganjil"
+              onChange={handleChange}
+              register={register}
+              errors={errors}
+            />
+            <Input
+            className="w-80"
+              type="number"
+              label="Periode genap"
+              name="periode_genap"
+              onChange={handleChange}
+              register={register}
+              errors={errors}
+            />
+          </div>
         </div>
+        
 
         <div className="flex justify-end gap-2">
           <Button
@@ -69,11 +84,14 @@ const FormAddAngkatan = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpAdd}
           />
-          <Button title="Tambah" type="submit" />
+          <Button 
+            title="Tambah" 
+            type="submit" 
+          />
         </div>
       </div>
     </form>
   );
 };
 
-export default FormAddAngkatan;
+export default FormAddTahunajaran;

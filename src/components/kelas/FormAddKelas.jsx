@@ -7,12 +7,13 @@ import * as yup from 'yup';
 
 const validationSchema = yup
   .object({
-    no_angkatan: yup.string().required('No Angkatan is required'),
-    tahun: yup.string().required('Tahun is required'),
+    kelas: yup.string().required('Kelas is required'),
+    jurusan: yup.string().required('Jurusan is required'),
+    nomor: yup.string().required('Nomor is required'),
   })
   .required();
 
-const FormAddAngkatan = (props) => {
+const FormAddKelas = (props) => {
   const { setIsOpenPopUpAdd } = props;
   const {
     register,
@@ -45,18 +46,30 @@ const FormAddAngkatan = (props) => {
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-3">
+          <div className='flex flex-col gap-4'>
+            <div className='flex justify-between gap-7'>
+              <Input
+              className="w-80"
+                label="Kelas"
+                name="kelas"
+                onChange={handleChange}
+                register={register}
+                errors={errors}
+              />
+              <Input
+              className="w-80"
+                label="Jurusan"
+                name="jurusan"
+                onChange={handleChange}
+                register={register}
+                errors={errors}
+              />
+            </div>
+          </div>
           <Input
             type="number"
-            label="Angkatan ke-"
-            name="no_angkatan"
-            onChange={handleChange}
-            register={register}
-            errors={errors}
-          />
-          <Input
-            type="number"
-            label="Tahun"
-            name="tahun"
+            label="Nomor"
+            name="nomor"
             onChange={handleChange}
             register={register}
             errors={errors}
@@ -76,4 +89,4 @@ const FormAddAngkatan = (props) => {
   );
 };
 
-export default FormAddAngkatan;
+export default FormAddKelas;
