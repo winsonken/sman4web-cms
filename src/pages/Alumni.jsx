@@ -16,8 +16,6 @@ import ButtonDetail from '../components/ButtonDetail';
 import PopUpDetail from '../components/PopUpDetail';
 import Pagination from '../components/Pagination';
 
-import FormAddSiswa from '../components/siswa/FormAddSiswa';
-import FormEditSiswa from '../components/siswa/FormEditSiswa';
 import FormEditAlumni from '../components/alumni/FormEditAlumni';
 const Alumni = () => {
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
@@ -174,15 +172,6 @@ const Alumni = () => {
             limitPerPage={limitPerPage}
           />
         </div>
-
-        <PopUpAdd
-          title="Tambah siswa"
-          icon={<FaUserGraduate />}
-          isOpenPopUpAdd={isOpenPopUpAdd}
-          setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-        >
-          <FormAddSiswa setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
-        </PopUpAdd>
 
         <PopUpEdit
           title="Ubah alumni"
