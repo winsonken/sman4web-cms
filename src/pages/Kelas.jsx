@@ -12,7 +12,6 @@ import PopUpAdd from '../components/PopUpAdd';
 import Pagination from '../components/Pagination';
 
 
-import FormAddSiswa from '../components/siswa/FormAddSiswa';
 import FormAddKelas from '../components/kelas/FormAddKelas';
 
 const Kelas = () => {

@@ -6,7 +6,6 @@ const Input = (props) => {
     label,
     name,
     id,
-    placeholder,
     value,
     register,
     onChange,
@@ -17,21 +16,24 @@ const Input = (props) => {
 
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={name} className="text-sm font-medium text-second-blue">
+      <label
+        htmlFor={id || name}
+        className="text-sm font-medium text-second-blue"
+      >
         {label || 'Label'}
       </label>
 
       <input
         type={type || 'text'}
-        name={name}
-        id={name}
-        {...(register && register(name))}
-        placeholder={label || placeholder}
+        name={name || ''}
+        id={id || name}
+        placeholder={label || 'Input'}
         value={value}
         min="0"
         className={`w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded placeholder:text-main-cream focus:outline-0 caret-second-blue ${className}`}
         onChange={onChange}
-        disabled={disabled}
+        {...(register && register(name))}
+        disabled={disabled || ''}
       />
 
       {errors?.[name]?.message && (

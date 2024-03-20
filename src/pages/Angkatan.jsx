@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { MdStairs } from 'react-icons/md';
-import { toast } from 'react-toastify';
 
 import {
   Button,
@@ -22,10 +21,7 @@ import {
   TableAngkatan,
 } from '../components/angkatan';
 
-import {
-  useDeleteAngkatanMutation,
-  useGetAngkatanQuery,
-} from '../services/api/angkatanApiSlice';
+import { useGetAngkatanQuery } from '../services/api/angkatanApiSlice';
 
 const Angkatan = () => {
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
@@ -34,39 +30,8 @@ const Angkatan = () => {
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
   const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
   const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const limitPerPage = 5;
-  const [editData, setEditData] = useState([]);
 
-  const {
-    data: angkatan,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
-  } = useGetAngkatanQuery({ page: currentPage, limit: limitPerPage });
-
-  const [deleteAngkatan, { isLoadingDelete, isErrorDelete, errorDelete }] =
-    useDeleteAngkatanMutation();
-
-  const handleDelete = async () => {
-    try {
-      const response = await deleteAngkatan({
-        id: editData?.id_angkatan,
-      }).unwrap();
-      if (!response.error) {
-        toast.success('Angkatan berhasil dihapus!', {
-          position: 'top-right',
-          theme: 'light',
-        });
-      }
-    } catch (error) {
-      toast.error('Angkatan gagal  diubah!', {
-        position: 'top-right',
-        theme: 'light',
-      });
-    }
-  };
+  const dummyData = [];
 
   return (
     <Layout>
@@ -93,11 +58,11 @@ const Angkatan = () => {
         </div>
 
         <TableAngkatan
-          data={angkatan}
-          isLoading={isLoading}
-          isSuccess={isSuccess}
-          isError={isError}
-          error={error}
+          data={dummyData}
+          // isLoading={isLoading}
+          // isSuccess={isSuccess}
+          // isError={isError}
+          // error={error}
           isOpenPopUpMulai={isOpenPopUpMulai}
           setIsOpenPopUpMulai={setIsOpenPopUpMulai}
           isOpenPopUpLulus={isOpenPopUpLulus}
@@ -108,10 +73,6 @@ const Angkatan = () => {
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           isOpenPopUpDelete={isOpenPopUpDelete}
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-          setEditData={setEditData}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          limitPerPage={limitPerPage}
         />
 
         <PopUpAdd
@@ -129,10 +90,7 @@ const Angkatan = () => {
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
         >
-          <FormEditAngkatan
-            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-            data={editData}
-          />
+          <FormEditAngkatan setIsOpenPopUpEdit={setIsOpenPopUpEdit} />
         </PopUpEdit>
 
         <PopUpDelete
@@ -150,7 +108,7 @@ const Angkatan = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpDelete}
               />
-              <Button title="Hapus" />
+              <Button title="Hapus" type="submit" />
             </div>
           </div>
         </PopUpDelete>

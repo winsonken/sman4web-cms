@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Input from '../Input';
-import SelectInput from '../SelectInput';
 import Button from '../Button';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { toast } from 'react-toastify';
 
 const validationSchema = yup
   .object({
@@ -14,22 +12,19 @@ const validationSchema = yup
     nipd: yup.string().required('NIPD required'),
     tempat_lahir: yup.string().required('Tempat Lahir required'),
     email: yup.string().required('Email required'),
-    alamat: yup.string().required('Alamat required'),
+    jenis_ptk: yup.string().required('PTK required'),
     jenis_kelamin: yup.string().required('Jenis Kelamin required'),
     agama: yup.string().required('Agama required'),
-    status_siswa: yup.string().required('Status Siswa required'),
-    nama_ortu: yup.string().required('nama_ortu required'),
-    angkatan: yup.string().required('Angkatan required'),
-    no_telp_siswa: yup.string().required('No Telp Siswa required'),
-    no_telp_ortu: yup.string().required('No Telp Ortu required'),
-    jurusan: yup.string().required('Jurusan required'),
+    alamat: yup.string().required('Alamat required'),
+    no_telp_guru: yup.string().required('No Telp Guru required'),
+    status_kepegawaian: yup.string().required('Status Pegawai required'),
+    status_guru: yup.string().required('Status Guru required'),
   })
   .required();
 
-const FormEditAlumni = (props) => {
-  const { setIsOpenPopUpEdit } = props;
+const FormAddGuru = (props) => {
+  const { setIsOpenPopUpAdd } = props;
   const {
-    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -37,19 +32,41 @@ const FormEditAlumni = (props) => {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (e) => {
-    toast.success('Alumni berhasil diubah!', {
-      position: 'top-right',
-      theme: 'light',
-    });
+  const initialFormInput = {
+    nama: '',
+    tanggal_lahir: '',
+    nipd: '',
+    tempat_lahir: '',
+    email: '',
+    jenis_ptk: '',
+    jenis_kelamin: '',
+    agama: '',
+    alamat: '',
+    no_telp_guru: '',
+    status_kepegawaian: '',
+    status_guru: '',
+  };
+
+  const [formInput, setFormInput] = useState(initialFormInput);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmitForm = (e) => {
+    alert(JSON.stringify(e));
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-     <div className="flex flex-col gap-10">
+    <form onSubmit={handleSubmit(handleSubmitForm)}>
+      <div className="flex flex-col gap-10">
         <div className='flex justify-between gap-10'>
-          <div className='w-32 h-32 mx-9 mt-12 bg-gray-300 text-center text-xs'>
-          <div className='w-20 h-10 mx-auto mt-14 text-xs text-white'>Tambah foto</div>
+          <div className='w-32 h-32 mx-9 mt-12 bg-gray-300'>
+            <div className='w-20 h-10 mx-auto mt-12 text-xs text-white'>Tambah foto</div>
           </div>
 
           <div className='flex flex-col gap-4'>
@@ -58,6 +75,7 @@ const FormEditAlumni = (props) => {
             className="w-72"
               label="Nama"
               name="nama"
+              onChange={handleChange}
               register={register}
               errors={errors}
             />
@@ -65,6 +83,7 @@ const FormEditAlumni = (props) => {
             className="w-72"
               label="Tanggal Lahir"
               name="tanggal_lahir"
+              onChange={handleChange}
               register={register}
               errors={errors}
             />
@@ -76,6 +95,7 @@ const FormEditAlumni = (props) => {
               type="number"
               label="NIPD"
               name="nipd"
+              onChange={handleChange}
               register={register}
               errors={errors}
             />
@@ -83,6 +103,7 @@ const FormEditAlumni = (props) => {
             className="w-72"
               label="Tempat Lahir"
               name="tempat_lahir"
+              onChange={handleChange}
               register={register}
               errors={errors}
             />
@@ -93,13 +114,15 @@ const FormEditAlumni = (props) => {
             className="w-72"
               label="Email"
               name="email"
+              onChange={handleChange}
               register={register}
               errors={errors}
             />
             <Input
             className="w-72"
-              label="Alamat"
-              name="alamat"
+              label="Jenis PTK"
+              name="jenis_ptk"
+              onChange={handleChange}
               register={register}
               errors={errors}
             />
@@ -107,12 +130,13 @@ const FormEditAlumni = (props) => {
           </div>
         </div>
 
-        <div className='flex flex-col gap-4 -mt-5' >
+        <div className='flex flex-col gap-4 -mt-5'>       
           <div className='flex justify-between gap-10'>
             <Input
               className="w-72"
               label="Jenis Kelamin"
               name="jenis_kelamin"
+              onChange={handleChange}
               register={register}
               errors={errors}
             />
@@ -120,71 +144,62 @@ const FormEditAlumni = (props) => {
               className="w-72"
               label="Agama"
               name="agama"
+              onChange={handleChange}
               register={register}
               errors={errors}
             />
             <Input
             className="w-72"
-              label="Status Siswa"
-              name="status_siswa"
+              label="Alamat"
+              name="alamat"
+              onChange={handleChange}
               register={register}
               errors={errors}
             />
           </div>
           <div className='flex justify-between gap-10'>
-            <Input
-              className="w-72"
-              label="Nama Ortu"
-              name="nama_ortu"
-              register={register}
-              errors={errors}
-            />
-            <Input
-              className="w-72"
-              label="Angkatan"
-              name="angkatan"
-              register={register}
-              errors={errors}
-            />
             <Input
               className="w-72"
               type="number"
-              label="No Telp Siswa"
-              name="no_telp_siswa"
-              register={register}
-              errors={errors}
-            />
-          </div>
-          <div className='flex justify-between gap-10'>
-            <Input
-              className="w-72"
-              label="No Telp Ortu"
-              name="no_telp_ortu"
+              label="Nomor Telp Guru"
+              name="no_telp_guru"
+              onChange={handleChange}
               register={register}
               errors={errors}
             />
             <Input
               className="w-72"
-              label="Jurusan"
-              name="jurusan"
+              label="Status Kepegawaian"
+              name="status_kepegawaian"
+              onChange={handleChange}
               register={register}
               errors={errors}
             />
-            <div className='w-52'></div>
+            <Input
+            className="w-72"
+              label="Status Guru"
+              name="status_guru"
+              onChange={handleChange}
+              register={register}
+              errors={errors}
+            />
           </div>
-        </div>
-       </div>
+         </div>
+        </div> 
         
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-2 pt-10">
           <Button
             title="Batal"
             type="cancel"
-            setIsOpenPopUp={setIsOpenPopUpEdit}
+            setIsOpenPopUp={setIsOpenPopUpAdd}
           />
-          <Button title="Ubah" type="submit" />
+          <Button 
+            title="Tambah" 
+            type="submit" 
+          />
         </div>
     </form>
   );
 };
 
-export default FormEditAlumni;
+export default FormAddGuru;

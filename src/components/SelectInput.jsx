@@ -3,6 +3,7 @@ import Select from 'react-select';
 
 const SelectInput = (props) => {
   const {
+    type,
     label,
     name,
     id,
@@ -11,8 +12,6 @@ const SelectInput = (props) => {
     value,
     register,
     onChange,
-    selectedValue,
-    setSelectedValue,
     className,
     field,
     disabled,
@@ -51,12 +50,6 @@ const SelectInput = (props) => {
     }),
   };
 
-  const handleChange = (selectedOption) => {
-    setSelectedValue(selectedOption?.value);
-  };
-
-  const selectedOption = data?.find((option) => option.value === selectedValue);
-
   return (
     <div className="flex flex-col gap-1">
       <label
@@ -68,12 +61,9 @@ const SelectInput = (props) => {
 
       <Select
         {...field}
-        options={data}
+        options={data || ''}
         placeholder={placeholder}
         styles={customStyles}
-        value={selectedOption}
-        onChange={handleChange}
-        isSearchable={false}
       />
 
       {errors?.[name]?.message && (

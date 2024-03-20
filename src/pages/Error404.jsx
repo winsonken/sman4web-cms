@@ -1,6 +1,7 @@
 import React from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import { Button } from 'flowbite-react';
 
 const Error404 = () => {
   return (

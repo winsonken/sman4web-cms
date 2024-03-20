@@ -9,13 +9,13 @@ import { toast } from 'react-toastify';
 
 const validationSchema = yup
   .object({
-    no_angkatan: yup.string().required('No Angkatan is required'),
-    tahun: yup.string().required('Tahun is required'),
-    status_angkatan: yup.object().required('Status is required'),
+    tahun_ajaran: yup.string().required('Tahun ajaran is required'),
+    periode_ganjil: yup.string().required('Periode ganjil is required'),
+    periode_genap: yup.string().required('Periode genap is required'),
   })
   .required();
 
-const FormEditAngkatan = (props) => {
+const FormEditTahunajaran = (props) => {
   const { setIsOpenPopUpEdit } = props;
   const {
     control,
@@ -27,17 +27,11 @@ const FormEditAngkatan = (props) => {
   });
 
   const onSubmit = (e) => {
-    toast.success('Angkatan berhasil diubah!', {
+    toast.success('Tahun Ajaran berhasil diubah!', {
       position: 'top-right',
       theme: 'light',
     });
   };
-
-  const statusAngkatan = [
-    { value: '0', label: 'Belum dimulai' },
-    { value: '1', label: 'Aktif' },
-    { value: '2', label: 'Lulus' },
-  ];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -45,33 +39,30 @@ const FormEditAngkatan = (props) => {
         <div className="flex flex-col gap-3">
           <Input
             type="number"
-            label="Angkatan ke-"
-            name="no_angkatan"
+            label="Tahun ajaran"
+            name="tahun_ajaran"
             register={register}
             errors={errors}
           />
+          <div className='flex justify-between'>
+            <Input
+              className="w-80"
+              type="number"
+              label="Periode ganjil"
+              name="periode_ganjil"
+              register={register}
+              errors={errors}
+            />
 
-          <Input
-            label="Tahun"
-            name="tahun"
-            register={register}
-            errors={errors}
-          />
-
-          <Controller
-            name="status_angkatan"
-            control={control}
-            render={({ field }) => (
-              <SelectInput
-                field={field}
-                data={statusAngkatan}
-                label="Status"
-                name="status_angkatan"
-                placeholder="Select status"
-                errors={errors}
-              />
-            )}
-          />
+            <Input
+              className="w-80"
+              type="number"
+              label="Periode genap"
+              name="periode_genap"
+              register={register}
+              errors={errors}
+            />
+          </div>
         </div>
 
         <div className="flex justify-end gap-2">
@@ -87,4 +78,4 @@ const FormEditAngkatan = (props) => {
   );
 };
 
-export default FormEditAngkatan;
+export default FormEditTahunajaran;
