@@ -35,7 +35,7 @@ const Siswa = () => {
     <Layout>
       <div className="flex flex-col gap-5">
         <div>
-          <h1 className="text-xl font-semibold md:text-2xl">Data Siswaaa</h1>
+          <h1 className="text-xl font-semibold md:text-2xl">Data Siswa</h1>
         </div>
 
         <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
