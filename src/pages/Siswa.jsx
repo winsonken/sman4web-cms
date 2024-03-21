@@ -1,39 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Layout } from '../components';
 
-import { PiUsersThreeFill } from 'react-icons/pi';
-
-import Layout from '../components/Layout';
-import ButtonAdd from '../components/ButtonAdd';
-import PopUpAdd from '../components/PopUpAdd';
-import PopUpEdit from '../components/PopUpEdit';
-import PopUpDelete from '../components/PopUpDelete';
-import SelectFilter from '../components/SelectFilter';
-import SearchFilter from '../components/SearchFilter';
-import ButtonEdit from '../components/ButtonEdit';
-import ButtonDelete from '../components/ButtonDelete';
-import Button from '../components/Button';
-import ButtonDetail from '../components/ButtonDetail';
-import PopUpDetail from '../components/PopUpDetail';
-import Pagination from '../components/Pagination';
-
-import FormAddSiswa from '../components/siswa/FormAddSiswa';
-import FormEditSiswa from '../components/siswa/FormEditSiswa';
-import FormDetailSiswa from '../components/siswa/FormDetailSiswa';
 const Siswa = () => {
-  const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
-  const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
-  const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
-  const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
-  const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
-  const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPage = 8;
-  const totalRecord = 16;
-  const limitPerPage = 10;
-
   return (
     <Layout>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col">
         <div>
           <h1 className="text-xl font-semibold md:text-2xl">Data Siswa</h1>
         </div>
@@ -184,54 +155,12 @@ const Siswa = () => {
             totalRecord={totalRecord}
             limitPerPage={limitPerPage}
           />
+
+          <h1 className="text-xl font-semibold md:text-2xl">Siswa</h1>
+
         </div>
 
-        <PopUpAdd
-          title="Tambah siswa"
-          icon={<PiUsersThreeFill />}
-          isOpenPopUpAdd={isOpenPopUpAdd}
-          setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-        >
-          <FormAddSiswa setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
-        </PopUpAdd>
-
-        <PopUpEdit
-          title="Ubah siswa"
-          icon={<PiUsersThreeFill />}
-          isOpenPopUpEdit={isOpenPopUpEdit}
-          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-        >
-          <FormEditSiswa setIsOpenPopUpEdit={setIsOpenPopUpEdit} />
-        </PopUpEdit>
-
-        <PopUpDelete
-          title="Hapus siswa"
-          icon={<PiUsersThreeFill />}
-          isOpenPopUpDelete={isOpenPopUpDelete}
-          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-        >
-          <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin menghapus siswa bernama kurniawan?</h1>
-
-            <div className="flex justify-end gap-2">
-              <Button
-                title="Batal"
-                type="cancel"
-                setIsOpenPopUp={setIsOpenPopUpDelete}
-              />
-              <Button title="Hapus" type="submit" />
-            </div>
-          </div>
-        </PopUpDelete>
-
-        <PopUpDetail
-          title="Detail siswa"
-          icon={<PiUsersThreeFill />}
-          isOpenPopUpDetail={isOpenPopUpDetail}
-          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
-        >
-           <FormDetailSiswa setIsOpenPopUpDetail={setIsOpenPopUpDetail} />
-        </PopUpDetail>
+        <div></div>
       </div>
     </Layout>
   );
