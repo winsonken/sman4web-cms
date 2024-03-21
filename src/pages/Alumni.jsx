@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { PiUsersThreeFill } from 'react-icons/pi';
 import { FaUserGraduate } from 'react-icons/fa';
 
 import Layout from '../components/Layout';
@@ -16,7 +15,9 @@ import ButtonDetail from '../components/ButtonDetail';
 import PopUpDetail from '../components/PopUpDetail';
 import Pagination from '../components/Pagination';
 
+import FormAddAlumni from '../components/alumni/FormAddAlumni';
 import FormEditAlumni from '../components/alumni/FormEditAlumni';
+import FormDetailAlumni from '../components/alumni/FormDetailAlumni';
 const Alumni = () => {
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
@@ -37,10 +38,18 @@ const Alumni = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-        <div></div>
-          <div className="flex flex-reverse">
-            <div className="sm:w-48">
-              <SearchFilter />
+            <ButtonAdd
+              title="Tambah Alumni"
+              isOpenPopUpAdd={isOpenPopUpAdd}
+              setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+            />
+
+          <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
+          <div></div>
+            <div className="flex flex-reverse">
+              <div className="sm:w-48">
+                <SearchFilter />
+              </div>
             </div>
           </div>
         </div>
@@ -173,6 +182,15 @@ const Alumni = () => {
           />
         </div>
 
+        <PopUpAdd
+          title="Tambah alumni"
+          icon={<FaUserGraduate />}
+          isOpenPopUpAdd={isOpenPopUpAdd}
+          setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+        >
+          <FormAddAlumni setIsOpenPopUpEdit={setIsOpenPopUpEdit} />
+        </PopUpAdd>
+
         <PopUpEdit
           title="Ubah alumni"
           icon={<FaUserGraduate />}
@@ -208,7 +226,7 @@ const Alumni = () => {
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
         >
-          <div>Bagian ini ganti jadi file contoh: DetailAngkatan.jsx</div>
+          <FormDetailAlumni setIsOpenPopUpDetail={setIsOpenPopUpDetail} />
         </PopUpDetail>
       </div>
     </Layout>

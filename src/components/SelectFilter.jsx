@@ -47,7 +47,12 @@ const SelectFilter = (props) => {
     { value: 'vanilla', label: 'Vanilla' },
   ];
   return (
-    <Select options={options} placeholder={placeholder} styles={customStyles} />
+    <Select
+      options={options}
+      placeholder={placeholder}
+      styles={customStyles}
+      isClearable
+    />
   );
 };
 

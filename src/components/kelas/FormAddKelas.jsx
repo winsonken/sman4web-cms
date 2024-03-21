@@ -49,7 +49,7 @@ const FormAddKelas = (props) => {
           <div className='flex flex-col gap-4'>
             <div className='flex justify-between gap-7'>
               <Input
-              className="w-80"
+              className="w-4/5"
                 label="Kelas"
                 name="kelas"
                 onChange={handleChange}
@@ -57,7 +57,7 @@ const FormAddKelas = (props) => {
                 errors={errors}
               />
               <Input
-              className="w-80"
+              className="w-4/5"
                 label="Jurusan"
                 name="jurusan"
                 onChange={handleChange}

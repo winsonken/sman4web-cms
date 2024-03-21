@@ -11,7 +11,7 @@ const validationSchema = yup
   .object({
     nama: yup.string().required('Nama required'),
     tanggal_lahir: yup.string().required('Tanggal Lahir required'),
-    nipd: yup.string().required('NIPD required'),
+    nrtpk: yup.string().required('NRTPK required'),
     tempat_lahir: yup.string().required('Tempat Lahir required'),
     email: yup.string().required('Email required'),
     jenis_ptk: yup.string().required('PTK required'),
@@ -21,6 +21,7 @@ const validationSchema = yup
     no_telp_guru: yup.string().required('No Telp Guru required'),
     status_kepegawaian: yup.string().required('Status Pegawai required'),
     status_guru: yup.string().required('Status Guru required'),
+    status_nikah: yup.string().required('Status Nikah required'),
   })
   .required();
 
@@ -36,7 +37,7 @@ const FormEditGuru = (props) => {
   });
 
   const onSubmit = (e) => {
-    toast.success('Guru berhasil diubah!', {
+    toast.success('Data guru berhasil diubah!', {
       position: 'top-right',
       theme: 'light',
     });
@@ -44,116 +45,109 @@ const FormEditGuru = (props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-     <div className="flex flex-col gap-10">
-        <div className='flex justify-between gap-10'>
-          <div className='w-32 h-32 mx-9 mt-12 bg-gray-300 text-center text-xs'>
-          <div className='w-20 h-10 mx-auto mt-12 text-xs text-white'>Tambah foto</div>
-          </div>
+     <div className="flex flex-col gap-6">
+     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:grid-cols-3 ">
+        <Input
+          type="file"
+          label="Foto"
+          name="foto"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Nama"
+          name="nama"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="date"
+          label="Tanggal Lahir"
+          name="tanggal_lahir"
+          register={register}
+          errors={errors}
+        />
 
-          <div className='flex flex-col gap-4'>
-            <div className='flex justify-between gap-10'>
-            <Input
-            className="w-72"
-              label="Nama"
-              name="nama"
-              register={register}
-              errors={errors}
-            />
-            <Input
-            className="w-72"
-              label="Tanggal Lahir"
-              name="tanggal_lahir"
-              register={register}
-              errors={errors}
-            />
-            </div>
+        <Input
+          type="number"
+          label="NRTPK"
+          name="nrtpk"
+          register={register}
+          errors={errors}
+        />
 
-            <div className='flex justify-between gap-10'>
-            <Input
-            className="w-72"
-              type="number"
-              label="NIPD"
-              name="nipd"
-              register={register}
-              errors={errors}
-            />
-            <Input
-            className="w-72"
-              label="Tempat Lahir"
-              name="tempat_lahir"
-              register={register}
-              errors={errors}
-            />
-            </div>
-
-            <div className='flex justify-between gap-10'>
-            <Input
-            className="w-72"
-              label="Email"
-              name="email"
-              register={register}
-              errors={errors}
-            />
-            <Input
-            className="w-72"
-              label="Jenis PTK"
-              name="jenis_ptk"
-              register={register}
-              errors={errors}
-            />
-            </div>
-          </div>
-        </div>
-
-        <div className='flex flex-col gap-4 -mt-5' >
-          <div className='flex justify-between gap-10'>
-            <Input
-              className="w-72"
-              label="Jenis Kelamin"
-              name="jenis_kelamin"
-              register={register}
-              errors={errors}
-            />
-            <Input
-              className="w-72"
-              label="Agama"
-              name="agama"
-              register={register}
-              errors={errors}
-            />
-            <Input
-            className="w-72"
-              label="Alamat"
-              name="alamat"
-              register={register}
-              errors={errors}
-            />
-          </div>
-          <div className='flex justify-between gap-10'>
-            <Input
-              className="w-72"
-              type="number"
-              label="Nomor Telp Guru"
-              name="no_telp_guru"
-              register={register}
-              errors={errors}
-            />
-            <Input
-              className="w-72"
-              label="Status Kepegawaian"
-              name="status_kepegawaian"
-              register={register}
-              errors={errors}
-            />
-            <Input
-            className="w-72"
-              label="Status Guru"
-              name="status_guru"
-              register={register}
-              errors={errors}
-            />
-          </div>
-        </div>
+        <Input
+          type="text"
+          label="Tempat Lahir"
+          name="tempat_lahir"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Email"
+          name="email"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Jenis PTK"
+          name="jenis_ptk"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Jenis Kelamin"
+          name="jenis_kelamin"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Agama"
+          name="agama"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Alamat"
+          name="alamat"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="number"
+          label="No Telp Guru"
+          name="no_telp_guru"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Status Kepegawaian"
+          name="status_kepegawaian"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Status Guru"
+          name="status_guru"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Status Nikah"
+          name="status_nikah"
+          register={register}
+          errors={errors}
+        />
+      </div>
        </div>
         
         <div className="flex justify-end gap-2 pt-10">

@@ -18,6 +18,7 @@ import Pagination from '../components/Pagination';
 
 import FormAddSiswa from '../components/siswa/FormAddSiswa';
 import FormEditSiswa from '../components/siswa/FormEditSiswa';
+import FormDetailSiswa from '../components/siswa/FormDetailSiswa';
 const Siswa = () => {
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
@@ -229,7 +230,7 @@ const Siswa = () => {
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
         >
-          <div>Bagian ini ganti jadi file contoh: DetailAngkatan.jsx</div>
+           <FormDetailSiswa setIsOpenPopUpDetail={setIsOpenPopUpDetail} />
         </PopUpDetail>
       </div>
     </Layout>

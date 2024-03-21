@@ -9,17 +9,18 @@ const validationSchema = yup
   .object({
     nama: yup.string().required('Nama required'),
     tanggal_lahir: yup.string().required('Tanggal Lahir required'),
-    nrtpk: yup.string().required('NRTPK required'),
+    nipd: yup.string().required('NIPD required'),
     tempat_lahir: yup.string().required('Tempat Lahir required'),
     email: yup.string().required('Email required'),
-    jenis_ptk: yup.string().required('PTK required'),
+    alamat: yup.string().required('Alamat required'),
     jenis_kelamin: yup.string().required('Jenis Kelamin required'),
     agama: yup.string().required('Agama required'),
-    alamat: yup.string().required('Alamat required'),
-    no_telp_guru: yup.string().required('No Telp Guru required'),
-    status_kepegawaian: yup.string().required('Status Pegawai required'),
-    status_guru: yup.string().required('Status Guru required'),
-    status_nikah: yup.string().required('Status Nikah required'),
+    status_siswa: yup.string().required('Status Siswa required'),
+    nama_ortu: yup.string().required('Nama Ortu required'),
+    angkatan: yup.string().required('Angkatan required'),
+    no_telp_siswa: yup.string().required('No Telp Siswa required'),
+    no_telp_ortu: yup.string().required('No Telp Ortu required'),
+    jurusan: yup.string().required('Jurusan required'),
   })
   .required();
 
@@ -36,17 +37,18 @@ const FormAddGuru = (props) => {
   const initialFormInput = {
     nama: '',
     tanggal_lahir: '',
-    nrtpk: '',
+    nipd: '',
     tempat_lahir: '',
     email: '',
-    jenis_ptk: '',
+    alamat: '',
     jenis_kelamin: '',
     agama: '',
-    alamat: '',
-    no_telp_guru: '',
-    status_kepegawaian: '',
-    status_guru: '',
-    status_nikah: '',
+    status_siswa: '',
+    nama_ortu: '',
+    angkatan: '',
+    no_telp_siswa: '',
+    no_telp_ortu: '',
+    jurusan: '',
   };
 
   const [formInput, setFormInput] = useState(initialFormInput);
@@ -94,8 +96,8 @@ const FormAddGuru = (props) => {
 
         <Input
           type="number"
-          label="NRTPK"
-          name="nrtpk"
+          label="NIPD"
+          name="nipd"
           onChange={handleChange}
           register={register}
           errors={errors}
@@ -119,8 +121,8 @@ const FormAddGuru = (props) => {
         />
         <Input
           type="text"
-          label="Jenis PTK"
-          name="jenis_ptk"
+          label="Alamat"
+          name="alamat"
           onChange={handleChange}
           register={register}
           errors={errors}
@@ -143,40 +145,48 @@ const FormAddGuru = (props) => {
         />
         <Input
           type="text"
-          label="Alamat"
-          name="alamat"
+          label="Status Siswa"
+          name="status_siswa"
+          onChange={handleChange}
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Nama Ortu"
+          name="nama_ortu"
+          onChange={handleChange}
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Angkatan"
+          name="angkatan"
           onChange={handleChange}
           register={register}
           errors={errors}
         />
         <Input
           type="number"
-          label="No Telp Guru"
-          name="no_telp_guru"
+          label="No Telp siswa"
+          name="no_telp_siswa"
+          onChange={handleChange}
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="number"
+          label="No Telp Ortu"
+          name="no_telp_ortu"
           onChange={handleChange}
           register={register}
           errors={errors}
         />
         <Input
           type="text"
-          label="Status Kepegawaian"
-          name="status_kepegawaian"
-          onChange={handleChange}
-          register={register}
-          errors={errors}
-        />
-        <Input
-          type="text"
-          label="Status Guru"
-          name="status_guru"
-          onChange={handleChange}
-          register={register}
-          errors={errors}
-        />
-        <Input
-          type="text"
-          label="Status Nikah"
-          name="status_nikah"
+          label="Jurusan"
+          name="jurusan"
           onChange={handleChange}
           register={register}
           errors={errors}

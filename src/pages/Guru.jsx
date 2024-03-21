@@ -17,6 +17,7 @@ import PopUpDetail from '../components/PopUpDetail';
 import Pagination from '../components/Pagination';
 import FormAddGuru from '../components/guru/FormAddGuru';
 import FormEditGuru from '../components/guru/FormEditGuru';
+import FormDetailGuru from '../components/guru/FormDetailGuru';
 
 const Guru = () => {
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
@@ -72,7 +73,7 @@ const Guru = () => {
                     Nama Guru
                   </th>
                   <th scope="col" className="px-6 py-4">
-                    NIPD
+                    NRPTK
                   </th>
                   <th scope="col" className="px-6 py-4">
                     Status
@@ -229,7 +230,7 @@ const Guru = () => {
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
         >
-          <div>Bagian ini ganti jadi file contoh: DetailAngkatan.jsx</div>
+          <FormDetailGuru setIsOpenPopUpDetail={setIsOpenPopUpDetail} />
         </PopUpDetail>
       </div>
     </Layout>

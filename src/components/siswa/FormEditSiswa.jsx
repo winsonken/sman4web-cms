@@ -6,6 +6,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
+import SelectFilter from '../SelectFilter';
 
 const validationSchema = yup
   .object({
@@ -37,7 +38,7 @@ const FormEditSiswa = (props) => {
   });
 
   const onSubmit = (e) => {
-    toast.success('Siswa berhasil diubah!', {
+    toast.success('Data siswa diubah!', {
       position: 'top-right',
       theme: 'light',
     });
@@ -47,133 +48,114 @@ const FormEditSiswa = (props) => {
     <form onSubmit={handleSubmit(onSubmit)}>
 
       <div className="flex justify-end gap-2 -mt-10 mb-6">
-        <Button title="Pilih Jurusan" type="submit" />
+        <SelectFilter placeholder="Pilih Jurusan" />
+        {/* <Button title="Pilih Jurusan" type="submit" /> */}
       </div>
 
-     <div className="flex flex-col gap-10">
-        <div className='flex justify-between gap-10'>
-          <div className='w-32 h-32 mx-9 mt-12 bg-gray-300 text-center text-xs'>
-          <div className='w-20 h-10 mx-auto mt-14 text-xs text-white'>Tambah foto</div>
-          </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:grid-cols-3 ">
+        <Input
+          type="file"
+          label="Foto"
+          name="foto"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Nama"
+          name="nama"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="date"
+          label="Tanggal Lahir"
+          name="tanggal_lahir"
+          register={register}
+          errors={errors}
+        />
 
-          <div className='flex flex-col gap-4'>
-            <div className='flex justify-between gap-10'>
-            <Input
-            className="w-72"
-              label="Nama"
-              name="nama"
-              register={register}
-              errors={errors}
-            />
-            <Input
-            className="w-72"
-              label="Tanggal Lahir"
-              name="tanggal_lahir"
-              register={register}
-              errors={errors}
-            />
-            </div>
+        <Input
+          type="number"
+          label="NIPD"
+          name="nipd"
+          register={register}
+          errors={errors}
+        />
 
-            <div className='flex justify-between gap-10'>
-            <Input
-            className="w-72"
-              type="number"
-              label="NIPD"
-              name="nipd"
-              register={register}
-              errors={errors}
-            />
-            <Input
-            className="w-72"
-              label="Tempat Lahir"
-              name="tempat_lahir"
-              register={register}
-              errors={errors}
-            />
-            </div>
-
-            <div className='flex justify-between gap-10'>
-            <Input
-            className="w-72"
-              label="Email"
-              name="email"
-              register={register}
-              errors={errors}
-            />
-            <Input
-            className="w-72"
-              label="Alamat"
-              name="alamat"
-              register={register}
-              errors={errors}
-            />
-            </div>
-          </div>
-        </div>
-
-        <div className='flex flex-col gap-4 -mt-5' >
-          <div className='flex justify-between gap-10'>
-            <Input
-              className="w-72"
-              label="Jenis Kelamin"
-              name="jenis_kelamin"
-              register={register}
-              errors={errors}
-            />
-            <Input
-              className="w-72"
-              label="Agama"
-              name="agama"
-              register={register}
-              errors={errors}
-            />
-            <Input
-            className="w-72"
-              label="Status Siswa"
-              name="status_siswa"
-              register={register}
-              errors={errors}
-            />
-          </div>
-          <div className='flex justify-between gap-10'>
-            <Input
-              className="w-72"
-              label="Nama Ortu"
-              name="nama_ortu"
-              register={register}
-              errors={errors}
-            />
-            <Input
-              className="w-72"
-              label="Angkatan"
-              name="angkatan"
-              register={register}
-              errors={errors}
-            />
-            <Input
-              className="w-72"
-              type="number"
-              label="No Telp Siswa"
-              name="no_telp_siswa"
-              register={register}
-              errors={errors}
-            />
-          </div>
-          <div className='flex justify-between gap-0'>
-            <Input
-              className="w-72"
-              label="No Telp Ortu"
-              name="no_telp_ortu"
-              register={register}
-              errors={errors}
-            />
-            <div className='w-60'></div>
-            <div className='w-60'></div>
-          </div>
-        </div>
-       </div>
+        <Input
+          type="text"
+          label="Tempat Lahir"
+          name="tempat_lahir"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Email"
+          name="email"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Alamat"
+          name="alamat"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Jenis Kelamin"
+          name="jenis_kelamin"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Agama"
+          name="agama"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Status Siswa"
+          name="status_siswa"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Nama Ortu"
+          name="nama_ortu"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="text"
+          label="Angkatan"
+          name="angkatan"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="number"
+          label="No Telp Siswa"
+          name="no_telp_siswa"
+          register={register}
+          errors={errors}
+        />
+        <Input
+          type="number"
+          label="No Telp Ortu"
+          name="no_telp_ortu"
+          register={register}
+          errors={errors}
+        />
+      </div>
         
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-2 mt-5">
           <Button
             title="Batal"
             type="cancel"
