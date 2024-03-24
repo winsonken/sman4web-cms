@@ -26,7 +26,7 @@ const Role = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const limitPerPage = 10;
   const debouncedSearchValue = useDebounce(searchValue, 500);
-  const [editData, setEditData] = useState([]);
+  const [getData, setGetData] = useState([]);
 
   const {
     data: role,
@@ -41,7 +41,7 @@ const Role = () => {
   });
 
   const { data: module } = useGetModuleQuery({
-    role: editData?.id_role,
+    role: getData?.id_role,
   });
 
   return (
@@ -68,7 +68,7 @@ const Role = () => {
           error={error}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-          setEditData={setEditData}
+          setGetData={setGetData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           limitPerPage={limitPerPage}
@@ -82,7 +82,7 @@ const Role = () => {
         >
           <FormEditRole
             setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-            data={editData}
+            data={getData}
             dataModule={module}
           />
         </PopUpEdit>

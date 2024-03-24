@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
-import { FaCalendar } from 'react-icons/fa'; 
-
+import { FaCalendar } from 'react-icons/fa';
 
 import Layout from '../components/Layout';
 import ButtonAdd from '../components/ButtonAdd';
@@ -14,20 +13,47 @@ import ButtonDelete from '../components/ButtonDelete';
 import Button from '../components/Button';
 import ButtonAction from '../components/ButtonAction';
 import Pagination from '../components/Pagination';
-
-import FormAddTahunajaran from '../components/tahunajaran/FormAddTahunajaran';
-import FormEditTahunajaran from '../components/tahunajaran/FormEditTahunajaran';
+import {
+  FormAddTahunajaran,
+  FormEditTahunajaran,
+  TableTahunAjaran,
+  TableTahunAjaranBerakhir,
+} from '../components/tahun-ajaran';
+import {
+  useGetTahunAjaranBerakhirQuery,
+  useGetTahunAjaranQuery,
+} from '../services/api/tahunAjaranApiSlice';
 
 const Tahunajaran = () => {
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
-  const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
+  const [isOpenPopUpSelesai, setIsOpenPopUpSelesai] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPage = 8;
-  const totalRecord = 16;
   const limitPerPage = 10;
+
+  const [currentPageTABerakhir, setCurrentPageTABerakhir] = useState(1);
+  const limitPerPageTABerakhir = 10;
+
+  const {
+    data: tahunAjaran,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetTahunAjaranQuery({ page: currentPage, limit: limitPerPage });
+
+  const {
+    data: tahunAjaranBerakhir,
+    isLoading: isLoadingTABerakhir,
+    isSuccess: isSuccessTABerakhir,
+    isError: isErrorTABerakhir,
+    error: errorTABerakhir,
+  } = useGetTahunAjaranBerakhirQuery({
+    page: currentPageTABerakhir,
+    limit: limitPerPageTABerakhir,
+  });
 
   return (
     <Layout>
@@ -43,262 +69,51 @@ const Tahunajaran = () => {
             setIsOpenPopUpAdd={setIsOpenPopUpAdd}
           />
 
-          <div className="flex flex-reverse">
-            <div className="sm:w-48">
-              <SearchFilter />
-            </div>
+          <div className="w-full duration-100 sm:w-1/2 md:w-1/5">
+            <SearchFilter />
           </div>
         </div>
 
-        <div className="flex flex-col gap-3">
-          <div className="table-scroll relative overflow-x-auto rounded-t-lg">
-            <table className="w-full text-sm text-left rtl:text-right text-black">
-              <thead className="text-xs text-gray-700 uppercase bg-main-orange">
-                <tr>
-                  <th scope="col" className="px-6 py-4">
-                    No
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Tahun Ajaran
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Periode ganjil
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Periode Genap
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Status
-                  </th>
-                  <th scope="col" className="text-center px-6 py-4">
-                    Aksi
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="bg-second-orange border-b">
-                  <th
-                    scope="row"
-                    className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
-                  >
-                    1
-                  </th>
-                  <td className="px-6 py-2">2022-2023</td>
-                  <td className="px-6 py-2">19/07/22 - 13/12/22</td>
-                  <td className="px-6 py-2">05/01/23 - 15/06/23</td>
-                  <td className="px-6 py-2">Lulus</td>
-                  <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
-                    <ButtonAction
-                      title="Lulus"
-                      isOpenPopUp={isOpenPopUpLulus}
-                      setIsOpenPopUp={setIsOpenPopUpLulus}
-                    />
-
-                    <ButtonEdit
-                      isOpenPopUpEdit={isOpenPopUpEdit}
-                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                    />
-
-                    <ButtonDelete
-                      isOpenPopUpDelete={isOpenPopUpDelete}
-                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                    />
-                  </td>
-                </tr>
-
-                <tr className="bg-green-100 border-b">
-                  <th
-                    scope="row"
-                    className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
-                  > 2
-                  </th>
-                  <td className="px-6 py-2">2023-2024</td>
-                  <td className="px-6 py-2">19/07/22 - 13/12/22</td>
-                  <td className="px-6 py-2">05/01/24 - 15/06/24</td>
-                  <td className="px-6 py-2">Belum dimulai</td>
-                  <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
-                    <ButtonAction
-                      title="Mulai"
-                      isOpenPopUp={isOpenPopUpMulai}
-                      setIsOpenPopUp={setIsOpenPopUpMulai}
-                    />
-
-                    <ButtonEdit
-                      isOpenPopUpEdit={isOpenPopUpEdit}
-                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                    />
-
-                    <ButtonDelete
-                      isOpenPopUpDelete={isOpenPopUpDelete}
-                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPage={totalPage}
-            totalRecord={totalRecord}
-            limitPerPage={limitPerPage}
-          />
-        </div>
+        <TableTahunAjaran
+          data={tahunAjaran}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
+          error={error}
+          isOpenPopUpMulai={isOpenPopUpMulai}
+          setIsOpenPopUpMulai={setIsOpenPopUpMulai}
+          isOpenPopUpSelesai={isOpenPopUpSelesai}
+          setIsOpenPopUpSelesai={setIsOpenPopUpSelesai}
+          isOpenPopUpEdit={isOpenPopUpEdit}
+          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          isOpenPopUpDelete={isOpenPopUpDelete}
+          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          limitPerPage={limitPerPage}
+        />
 
         {/* Table kedua */}
-        <div>
-          <h1 className="mt-8 text-xl font-semibold md:text-2xl">Tahun Ajaran Berakhir</h1>
-        </div>
+        <div className="flex flex-col gap-5">
+          <h1 className="mt-8 text-xl font-semibold md:text-2xl">
+            Tahun Ajaran Berakhir
+          </h1>
 
-
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-        <div></div>
-          <div className="flex flex-reverse">
-            <div className="sm:w-48">
+          <div className="flex sm:justify-end">
+            <div className="w-full sm:w-1/2 duration-100 md:w-1/3 2xl:w-1/5">
               <SearchFilter />
             </div>
           </div>
-        </div>
 
-
-        <div className="flex flex-col gap-3">
-          <div className="table-scroll relative overflow-x-auto rounded-t-lg">
-            <table className="w-full text-sm text-left rtl:text-right text-black">
-              <thead className="text-xs text-gray-700 uppercase bg-main-orange">
-                <tr>
-                  <th scope="col" className="px-6 py-4">
-                    No
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Tahun Ajaran
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Periode ganjil
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Periode Genap
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Status
-                  </th>
-                  <th scope="col" className="text-center px-6 py-4">
-                    Aksi
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="bg-second-orange border-b">
-                  <th
-                    scope="row"
-                    className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
-                  >
-                    1
-                  </th>
-                  <td className="px-6 py-2">2022-2023</td>
-                  <td className="px-6 py-2">19/07/22 - 13/12/22</td>
-                  <td className="px-6 py-2">05/01/23 - 15/06/23</td>
-                  <td className="px-6 py-2">Berakhir</td>
-                  <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
-                    <ButtonEdit
-                      isOpenPopUpEdit={isOpenPopUpEdit}
-                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                    />
-
-                    <ButtonDelete
-                      isOpenPopUpDelete={isOpenPopUpDelete}
-                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                    />
-                  </td>
-                </tr>
-
-                <tr className="bg-green-100 border-b">
-                  <th
-                    scope="row"
-                    className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
-                  > 2
-                  </th>
-                  <td className="px-6 py-2">2023-2024</td>
-                  <td className="px-6 py-2">19/07/22 - 13/12/22</td>
-                  <td className="px-6 py-2">05/01/24 - 15/06/24</td>
-                  <td className="px-6 py-2">Berakhir</td>
-                  <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
-                    <ButtonEdit
-                      isOpenPopUpEdit={isOpenPopUpEdit}
-                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                    />
-
-                    <ButtonDelete
-                      isOpenPopUpDelete={isOpenPopUpDelete}
-                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                    />
-                  </td>
-                </tr>
-                <tr className="bg-second-orange border-b">
-                  <th
-                    scope="row"
-                    className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
-                  >
-                    3
-                  </th>
-                  <td className="px-6 py-2">2022-2023</td>
-                  <td className="px-6 py-2">19/07/22 - 13/12/22</td>
-                  <td className="px-6 py-2">05/01/23 - 15/06/23</td>
-                  <td className="px-6 py-2">Berakhir</td>
-                  <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
-                    <ButtonEdit
-                      isOpenPopUpEdit={isOpenPopUpEdit}
-                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                    />
-
-                    <ButtonDelete
-                      isOpenPopUpDelete={isOpenPopUpDelete}
-                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                    />
-                  </td>
-                </tr>
-
-                <tr className="bg-green-100 border-b">
-                  <th
-                    scope="row"
-                    className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
-                  > 4
-                  </th>
-                  <td className="px-6 py-2">2023-2024</td>
-                  <td className="px-6 py-2">19/07/22 - 13/12/22</td>
-                  <td className="px-6 py-2">05/01/24 - 15/06/24</td>
-                  <td className="px-6 py-2">Berakhir</td>
-                  <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
-                    <ButtonEdit
-                      isOpenPopUpEdit={isOpenPopUpEdit}
-                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                    />
-
-                    <ButtonDelete
-                      isOpenPopUpDelete={isOpenPopUpDelete}
-                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPage={totalPage}
-            totalRecord={totalRecord}
-            limitPerPage={limitPerPage}
+          <TableTahunAjaranBerakhir
+            data={tahunAjaranBerakhir}
+            isLoading={isLoadingTABerakhir}
+            isSuccess={isSuccessTABerakhir}
+            isError={isErrorTABerakhir}
+            error={errorTABerakhir}
+            currentPage={currentPageTABerakhir}
+            setCurrentPage={setCurrentPageTABerakhir}
+            limitPerPage={limitPerPageTABerakhir}
           />
         </div>
 
@@ -308,7 +123,7 @@ const Tahunajaran = () => {
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
         >
-          <FormAddTahunajaran setIsOpenPopUpAdd={setIsOpenPopUpAdd}  />
+          <FormAddTahunajaran setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
         </PopUpAdd>
 
         <PopUpEdit
@@ -339,7 +154,6 @@ const Tahunajaran = () => {
             </div>
           </div>
         </PopUpDelete>
-
       </div>
     </Layout>
   );

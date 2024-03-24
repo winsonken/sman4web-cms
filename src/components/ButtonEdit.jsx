@@ -8,7 +8,7 @@ const ButtonEdit = (props) => {
       className="w-fit h-fit text-2xl text-yellow-500 bg-white px-1.5 py-1 flex justify-center items-center rounded-md cursor-pointer"
       onClick={() => {
         setIsOpenPopUpEdit(!isOpenPopUpEdit);
-        setGetData(data);
+        setGetData && setGetData(data);
       }}
     >
       <FaEdit />

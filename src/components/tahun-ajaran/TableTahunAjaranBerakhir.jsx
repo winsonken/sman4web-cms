@@ -1,29 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import LoadingTable from '../Loading/LoadingTable';
 import Pagination from '../Pagination';
-import ButtonAction from '../ButtonAction';
-import ButtonDetail from '../ButtonDetail';
-import ButtonEdit from '../ButtonEdit';
-import ButtonDelete from '../ButtonDelete';
 
-const TableRole = (props) => {
+const TableTahunAjaranBerakhir = (props) => {
   const {
     data,
     isLoading,
     isSuccess,
     isError,
     error,
-    isOpenPopUpEdit,
-    setIsOpenPopUpEdit,
-    isOpenPopUpDelete,
-    setIsOpenPopUpDelete,
-    setGetData,
     currentPage,
     setCurrentPage,
     limitPerPage,
   } = props;
 
-  const roleData = data?.data;
+  const tahunAjaranBerakhir = data?.data;
   const pagination = data?.pagination;
 
   const totalPage = pagination?.total_page;
@@ -43,49 +34,55 @@ const TableRole = (props) => {
                   No
                 </th>
                 <th scope="col" className="px-6 py-4">
-                  Nama role
+                  Tahun Ajaran
+                </th>
+                <th scope="col" className="px-6 py-4">
+                  Periode ganjil
+                </th>
+                <th scope="col" className="px-6 py-4">
+                  Periode Genap
                 </th>
                 <th scope="col" className="px-6 py-4">
                   Status
                 </th>
-                <th scope="col" className="text-center px-6 py-4">
-                  Aksi
-                </th>
               </tr>
             </thead>
             <tbody>
-              {roleData.length > 0 ? (
-                roleData.map((allRoleData, index) => (
+              {tahunAjaranBerakhir.length > 0 ? (
+                tahunAjaranBerakhir.map((allTahunAjaran, index) => (
                   <tr className="bg-second-orange border-b">
                     <th
                       scope="row"
-                      className="px-6 py-1 font-medium text-gray-900 whitespace-nowrap"
+                      className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
                     >
                       {index + 1}
                     </th>
-                    <td className="px-6 py-1 capitalize">
-                      {allRoleData?.nama_role}
+                    <td className="px-6 py-2">
+                      {allTahunAjaran?.tahun_mulai_ajaran}-
+                      {allTahunAjaran?.tahun_akhir_ajaran}
                     </td>
-                    <td className="px-6 py-1">
-                      {allRoleData?.status_role == 1 ? 'Aktif' : 'Tidak aktif'}
+                    <td className="px-6 py-2">
+                      {allTahunAjaran?.mulai_periode_ganjil}-
+                      {allTahunAjaran?.akhir_periode_ganjil}
                     </td>
-                    <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
-                      <ButtonEdit
-                        data={allRoleData}
-                        isOpenPopUpEdit={isOpenPopUpEdit}
-                        setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                        setGetData={setGetData}
-                      />
+                    <td className="px-6 py-2">
+                      {allTahunAjaran?.mulai_periode_genap}-
+                      {allTahunAjaran?.akhir_periode_genap}
+                    </td>
+                    <td className="px-6 py-2">
+                      {allTahunAjaran?.status_tahun_ajaran == 2
+                        ? 'Berakhir'
+                        : ''}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colspan="4"
-                    class="px-6 py-3 whitespace-no-wrap bg-second-orange"
+                    colSpan="6"
+                    className="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
-                    <div class="text-sm  text-gray-500 text-center">
+                    <div className="text-sm  text-gray-500 text-center">
                       Data tidak ditemukan
                     </div>
                   </td>
@@ -107,4 +104,4 @@ const TableRole = (props) => {
   );
 };
 
-export default TableRole;
+export default TableTahunAjaranBerakhir;
