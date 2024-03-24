@@ -85,6 +85,11 @@ const Sidebar = (props) => {
       link: '/ppdb',
       icon: <FaUserPlus />,
     },
+    {
+      name: 'Role',
+      link: '/role',
+      icon: <FaUserPlus />,
+    },
   ];
   return (
     <nav

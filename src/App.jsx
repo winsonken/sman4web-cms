@@ -18,28 +18,34 @@ import Ppdb from './pages/Ppdb';
 import Kelas from './pages/Kelas';
 import Error404 from './pages/Error404';
 import DetailRapot from './pages/DetailRapot';
+import Role from './pages/Role';
+import RequireAuth from './components/RequireAuth';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/angkatan" element={<Angkatan />} />
-        <Route path="/tahun-ajaran" element={<TahunAjaran />} />
-        <Route path="/kelas" element={<Kelas />} />
-        <Route path="/siswa" element={<Siswa />} />
-        <Route path="/guru" element={<Guru />} />
-        <Route path="/alumni" element={<Alumni />} />
-        <Route path="/jurusan" element={<Jurusan />} />
-        <Route path="/prestasi" element={<Prestasi />} />
-        <Route path="/rapot" element={<Rapot />} />
-        <Route path="/pelanggaran" element={<Pelanggaran />} />
-        <Route path="/ppdb" element={<Ppdb />} />
-        <Route path="/error404" element={<Error404 />} />
-        <Route path="/detailrapot" element={<DetailRapot />} />
+
+        <Route element={<RequireAuth />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/angkatan" element={<Angkatan />} />
+          <Route path="/tahun-ajaran" element={<TahunAjaran />} />
+          <Route path="/kelas" element={<Kelas />} />
+          <Route path="/siswa" element={<Siswa />} />
+          <Route path="/guru" element={<Guru />} />
+          <Route path="/alumni" element={<Alumni />} />
+          <Route path="/jurusan" element={<Jurusan />} />
+          <Route path="/prestasi" element={<Prestasi />} />
+          <Route path="/rapot" element={<Rapot />} />
+          <Route path="/pelanggaran" element={<Pelanggaran />} />
+          <Route path="/ppdb" element={<Ppdb />} />
+          <Route path="/detailrapot" element={<DetailRapot />} />
+          <Route path="/role" element={<Role />} />
+          <Route path="/*" element={<Error404 />} />
+        </Route>
       </Routes>
       <ToastContainer />
     </BrowserRouter>

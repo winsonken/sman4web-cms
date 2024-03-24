@@ -72,7 +72,6 @@ const FormAddAngkatan = (props) => {
             onChange={handleChange}
             register={register}
             errors={errors}
-            disabled
           />
           <Input
             type="number"

@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../assets/logo-sman4.png';
 import { FaEye } from 'react-icons/fa';
 import { FaEyeSlash } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useLoginMutation } from '../services/api/authApiSlice';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectCurrentToken,
+  setCredentials,
+} from '../services/features/authSlice';
 
 const validationSchema = yup
   .object({
@@ -15,6 +22,11 @@ const validationSchema = yup
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const token = useSelector(selectCurrentToken);
+
   const {
     register,
     handleSubmit,
@@ -27,9 +39,46 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleOnSubmit = (e) => {
-    alert(JSON.stringify(e));
+  const initialFormInput = {
+    username: '',
+    password: '',
   };
+
+  const [formInput, setFormInput] = useState(initialFormInput);
+
+  const [login, { isLoading, error: errorServer }] = useLoginMutation();
+
+  const handleOnSubmit = async () => {
+    const response = await login({
+      username: formInput?.username,
+      password: formInput?.password,
+    });
+
+    try {
+      if (!response.error) {
+        dispatch(setCredentials({ ...response }));
+        navigate('/');
+      } else {
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+  }, [token]);
 
   return (
     <div className="w-screen h-screen flex justify-center items-center p-3">
@@ -57,15 +106,22 @@ const Login = () => {
                 type="text"
                 name="username"
                 id="username"
+                {...register('username')}
                 placeholder="Username"
                 className="bg-transparent py-2 border-b border-main-cream placeholder-main-cream placeholder:font-medium focus:outline-0 caret-second-blue"
                 autoComplete="off"
                 style={{ color: '#FFFDDE' }}
-                {...register('username')}
+                onChange={handleChange}
               />
               {errors.username && (
-                <span className="text-sm font-medium text-main-red">
+                <span className="text-xs font-medium text-main-red">
                   {errors.username?.message}
+                </span>
+              )}
+
+              {errorServer?.data && (
+                <span className="text-xs font-medium text-main-red">
+                  {errorServer.data?.message}
                 </span>
               )}
             </div>
@@ -83,10 +139,11 @@ const Login = () => {
                   type={showPassword ? 'password' : 'text'}
                   name="password"
                   id="password"
+                  {...register('password')}
                   placeholder="Password"
                   className="w-full bg-transparent py-2 border-b border-main-cream placeholder-main-cream placeholder:font-medium focus:outline-0 caret-second-blue"
                   style={{ color: '#FFFDDE' }}
-                  {...register('password')}
+                  onChange={handleChange}
                 />
 
                 <div
@@ -98,8 +155,14 @@ const Login = () => {
               </div>
 
               {errors.password && (
-                <span className="text-sm font-medium text-main-red">
+                <span className="text-xs font-medium text-main-red">
                   {errors.password?.message}
+                </span>
+              )}
+
+              {errorServer?.data && (
+                <span className="text-xs font-medium text-main-red">
+                  {errorServer.data?.message}
                 </span>
               )}
             </div>
@@ -109,7 +172,7 @@ const Login = () => {
                 type="submit"
                 className="w-full text-base font-medium text-white bg-second-blue py-3 rounded"
               >
-                Login
+                {isLoading ? '...' : 'Login'}
               </button>
             </div>
           </form>

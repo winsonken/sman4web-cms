@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { FaUserCircle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MdLogout } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
+import { logOut, selectCurrentUser } from '../services/features/authSlice';
 
 const Navbar = (props) => {
   const { openSidebar, setOpenSidebar } = props;
   const [openMenu, setOpenMenu] = useState(false);
+  const dispatch = useDispatch();
+
+  const user = useSelector(selectCurrentUser);
+  const { nama } = user;
+
+  const handleLogout = () => {
+    dispatch(logOut());
+  };
+
   return (
     <div
       className={`w-full flex justify-between items-center p-3 bg-main-blue relative ${
@@ -31,15 +42,13 @@ const Navbar = (props) => {
           <FaUserCircle />
         </div>
 
-        <p className="text-sm font-medium hidden md:text-lg md:block">
-          William Nurdin Wijaya
-        </p>
+        <p className="text-sm font-medium hidden md:text-lg md:block">{nama}</p>
       </div>
 
       {openMenu && (
         <div className="w-[150px] bg-main-blue p-2 absolute top-16 right-2 rounded-md md:p-3 md:right-5 md:w-[250px]">
           <p className="text-xs font-medium text-main-cream md:hidden">
-            William Nurdin Wijaya
+            {nama}
           </p>
 
           <div className="flex flex-col gap-2 mt-2 md:mt-0">
@@ -51,14 +60,16 @@ const Navbar = (props) => {
                 <span>Profile</span>
               </div>
             </Link>
-            <Link>
-              <div className="flex items-center gap-1 text-base font-medium text-second-blue md:text-xl hover:text-main-cream duration-200">
-                <span>
-                  <MdLogout />
-                </span>
-                <span>Logout</span>
-              </div>
-            </Link>
+
+            <div
+              className="flex items-center gap-1 text-base font-medium text-second-blue md:text-xl hover:text-main-cream duration-200"
+              onClick={handleLogout}
+            >
+              <span>
+                <MdLogout />
+              </span>
+              <span>Logout</span>
+            </div>
           </div>
         </div>
       )}
