@@ -11,7 +11,6 @@ import {
   PopUpAction,
   PopUpEdit,
   PopUpDelete,
-  PopUpDetail,
   SelectFilter,
   SearchFilter,
 } from '../components';
@@ -24,19 +23,26 @@ import {
 
 import {
   useDeleteAngkatanMutation,
+  useGetAngkatanOptionQuery,
   useGetAngkatanQuery,
+  useUpdateMulaiAngkatanMutation,
+  useUpdateLulusAngkatanMutation,
 } from '../services/api/angkatanApiSlice';
+import useDebounce from '../helpers/useDebounce';
 
 const Angkatan = () => {
+  const [selectFilterAngkatan, setSelectFilterAngkatan] = useState('');
+  const [searchFilterAngkatan, setSearchFilterAngkatan] = useState('');
+  const debouncedSearchAngkatan = useDebounce(searchFilterAngkatan, 500);
+
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
-  const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
   const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
   const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const limitPerPage = 5;
-  const [editData, setEditData] = useState([]);
+  const limitPerPage = 10;
+  const [getData, setGetData] = useState([]);
 
   const {
     data: angkatan,
@@ -44,7 +50,12 @@ const Angkatan = () => {
     isSuccess,
     isError,
     error,
-  } = useGetAngkatanQuery({ page: currentPage, limit: limitPerPage });
+  } = useGetAngkatanQuery({
+    no: selectFilterAngkatan,
+    q: debouncedSearchAngkatan,
+    page: currentPage,
+    limit: limitPerPage,
+  });
 
   const [deleteAngkatan, { isLoadingDelete, isErrorDelete, errorDelete }] =
     useDeleteAngkatanMutation();
@@ -52,16 +63,78 @@ const Angkatan = () => {
   const handleDelete = async () => {
     try {
       const response = await deleteAngkatan({
-        id: editData?.id_angkatan,
+        id: getData?.id_angkatan,
       }).unwrap();
       if (!response.error) {
         toast.success('Angkatan berhasil dihapus!', {
           position: 'top-right',
           theme: 'light',
         });
+        setIsOpenPopUpDelete(false);
       }
     } catch (error) {
-      toast.error('Angkatan gagal  diubah!', {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
+
+  const { data: angkatanOption } = useGetAngkatanOptionQuery();
+
+  const selectAngkatan = angkatanOption?.data?.map((e) => ({
+    value: e?.no_angkatan,
+    label: e?.no_angkatan,
+  }));
+
+  const [updateMulaiAngkatan] = useUpdateMulaiAngkatanMutation();
+
+  const handleMulaiAngkatan = async () => {
+    const payload = {
+      id_angkatan: getData?.id_angkatan,
+    };
+
+    try {
+      const response = await updateMulaiAngkatan(payload).unwrap();
+
+      if (!response.error) {
+        toast.success('Angkatan berhasil dimulai!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpMulai(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
+
+  const [updateLulusAngkatan] = useUpdateLulusAngkatanMutation();
+
+  const handleLulusAngkatan = async () => {
+    const payload = {
+      id_angkatan: getData?.id_angkatan,
+    };
+
+    try {
+      const response = await updateLulusAngkatan(payload).unwrap();
+
+      if (!response.error) {
+        toast.success('Angkatan berhasil diluluskan!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpLulus(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      // console.log(errorMessage);
+      toast.error(`${errorMessage}`, {
         position: 'top-right',
         theme: 'light',
       });
@@ -84,10 +157,18 @@ const Angkatan = () => {
 
           <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3  ">
             <div className="sm:w-1/2">
-              <SelectFilter placeholder="Select angkatan" />
+              <SelectFilter
+                placeholder="Select angkatan"
+                data={selectAngkatan}
+                selectedValue={selectFilterAngkatan}
+                setSelectedValue={setSelectFilterAngkatan}
+              />
             </div>
             <div className="sm:w-1/2">
-              <SearchFilter />
+              <SearchFilter
+                searchValue={searchFilterAngkatan}
+                setSearchValue={setSearchFilterAngkatan}
+              />
             </div>
           </div>
         </div>
@@ -102,13 +183,11 @@ const Angkatan = () => {
           setIsOpenPopUpMulai={setIsOpenPopUpMulai}
           isOpenPopUpLulus={isOpenPopUpLulus}
           setIsOpenPopUpLulus={setIsOpenPopUpLulus}
-          isOpenPopUpDetail={isOpenPopUpDetail}
-          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           isOpenPopUpDelete={isOpenPopUpDelete}
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-          setEditData={setEditData}
+          setGetData={setGetData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           limitPerPage={limitPerPage}
@@ -131,7 +210,7 @@ const Angkatan = () => {
         >
           <FormEditAngkatan
             setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-            data={editData}
+            data={getData}
           />
         </PopUpEdit>
 
@@ -150,19 +229,10 @@ const Angkatan = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpDelete}
               />
-              <Button title="Hapus" />
+              <Button title="Hapus" onClick={handleDelete} />
             </div>
           </div>
         </PopUpDelete>
-
-        <PopUpDetail
-          title="Detail angkatan"
-          icon={<MdStairs />}
-          isOpenPopUpDetail={isOpenPopUpDetail}
-          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
-        >
-          <div>Bagian ini ganti jadi file contoh: DetailAngkatan.jsx</div>
-        </PopUpDetail>
 
         <PopUpAction
           title="Luluskan angkatan"
@@ -179,7 +249,7 @@ const Angkatan = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpLulus}
               />
-              <Button title="Simpan" type="submit" />
+              <Button title="Simpan" onClick={handleLulusAngkatan} />
             </div>
           </div>
         </PopUpAction>
@@ -199,7 +269,7 @@ const Angkatan = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpMulai}
               />
-              <Button title="Simpan" type="submit" />
+              <Button title="Simpan" onClick={handleMulaiAngkatan} />
             </div>
           </div>
         </PopUpAction>

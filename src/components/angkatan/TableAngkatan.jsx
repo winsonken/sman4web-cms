@@ -17,13 +17,11 @@ const TableAngkatan = (props) => {
     setIsOpenPopUpMulai,
     isOpenPopUpLulus,
     setIsOpenPopUpLulus,
-    isOpenPopUpDetail,
-    setIsOpenPopUpDetail,
     isOpenPopUpEdit,
     setIsOpenPopUpEdit,
     isOpenPopUpDelete,
     setIsOpenPopUpDelete,
-    setEditData,
+    setGetData,
     currentPage,
     setCurrentPage,
     limitPerPage,
@@ -102,35 +100,35 @@ const TableAngkatan = (props) => {
                       {allAngkatanData?.status_angkatan == 0 && (
                         <ButtonAction
                           title="Mulai"
+                          data={allAngkatanData}
                           isOpenPopUp={isOpenPopUpMulai}
                           setIsOpenPopUp={setIsOpenPopUpMulai}
+                          setGetData={setGetData}
                         />
                       )}
 
                       {allAngkatanData?.status_angkatan == 1 && (
                         <ButtonAction
                           title="Lulus"
+                          data={allAngkatanData}
                           isOpenPopUp={isOpenPopUpLulus}
                           setIsOpenPopUp={setIsOpenPopUpLulus}
+                          setGetData={setGetData}
                         />
                       )}
-
-                      <ButtonDetail
-                        isOpenPopUpDetail={isOpenPopUpDetail}
-                        setIsOpenPopUpDetail={setIsOpenPopUpDetail}
-                      />
 
                       <ButtonEdit
                         data={allAngkatanData}
                         isOpenPopUpEdit={isOpenPopUpEdit}
                         setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                        setEditData={setEditData}
+                        setGetData={setGetData}
                       />
 
                       <ButtonDelete
                         data={allAngkatanData}
                         isOpenPopUpDelete={isOpenPopUpDelete}
                         setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                        setGetData={setGetData}
                       />
                     </td>
                   </tr>

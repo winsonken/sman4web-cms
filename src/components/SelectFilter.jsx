@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 
 const SelectFilter = (props) => {
-  const { data, placeholder } = props;
+  const { data, placeholder, selectedValue, setSelectedValue } = props;
 
   const customStyles = {
     control: (provided, state) => ({
@@ -41,17 +41,24 @@ const SelectFilter = (props) => {
     }),
   };
 
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ];
+  const handleChange = (selectedOption) => {
+    setSelectedValue(selectedOption?.value);
+  };
+
+  const selectedOption = data?.find((option) => option.value === selectedValue);
+
+  // const options = [
+  //   { value: 'chocolate', label: 'Chocolate' },
+  //   { value: 'strawberry', label: 'Strawberry' },
+  //   { value: 'vanilla', label: 'Vanilla' },
+  // ];
   return (
     <Select
-      options={options}
+      options={data}
       placeholder={placeholder}
       styles={customStyles}
-      isClearable
+      value={selectedOption}
+      onChange={handleChange}
     />
   );
 };

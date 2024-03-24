@@ -188,7 +188,6 @@ const FormEditRole = (props) => {
   const handleChange = (index, key, value) => {
     const updatedFormInput = [...formInput];
     updatedFormInput[index][key] = value;
-    console.log('updatedFormInput:', updatedFormInput);
     setFormInput(updatedFormInput);
   };
 

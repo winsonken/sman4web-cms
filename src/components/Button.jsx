@@ -1,12 +1,13 @@
 import React from 'react';
 
 const Button = (props) => {
-  const { type, title, setIsOpenPopUp } = props;
+  const { type, title, setIsOpenPopUp, onClick } = props;
   return (
     <button
       type={type == 'submit' ? 'submit' : ''}
       onClick={() => {
         setIsOpenPopUp && setIsOpenPopUp(false);
+        onClick && onClick();
       }}
       className={`text-md font-medium flex justify-center text-main-cream px-3 py-2 rounded-md overflow-x-clip md:px-5 ${
         type == 'submit'

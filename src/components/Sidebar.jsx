@@ -16,79 +16,124 @@ import { PiBookBookmarkFill } from 'react-icons/pi';
 import { MdDoNotDisturb } from 'react-icons/md';
 import { FaUserPlus } from 'react-icons/fa6';
 import { MdLogout } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
+import { logOut, selectCurrentModules } from '../services/features/authSlice';
 
 const Sidebar = (props) => {
   const { openSidebar } = props;
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logOut());
+  };
+
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+  const modulesDashboard = filterModule('dashboard');
+  const modulesProfile = filterModule('profile');
+  const modulesAngkatan = filterModule('data_angkatan');
+  const modulesTahunAjaran = filterModule('data_tahun_ajaran');
+  const moduleKelas = filterModule('data_kelas');
+  const modulesSiswa = filterModule('data_siswa');
+  const modulesGuru = filterModule('data_guru');
+  const modulesAlumni = filterModule('data_alumni');
+  const modulesJurusan = filterModule('data_jurusan');
+  const modulesPrestasi = filterModule('data_prestasi');
+  const modulesRapot = filterModule('data_rapot');
+  const modulesPelanggaran = filterModule('data_pelanggaran');
+  const modulesPpdb = filterModule('data_ppdb');
+  const modulesRole = filterModule('data_role');
+
   const pages = [
     {
       name: 'Dashboard',
       link: '/dashboard',
       icon: <BiSolidDashboard />,
+      access: modulesDashboard?.akses,
     },
     {
       name: 'Profile',
       link: '/profile',
       icon: <BiSolidUser />,
+      access: modulesProfile?.akses,
     },
     {
       name: 'Angkatan',
       link: '/angkatan',
       icon: <MdStairs />,
+      access: modulesAngkatan?.akses,
     },
     {
       name: 'Tahun ajaran',
       link: '/tahun-ajaran',
       icon: <FaCalendar />,
+      access: modulesTahunAjaran?.akses,
     },
     {
       name: 'Kelas',
       link: '/kelas',
       icon: <RiDoorOpenFill />,
+      access: moduleKelas?.akses,
     },
     {
       name: 'Siswa',
       link: '/siswa',
       icon: <PiUsersThreeFill />,
+      access: modulesSiswa?.akses,
     },
     {
       name: 'Guru',
       link: '/guru',
       icon: <FaChalkboardTeacher />,
+      access: modulesGuru?.akses,
     },
     {
       name: 'Alumni',
       link: '/alumni',
       icon: <FaUserGraduate />,
+      access: modulesAlumni?.akses,
     },
     {
       name: 'Jurusan',
       link: '/jurusan',
       icon: <FaBookOpen />,
+      access: modulesJurusan?.akses,
     },
     {
       name: 'Prestasi',
       link: '/prestasi',
       icon: <FaMedal />,
+      access: modulesPrestasi?.akses,
     },
     {
       name: 'Rapot siswa',
       link: '/rapot',
       icon: <PiBookBookmarkFill />,
+      access: modulesRapot?.akses,
     },
     {
       name: 'Pelanggaran',
       link: '/pelanggaran',
       icon: <MdDoNotDisturb />,
+      access: modulesPelanggaran?.akses,
     },
     {
       name: 'PPDB',
       link: '/ppdb',
       icon: <FaUserPlus />,
+      access: modulesPpdb?.akses,
     },
     {
       name: 'Role',
       link: '/role',
       icon: <FaUserPlus />,
+      access: modulesRole?.akses,
     },
   ];
   return (
@@ -117,7 +162,12 @@ const Sidebar = (props) => {
         >
           {openSidebar
             ? pages.map((pagesList) => (
-                <NavLink to={pagesList.link} className="nav-link">
+                <NavLink
+                  to={pagesList.link}
+                  className={`nav-link ${
+                    pagesList?.access ? 'block' : 'hidden'
+                  }`}
+                >
                   <div className="flex items-center gap-2 mt-3">
                     <span className="text-2xl text-main-cream">
                       {pagesList.icon}
@@ -129,7 +179,12 @@ const Sidebar = (props) => {
                 </NavLink>
               ))
             : pages.map((pagesList) => (
-                <NavLink to={pagesList.link} className="nav-link">
+                <NavLink
+                  to={pagesList.link}
+                  className={`nav-link ${
+                    pagesList?.access ? 'block' : 'hidden'
+                  }`}
+                >
                   <div className="flex items-center gap-2 mt-3">
                     <span className="text-2xl text-main-cream">
                       {pagesList.icon}
@@ -139,7 +194,7 @@ const Sidebar = (props) => {
               ))}
 
           <div>
-            <button>
+            <button onClick={handleLogout}>
               <div className="flex">
                 {openSidebar ? (
                   <div className="nav-link flex justify-center items-center gap-2 mt-3">

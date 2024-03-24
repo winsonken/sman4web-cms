@@ -50,8 +50,8 @@ const FormAddAngkatan = (props) => {
           position: 'top-right',
           theme: 'light',
         });
+        setIsOpenPopUpAdd(false);
       }
-      setIsOpenPopUpAdd(false);
     } catch (error) {
       const errorMessage = error?.data?.message;
       toast.error(`${errorMessage}`, {
