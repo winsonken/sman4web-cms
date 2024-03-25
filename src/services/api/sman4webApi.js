@@ -13,6 +13,14 @@ export const sman4webApi = createApi({
       }
     },
   }),
-  tagTypes: ['Angkatan', 'Tahun ajaran', 'Jurusan', 'Role', 'Module'],
+  tagTypes: [
+    'Angkatan',
+    'Tahun ajaran',
+    'Jurusan',
+    'Siswa',
+    'Prestasi',
+    'Role',
+    'Module',
+  ],
   endpoints: () => ({}),
 });

@@ -21,17 +21,33 @@ import {
   DetailPrestasi,
   TablePrestasi,
 } from '../components/prestasi';
+import { useGetSiswaQuery } from '../services/api/siswaApiSlice';
+import useDebounce from '../helpers/useDebounce';
 
-import { useGetAngkatanQuery } from '../services/api/angkatanApiSlice';
 const Prestasi = () => {
+  const [searchFilterSiswa, setSearchFilterSiswa] = useState('');
+
+  const debouncedSearchSiswa = useDebounce(searchFilterSiswa, 500);
+
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
   const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
   const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
-
-  const dummyData = [];
+  const [currentPage, setCurrentPage] = useState(1);
+  const limitPerPage = 10;
+  const {
+    data: siswa,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetSiswaQuery({
+    q: debouncedSearchSiswa,
+    page: currentPage,
+    limit: limitPerPage,
+  });
 
   return (
     <Layout>
@@ -48,17 +64,20 @@ const Prestasi = () => {
 
           <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3 justify-end ">
             <div className="sm:w-1/2">
-              <SearchFilter />
+              <SearchFilter
+                searchValue={searchFilterSiswa}
+                setSearchValue={setSearchFilterSiswa}
+              />
             </div>
           </div>
         </div>
 
         <TablePrestasi
-          data={dummyData}
-          // isLoading={isLoading}
-          // isSuccess={isSuccess}
-          // isError={isError}
-          // error={error}
+          data={siswa}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
+          error={error}
           isOpenPopUpMulai={isOpenPopUpMulai}
           setIsOpenPopUpMulai={setIsOpenPopUpMulai}
           isOpenPopUpLulus={isOpenPopUpLulus}
@@ -69,6 +88,9 @@ const Prestasi = () => {
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           isOpenPopUpDelete={isOpenPopUpDelete}
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          limitPerPage={limitPerPage}
         />
 
         <PopUpAdd
@@ -76,10 +98,10 @@ const Prestasi = () => {
           icon={<FaMedal />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          className=""
         >
           <FormAddPrestasi setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
         </PopUpAdd>
+
         <PopUpEdit
           title="Ubah prestasi"
           icon={<FaMedal />}
@@ -108,17 +130,6 @@ const Prestasi = () => {
             </div>
           </div>
         </PopUpDelete>
-
-        <PopUpDetail
-          title="Detail prestasi"
-          icon={<FaMedal />}
-          isOpenPopUpDetail={isOpenPopUpDetail}
-          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
-        >
-          <div>
-            <DetailPrestasi />
-          </div>
-        </PopUpDetail>
       </div>
     </Layout>
   );

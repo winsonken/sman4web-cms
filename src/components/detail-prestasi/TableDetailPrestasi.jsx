@@ -5,35 +5,25 @@ import ButtonAction from '../ButtonAction';
 import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
-import { Link } from 'react-router-dom';
 
-const TablePrestasi = (props) => {
+const TableDetailPrestasi = (props) => {
   const {
     data,
     isLoading,
     isSuccess,
     isError,
     error,
-    isOpenPopUpMulai,
-    setIsOpenPopUpMulai,
-    isOpenPopUpLulus,
-    setIsOpenPopUpLulus,
-    isOpenPopUpDetail,
-    setIsOpenPopUpDetail,
-    isOpenPopUpEdit,
-    setIsOpenPopUpEdit,
-    isOpenPopUpDelete,
-    setIsOpenPopUpDelete,
     currentPage,
     setCurrentPage,
     limitPerPage,
   } = props;
 
-  const siswaData = data?.data;
+  const prestasiData = data?.data;
   const pagination = data?.pagination;
 
   const totalPage = pagination?.total_page;
   const totalRecord = pagination?.total_record;
+
   return (
     <div className="flex flex-col gap-3">
       {isError ? (
@@ -49,10 +39,13 @@ const TablePrestasi = (props) => {
                   No
                 </th>
                 <th scope="col" className="px-6 py-4">
-                  Nama siswa
+                  Nama prestasi
                 </th>
                 <th scope="col" className="px-6 py-4">
-                  NIPD
+                  Jenis prestasi
+                </th>
+                <th scope="col" className="px-6 py-4">
+                  Tahun
                 </th>
                 <th scope="col" className="text-center px-6 py-4">
                   Aksi
@@ -60,8 +53,8 @@ const TablePrestasi = (props) => {
               </tr>
             </thead>
             <tbody>
-              {siswaData.length > 0 > 0 ? (
-                siswaData.map((allSiswaData, index) => (
+              {prestasiData.length > 0 ? (
+                prestasiData.map((allPrestasiData, index) => (
                   <tr className="bg-second-orange border-b">
                     <th
                       scope="row"
@@ -69,19 +62,22 @@ const TablePrestasi = (props) => {
                     >
                       {index + 1}
                     </th>
-                    <td className="px-6 py-2">{allSiswaData?.nama}</td>
-                    <td className="px-6 py-2">{allSiswaData?.nipd}</td>
-                    <td className="px-6 py-2 text-center">
-                      <Link to="/prestasi/detail" state={allSiswaData}>
-                        Lihat prestasi
-                      </Link>
+                    <td className="px-6 py-2">
+                      {allPrestasiData?.nama_prestasi}
                     </td>
+                    <td className="px-6 py-2">
+                      {allPrestasiData?.jenis_prestasi}
+                    </td>
+                    <td className="px-6 py-2">
+                      {allPrestasiData?.tahun_prestasi}
+                    </td>
+                    <td className="px-6 py-2"></td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="4"
+                    colSpan="7"
                     className="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
                     <div className="text-sm  text-gray-500 text-center">
@@ -106,4 +102,4 @@ const TablePrestasi = (props) => {
   );
 };
 
-export default TablePrestasi;
+export default TableDetailPrestasi;

@@ -23,6 +23,7 @@ import Role from './pages/Role';
 import RequireAuth from './components/RequireAuth';
 import { selectCurrentModules } from './services/features/authSlice';
 import { useSelector } from 'react-redux';
+import DetailPrestasi from './pages/DetailPrestasi';
 
 function App() {
   const modules = useSelector(selectCurrentModules);
@@ -87,7 +88,10 @@ function App() {
           )}
 
           {modulesPrestasi?.akses && (
-            <Route path="/prestasi" element={<Prestasi />} />
+            <>
+              <Route path="/prestasi" element={<Prestasi />} />
+              <Route path="/prestasi/detail" element={<DetailPrestasi />} />
+            </>
           )}
 
           {modulesRapot?.akses && (
