@@ -21,6 +21,7 @@ const TableTahunAjaran = (props) => {
     setIsOpenPopUpEdit,
     isOpenPopUpDelete,
     setIsOpenPopUpDelete,
+    setGetData,
     currentPage,
     setCurrentPage,
     limitPerPage,
@@ -97,27 +98,35 @@ const TableTahunAjaran = (props) => {
                       {allTahunAjaran?.status_tahun_ajaran == 0 && (
                         <ButtonAction
                           title="Mulai"
+                          data={allTahunAjaran}
                           isOpenPopUp={isOpenPopUpMulai}
                           setIsOpenPopUp={setIsOpenPopUpMulai}
+                          setGetData={setGetData}
                         />
                       )}
 
                       {allTahunAjaran?.status_tahun_ajaran == 1 && (
                         <ButtonAction
                           title="Selesai"
+                          data={allTahunAjaran}
                           isOpenPopUp={isOpenPopUpSelesai}
                           setIsOpenPopUp={setIsOpenPopUpSelesai}
+                          setGetData={setGetData}
                         />
                       )}
 
                       <ButtonEdit
+                        data={allTahunAjaran}
                         isOpenPopUpEdit={isOpenPopUpEdit}
                         setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                        setGetData={setGetData}
                       />
 
                       <ButtonDelete
+                        data={allTahunAjaran}
                         isOpenPopUpDelete={isOpenPopUpDelete}
                         setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                        setGetData={setGetData}
                       />
                     </td>
                   </tr>

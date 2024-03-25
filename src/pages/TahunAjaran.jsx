@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 
 import { FaCalendar } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
-import Layout from '../components/Layout';
-import ButtonAdd from '../components/ButtonAdd';
-import PopUpAdd from '../components/PopUpAdd';
-import PopUpEdit from '../components/PopUpEdit';
-import PopUpDelete from '../components/PopUpDelete';
-import SearchFilter from '../components/SearchFilter';
-import ButtonEdit from '../components/ButtonEdit';
-import ButtonDelete from '../components/ButtonDelete';
-import Button from '../components/Button';
-import ButtonAction from '../components/ButtonAction';
-import Pagination from '../components/Pagination';
+import {
+  Button,
+  ButtonAdd,
+  Layout,
+  PopUpAdd,
+  PopUpAction,
+  PopUpEdit,
+  PopUpDelete,
+  SelectFilter,
+  SearchFilter,
+} from '../components';
 import {
   FormAddTahunajaran,
   FormEditTahunajaran,
@@ -20,8 +21,11 @@ import {
   TableTahunAjaranBerakhir,
 } from '../components/tahun-ajaran';
 import {
+  useDeleteTahunAjaranMutation,
   useGetTahunAjaranBerakhirQuery,
   useGetTahunAjaranQuery,
+  useUpdateMulaiAjaranMutation,
+  useUpdateSelesaiAjaranMutation,
 } from '../services/api/tahunAjaranApiSlice';
 
 const Tahunajaran = () => {
@@ -35,6 +39,8 @@ const Tahunajaran = () => {
 
   const [currentPageTABerakhir, setCurrentPageTABerakhir] = useState(1);
   const limitPerPageTABerakhir = 10;
+
+  const [getData, setGetData] = useState([]);
 
   const {
     data: tahunAjaran,
@@ -54,6 +60,81 @@ const Tahunajaran = () => {
     page: currentPageTABerakhir,
     limit: limitPerPageTABerakhir,
   });
+
+  const [deleteTahunAjaran] = useDeleteTahunAjaranMutation();
+
+  const handleDelete = async () => {
+    try {
+      const response = await deleteTahunAjaran({
+        id: getData?.id_tahun_ajaran,
+      }).unwrap();
+      if (!response.error) {
+        toast.success('Tahun ajaran berhasil dihapus!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpDelete(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
+
+  const [updateMulaiAjaran] = useUpdateMulaiAjaranMutation();
+
+  const handleMulaiTahunAjaran = async () => {
+    const payload = {
+      id_tahun_ajaran: getData?.id_tahun_ajaran,
+    };
+
+    try {
+      const response = await updateMulaiAjaran(payload).unwrap();
+
+      if (!response.error) {
+        toast.success('Tahun ajaran berhasil dimulai!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpMulai(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
+
+  const [updateSelesaiAjaran] = useUpdateSelesaiAjaranMutation();
+
+  const handleSelesaiTahunAjaran = async () => {
+    const payload = {
+      id_tahun_ajaran: getData?.id_tahun_ajaran,
+    };
+
+    try {
+      const response = await updateSelesaiAjaran(payload).unwrap();
+
+      if (!response.error) {
+        toast.success('Tahun ajaran berhasil diakhiri!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpSelesai(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
 
   return (
     <Layout>
@@ -88,12 +169,12 @@ const Tahunajaran = () => {
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           isOpenPopUpDelete={isOpenPopUpDelete}
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+          setGetData={setGetData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           limitPerPage={limitPerPage}
         />
 
-        {/* Table kedua */}
         <div className="flex flex-col gap-5">
           <h1 className="mt-8 text-xl font-semibold md:text-2xl">
             Tahun Ajaran Berakhir
@@ -132,7 +213,10 @@ const Tahunajaran = () => {
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
         >
-          <FormEditTahunajaran setIsOpenPopUpEdit={setIsOpenPopUpEdit} />
+          <FormEditTahunajaran
+            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+            data={getData}
+          />
         </PopUpEdit>
 
         <PopUpDelete
@@ -150,10 +234,50 @@ const Tahunajaran = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpDelete}
               />
-              <Button title="Hapus" type="submit" />
+              <Button title="Hapus" onClick={handleDelete} />
             </div>
           </div>
         </PopUpDelete>
+
+        <PopUpAction
+          title="Mulai tahun ajaran"
+          icon={<FaCalendar />}
+          isOpenPopUp={isOpenPopUpMulai}
+          setIsOpenPopUp={setIsOpenPopUpMulai}
+        >
+          <div className="flex flex-col gap-3">
+            <h1>Apakah anda yakin memulai tahun ajaran ini?</h1>
+
+            <div className="flex justify-end gap-2">
+              <Button
+                title="Batal"
+                type="cancel"
+                setIsOpenPopUp={setIsOpenPopUpMulai}
+              />
+              <Button title="Simpan" onClick={handleMulaiTahunAjaran} />
+            </div>
+          </div>
+        </PopUpAction>
+
+        <PopUpAction
+          title="Akhiri tahun ajaran"
+          icon={<FaCalendar />}
+          isOpenPopUp={isOpenPopUpSelesai}
+          setIsOpenPopUp={setIsOpenPopUpSelesai}
+        >
+          <div className="flex flex-col gap-3">
+            <h1>Apakah anda yakin mengakhiri tahun ajaran ini?</h1>
+
+            <div className="flex justify-end gap-2">
+              <Button
+                title="Batal"
+                type="cancel"
+                setIsOpenPopUp={setIsOpenPopUpSelesai}
+              />
+              <Button title="Simpan" onClick={handleSelesaiTahunAjaran} />
+            </div>
+          </div>
+        </PopUpAction>
       </div>
     </Layout>
   );

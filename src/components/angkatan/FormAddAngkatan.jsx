@@ -46,7 +46,7 @@ const FormAddAngkatan = (props) => {
     try {
       const response = await createAngkatan(formInput).unwrap();
       if (!response.error) {
-        toast.success('success!', {
+        toast.success('Angkatan berhasil ditambahkan!', {
           position: 'top-right',
           theme: 'light',
         });
