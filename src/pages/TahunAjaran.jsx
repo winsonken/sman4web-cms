@@ -28,7 +28,15 @@ import {
   useUpdateSelesaiAjaranMutation,
 } from '../services/api/tahunAjaranApiSlice';
 
+import useDebounce from '../helpers/useDebounce';
+
 const Tahunajaran = () => {
+  const [searchFilterTahunAjaran, setSearchFilterTahunAjaran] = useState('');
+  const debouncedSearchTahunAjaran = useDebounce(searchFilterTahunAjaran, 500);
+
+  const [searchFilterTABerakhir, setSearchFilterTABerakhir] = useState('');
+  const debouncedSearchTABerakhir = useDebounce(searchFilterTABerakhir, 500);
+
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
@@ -48,7 +56,11 @@ const Tahunajaran = () => {
     isSuccess,
     isError,
     error,
-  } = useGetTahunAjaranQuery({ page: currentPage, limit: limitPerPage });
+  } = useGetTahunAjaranQuery({
+    q: debouncedSearchTahunAjaran,
+    page: currentPage,
+    limit: limitPerPage,
+  });
 
   const {
     data: tahunAjaranBerakhir,
@@ -57,6 +69,7 @@ const Tahunajaran = () => {
     isError: isErrorTABerakhir,
     error: errorTABerakhir,
   } = useGetTahunAjaranBerakhirQuery({
+    q: debouncedSearchTABerakhir,
     page: currentPageTABerakhir,
     limit: limitPerPageTABerakhir,
   });
@@ -151,7 +164,10 @@ const Tahunajaran = () => {
           />
 
           <div className="w-full duration-100 sm:w-1/2 md:w-1/5">
-            <SearchFilter />
+            <SearchFilter
+              searchValue={searchFilterTahunAjaran}
+              setSearchValue={setSearchFilterTahunAjaran}
+            />
           </div>
         </div>
 
@@ -182,7 +198,10 @@ const Tahunajaran = () => {
 
           <div className="flex sm:justify-end">
             <div className="w-full sm:w-1/2 duration-100 md:w-1/3 2xl:w-1/5">
-              <SearchFilter />
+              <SearchFilter
+                searchValue={searchFilterTABerakhir}
+                setSearchValue={setSearchFilterTABerakhir}
+              />
             </div>
           </div>
 

@@ -27,7 +27,7 @@ const TableTahunAjaran = (props) => {
     limitPerPage,
   } = props;
 
-  const tahunAjaranData = data?.data?.filter((e) => e.status_tahun_ajaran != 2);
+  const tahunAjaranData = data?.data;
   const pagination = data?.pagination;
 
   const totalPage = pagination?.total_page;

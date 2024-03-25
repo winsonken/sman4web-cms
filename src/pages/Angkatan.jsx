@@ -133,7 +133,6 @@ const Angkatan = () => {
       }
     } catch (error) {
       const errorMessage = error?.data?.message;
-      // console.log(errorMessage);
       toast.error(`${errorMessage}`, {
         position: 'top-right',
         theme: 'light',
