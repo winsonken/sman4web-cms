@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from '../Input';
 import SelectInput from '../SelectInput';
 import Button from '../Button';
@@ -7,6 +7,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useGetSiswaOptionQuery } from '../../services/api/siswaApiSlice';
+import { formatDate } from '../../helpers/FormatDate';
 
 const validationSchema = yup
   .object({
@@ -24,6 +25,7 @@ const FormAddPrestasi = (props) => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
@@ -36,6 +38,7 @@ const FormAddPrestasi = (props) => {
   };
 
   const [formInput, setFormInput] = useState(initialFormInput);
+  console.log(formInput);
   const [selectedSiswaValue, setSelectedSiswaValue] = useState('');
 
   const handleChange = (e) => {
@@ -55,7 +58,12 @@ const FormAddPrestasi = (props) => {
   };
 
   const handleSubmitForm = (e) => {
-    alert(JSON.stringify(e));
+    let payload = {
+      nama_prestasi: formInput?.nama_prestasi,
+      jenis_prestasi: formInput?.jenis_prestasi,
+      tahun_prestasi: formatDate(rmformInput?.tahun_prestasi),
+      siswa: selectedSiswaValue,
+    };
   };
 
   const { data: siswaOption } = useGetSiswaOptionQuery();
@@ -63,7 +71,11 @@ const FormAddPrestasi = (props) => {
     value: e?.id_siswa,
     label: e?.nama,
   }));
-  console.log(selectSiswa);
+
+  useEffect(() => {
+    setValue('siswa', selectedSiswaValue);
+  }, [selectedSiswaValue, setValue]);
+
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col gap-6">

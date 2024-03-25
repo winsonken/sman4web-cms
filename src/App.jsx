@@ -24,6 +24,7 @@ import RequireAuth from './components/RequireAuth';
 import { selectCurrentModules } from './services/features/authSlice';
 import { useSelector } from 'react-redux';
 import DetailPrestasi from './pages/DetailPrestasi';
+import Aktivitas from './pages/Aktivitas';
 
 function App() {
   const modules = useSelector(selectCurrentModules);
@@ -86,6 +87,8 @@ function App() {
           {modulesJurusan?.akses && (
             <Route path="/jurusan" element={<Jurusan />} />
           )}
+
+          <Route path="/aktivitas" element={<Aktivitas />} />
 
           {modulesPrestasi?.akses && (
             <>

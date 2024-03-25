@@ -21,30 +21,26 @@ import {
   DetailPrestasi,
   TablePrestasi,
 } from '../components/prestasi';
-import { useGetSiswaQuery } from '../services/api/siswaApiSlice';
+
 import useDebounce from '../helpers/useDebounce';
+import { useGetPrestasiQuery } from '../services/api/prestasiApiSlice';
 
 const Prestasi = () => {
-  const [searchFilterSiswa, setSearchFilterSiswa] = useState('');
+  const [searchFilterPrestasi, setSearchFilterPrestasi] = useState('');
 
-  const debouncedSearchSiswa = useDebounce(searchFilterSiswa, 500);
+  const debouncedSearchPrestasi = useDebounce(searchFilterPrestasi, 500);
 
-  const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
-  const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
-  const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
-  const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
-  const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
-  const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const limitPerPage = 10;
+
   const {
-    data: siswa,
+    data: prestasiSiswa,
     isLoading,
     isSuccess,
     isError,
     error,
-  } = useGetSiswaQuery({
-    q: debouncedSearchSiswa,
+  } = useGetPrestasiQuery({
+    q: debouncedSearchPrestasi,
     page: currentPage,
     limit: limitPerPage,
   });
@@ -55,54 +51,28 @@ const Prestasi = () => {
         <div>
           <h1 className="text-xl font-semibold md:text-2xl">Prestasi</h1>
         </div>
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-          <ButtonAdd
-            title="Tambah prestasi"
-            isOpenPopUpAdd={isOpenPopUpAdd}
-            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          />
 
-          <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3 justify-end ">
-            <div className="sm:w-1/2">
-              <SearchFilter
-                searchValue={searchFilterSiswa}
-                setSearchValue={setSearchFilterSiswa}
-              />
-            </div>
+        <div className="flex sm:justify-end">
+          <div className="w-full sm:w-1/2 duration-100 md:w-1/3 2xl:w-1/5">
+            <SearchFilter
+              searchValue={searchFilterPrestasi}
+              setSearchValue={setSearchFilterPrestasi}
+            />
           </div>
         </div>
 
         <TablePrestasi
-          data={siswa}
+          data={prestasiSiswa}
           isLoading={isLoading}
           isSuccess={isSuccess}
           isError={isError}
           error={error}
-          isOpenPopUpMulai={isOpenPopUpMulai}
-          setIsOpenPopUpMulai={setIsOpenPopUpMulai}
-          isOpenPopUpLulus={isOpenPopUpLulus}
-          setIsOpenPopUpLulus={setIsOpenPopUpLulus}
-          isOpenPopUpDetail={isOpenPopUpDetail}
-          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
-          isOpenPopUpEdit={isOpenPopUpEdit}
-          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-          isOpenPopUpDelete={isOpenPopUpDelete}
-          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           limitPerPage={limitPerPage}
         />
 
-        <PopUpAdd
-          title="Tambah prestasi"
-          icon={<FaMedal />}
-          isOpenPopUpAdd={isOpenPopUpAdd}
-          setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-        >
-          <FormAddPrestasi setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
-        </PopUpAdd>
-
-        <PopUpEdit
+        {/* <PopUpEdit
           title="Ubah prestasi"
           icon={<FaMedal />}
           isOpenPopUpEdit={isOpenPopUpEdit}
@@ -129,7 +99,7 @@ const Prestasi = () => {
               <Button title="Hapus" type="submit" />
             </div>
           </div>
-        </PopUpDelete>
+        </PopUpDelete> */}
       </div>
     </Layout>
   );

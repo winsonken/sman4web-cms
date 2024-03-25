@@ -19,6 +19,7 @@ export const sman4webApi = createApi({
     'Jurusan',
     'Siswa',
     'Prestasi',
+    'Pelanggaran',
     'Role',
     'Module',
   ],

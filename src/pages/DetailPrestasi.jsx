@@ -13,7 +13,7 @@ import {
 } from '../components';
 import { TableDetailPrestasi } from '../components/detail-prestasi';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useGetPrestasiQuery } from '../services/api/prestasiApiSlice';
+import { useGetPrestasiBySiswaQuery } from '../services/api/prestasiApiSlice';
 
 const DetailPrestasi = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,7 +31,7 @@ const DetailPrestasi = () => {
     isSuccess,
     isError,
     error,
-  } = useGetPrestasiQuery({
+  } = useGetPrestasiBySiswaQuery({
     siswa: id_siswa,
     page: currentPage,
     limit: limitPerPage,

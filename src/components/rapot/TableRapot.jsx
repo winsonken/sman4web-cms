@@ -53,33 +53,26 @@ const TableRapot = (props) => {
               <th scope="col" className="px-6 py-4">
                 Tahun Ajaran
               </th>
-
-              <th scope="col" className="text-center px-6 py-4">
-                Aksi
-              </th>
             </tr>
           </thead>
           <tbody>
             <tr className="bg-second-orange border-b">
               <th
                 scope="row"
-                className="px-6 py-1 font-medium text-gray-900 whitespace-nowrap"
+                className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
               >
                 1
               </th>
-              <td className="px-6 py-1">Maria Zhang</td>
-              <td className="px-6 py-1">24.500.128</td>
+              <td className="px-6 py-2">Maria Zhang</td>
+              <td className="px-6 py-2">24.500.128</td>
 
-              <td className="px-6 py-1">24</td>
-              <td className="px-6 py-1">2024/2025</td>
-              <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
-                <ButtonPage />
-              </td>
+              <td className="px-6 py-2">24</td>
+              <td className="px-6 py-2">2024/2025</td>
             </tr>
 
             <tr>
               <td
-                colSpan="9"
+                colSpan="5"
                 className="px-6 py-3 whitespace-no-wrap bg-second-orange"
               >
                 <div class="text-sm  text-gray-500 text-center">

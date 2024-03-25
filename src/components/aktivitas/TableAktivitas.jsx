@@ -5,20 +5,31 @@ import ButtonAction from '../ButtonAction';
 import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
+import { Link } from 'react-router-dom';
 
-const TablePelanggaran = (props) => {
+const TableAktivitas = (props) => {
   const {
     data,
     isLoading,
     isSuccess,
     isError,
     error,
+    isOpenPopUpMulai,
+    setIsOpenPopUpMulai,
+    isOpenPopUpLulus,
+    setIsOpenPopUpLulus,
+    isOpenPopUpDetail,
+    setIsOpenPopUpDetail,
+    isOpenPopUpEdit,
+    setIsOpenPopUpEdit,
+    isOpenPopUpDelete,
+    setIsOpenPopUpDelete,
     currentPage,
     setCurrentPage,
     limitPerPage,
   } = props;
 
-  const pelanggaranSiswaData = data?.data;
+  const siswaData = data?.data;
   const pagination = data?.pagination;
 
   const totalPage = pagination?.total_page;
@@ -43,17 +54,14 @@ const TablePelanggaran = (props) => {
                 <th scope="col" className="px-6 py-4">
                   NIPD
                 </th>
-                <th scope="col" className="px-6 py-4">
-                  Nama pelanggaran
-                </th>
-                <th scope="col" className="px-6 py-4">
-                  Tanggal pelanggaran
+                <th scope="col" className="text-center px-6 py-4">
+                  Aksi
                 </th>
               </tr>
             </thead>
             <tbody>
-              {pelanggaranSiswaData.length > 0 > 0 ? (
-                pelanggaranSiswaData.map((allPelanggaranSiswaData, index) => (
+              {siswaData.length > 0 > 0 ? (
+                siswaData.map((allSiswaData, index) => (
                   <tr className="bg-second-orange border-b">
                     <th
                       scope="row"
@@ -61,24 +69,27 @@ const TablePelanggaran = (props) => {
                     >
                       {index + 1}
                     </th>
-                    <td className="px-6 py-2">
-                      {allPelanggaranSiswaData?.nama_siswa}
-                    </td>
-                    <td className="px-6 py-2">
-                      {allPelanggaranSiswaData?.nipd}
-                    </td>
-                    <td className="px-6 py-2">
-                      {allPelanggaranSiswaData?.nama_pelanggaran}
-                    </td>
-                    <td className="px-6 py-2">
-                      {allPelanggaranSiswaData?.tanggal_pelanggaran}
+                    <td className="px-6 py-2">{allSiswaData?.nama}</td>
+                    <td className="px-6 py-2">{allSiswaData?.nipd}</td>
+                    <td className="px-6 py-2 text-center">
+                      <div className="flex gap-3 justify-center">
+                        <Link to="/prestasi/detail" state={allSiswaData}>
+                          Lihat prestasi
+                        </Link>
+                        <Link to="/prestasi/detail" state={allSiswaData}>
+                          Lihat pelanggaran
+                        </Link>
+                        <Link to="/prestasi/detail" state={allSiswaData}>
+                          Lihat rapot
+                        </Link>
+                      </div>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="6"
+                    colSpan="4"
                     className="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
                     <div className="text-sm  text-gray-500 text-center">
@@ -103,4 +114,4 @@ const TablePelanggaran = (props) => {
   );
 };
 
-export default TablePelanggaran;
+export default TableAktivitas;

@@ -14,22 +14,12 @@ const TablePrestasi = (props) => {
     isSuccess,
     isError,
     error,
-    isOpenPopUpMulai,
-    setIsOpenPopUpMulai,
-    isOpenPopUpLulus,
-    setIsOpenPopUpLulus,
-    isOpenPopUpDetail,
-    setIsOpenPopUpDetail,
-    isOpenPopUpEdit,
-    setIsOpenPopUpEdit,
-    isOpenPopUpDelete,
-    setIsOpenPopUpDelete,
     currentPage,
     setCurrentPage,
     limitPerPage,
   } = props;
 
-  const siswaData = data?.data;
+  const prestasiSiswaData = data?.data;
   const pagination = data?.pagination;
 
   const totalPage = pagination?.total_page;
@@ -54,14 +44,20 @@ const TablePrestasi = (props) => {
                 <th scope="col" className="px-6 py-4">
                   NIPD
                 </th>
-                <th scope="col" className="text-center px-6 py-4">
-                  Aksi
+                <th scope="col" className="px-6 py-4">
+                  Nama prestasi
+                </th>
+                <th scope="col" className="px-6 py-4">
+                  Jenis prestasi
+                </th>
+                <th scope="col" className="px-6 py-4">
+                  Tahun prestasi
                 </th>
               </tr>
             </thead>
             <tbody>
-              {siswaData.length > 0 > 0 ? (
-                siswaData.map((allSiswaData, index) => (
+              {prestasiSiswaData.length > 0 > 0 ? (
+                prestasiSiswaData.map((allPrestasiSiswaData, index) => (
                   <tr className="bg-second-orange border-b">
                     <th
                       scope="row"
@@ -69,19 +65,25 @@ const TablePrestasi = (props) => {
                     >
                       {index + 1}
                     </th>
-                    <td className="px-6 py-2">{allSiswaData?.nama}</td>
-                    <td className="px-6 py-2">{allSiswaData?.nipd}</td>
-                    <td className="px-6 py-2 text-center">
-                      <Link to="/prestasi/detail" state={allSiswaData}>
-                        Lihat prestasi
-                      </Link>
+                    <td className="px-6 py-2">
+                      {allPrestasiSiswaData?.nama_siswa}
+                    </td>
+                    <td className="px-6 py-2">{allPrestasiSiswaData?.nipd}</td>
+                    <td className="px-6 py-2">
+                      {allPrestasiSiswaData?.nama_prestasi}
+                    </td>
+                    <td className="px-6 py-2">
+                      {allPrestasiSiswaData?.jenis_prestasi}
+                    </td>
+                    <td className="px-6 py-2">
+                      {allPrestasiSiswaData?.tahun_prestasi}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="4"
+                    colSpan="6"
                     className="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
                     <div className="text-sm  text-gray-500 text-center">

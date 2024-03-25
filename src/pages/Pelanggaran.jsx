@@ -21,56 +21,55 @@ import {
   DetailPelanggaran,
   TablePelanggaran,
 } from '../components/pelanggaran';
+import { useGetPelanggaranQuery } from '../services/api/pelanggaranApiSlice';
+import useDebounce from '../helpers/useDebounce';
 
-import { useGetAngkatanQuery } from '../services/api/angkatanApiSlice';
 const Pelanggaran = () => {
-  const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
-  const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
-  const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
-  const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
-  const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
-  const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
+  const [searchFilterPelanggaran, setSearchFilterPelanggaran] = useState('');
 
-  const dummyData = [];
+  const debouncedSearchPelanggaran = useDebounce(searchFilterPelanggaran, 500);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const limitPerPage = 10;
+  const {
+    data: pelanggaranSiswa,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetPelanggaranQuery({
+    q: debouncedSearchPelanggaran,
+    page: currentPage,
+    limit: limitPerPage,
+  });
   return (
     <Layout>
       <div className="flex flex-col gap-5">
         <div>
           <h1 className="text-xl font-semibold md:text-2xl">Pelanggaran</h1>
         </div>
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-          <ButtonAdd
-            title="Tambah pelanggaran"
-            isOpenPopUpAdd={isOpenPopUpAdd}
-            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          />
 
-          <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3 justify-end ">
-            <div className="sm:w-1/2">
-              <SearchFilter />
-            </div>
+        <div className="flex sm:justify-end">
+          <div className="w-full sm:w-1/2 duration-100 md:w-1/3 2xl:w-1/5">
+            <SearchFilter
+              searchValue={searchFilterPelanggaran}
+              setSearchValue={setSearchFilterPelanggaran}
+            />
           </div>
         </div>
 
         <TablePelanggaran
-          data={dummyData}
-          // isLoading={isLoading}
-          // isSuccess={isSuccess}
-          // isError={isError}
-          // error={error}
-          isOpenPopUpMulai={isOpenPopUpMulai}
-          setIsOpenPopUpMulai={setIsOpenPopUpMulai}
-          isOpenPopUpLulus={isOpenPopUpLulus}
-          setIsOpenPopUpLulus={setIsOpenPopUpLulus}
-          isOpenPopUpDetail={isOpenPopUpDetail}
-          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
-          isOpenPopUpEdit={isOpenPopUpEdit}
-          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-          isOpenPopUpDelete={isOpenPopUpDelete}
-          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+          data={pelanggaranSiswa}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
+          error={error}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          limitPerPage={limitPerPage}
         />
 
-        <PopUpAdd
+        {/* <PopUpAdd
           title="Tambah pelanggaran"
           icon={<MdDoNotDisturb />}
           isOpenPopUpAdd={isOpenPopUpAdd}
@@ -117,7 +116,7 @@ const Pelanggaran = () => {
           <div>
             <DetailPelanggaran />
           </div>
-        </PopUpDetail>
+        </PopUpDetail> */}
       </div>
     </Layout>
   );

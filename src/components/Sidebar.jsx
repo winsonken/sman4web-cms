@@ -18,6 +18,7 @@ import { FaUserPlus } from 'react-icons/fa6';
 import { MdLogout } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut, selectCurrentModules } from '../services/features/authSlice';
+import { FiActivity } from 'react-icons/fi';
 
 const Sidebar = (props) => {
   const { openSidebar } = props;
@@ -104,6 +105,12 @@ const Sidebar = (props) => {
       link: '/jurusan',
       icon: <FaBookOpen />,
       access: modulesJurusan?.akses,
+    },
+    {
+      name: 'Aktivitas',
+      link: '/aktivitas',
+      icon: <FiActivity />,
+      access: true,
     },
     {
       name: 'Prestasi',
