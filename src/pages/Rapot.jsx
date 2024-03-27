@@ -22,49 +22,71 @@ import {
   TableRapotSebelum,
   TableRapot,
 } from '../components/rapot';
-import { useGetAngkatanQuery } from '../services/api/angkatanApiSlice';
+import { useGetRapotQuery } from '../services/api/rapotApiSlice';
+import useDebounce from '../helpers/useDebounce';
+
 const Rapot = () => {
+  const [searchFilterRapot, setSearchFilterRapot] = useState('');
+
+  const debouncedSearchRapot = useDebounce(searchFilterRapot, 500);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const limitPerPage = 10;
+  const [getData, setGetData] = useState([]);
+
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
-  const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
-  const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
+  const [isOpenPopUpGanjilAwal, setIsOpenPopUpGanjilAwal] = useState(false);
 
-  const dummyData = [];
+  const {
+    data: rapot,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetRapotQuery({
+    q: debouncedSearchRapot,
+    page: currentPage,
+    limit: limitPerPage,
+  });
+
+  console.log(getData?.rapot_ganjil_awal);
   return (
     <Layout>
       <div className="flex flex-col gap-5">
         <div>
           <h1 className="text-xl font-semibold md:text-2xl">Rapot Siswa</h1>
         </div>
-        <div className="flex flex-col sm:flex-row sm:justify-end gap-3">
-          <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3  ">
-            <div className="sm:w-1/2">
-              <SelectFilter placeholder="pilih kelas" />
-            </div>
-            <div className="sm:w-1/2">
-              <SearchFilter />
-            </div>
+
+        <div className="flex sm:justify-end">
+          <div className="w-full sm:w-1/2 duration-100 md:w-1/3 2xl:w-1/5">
+            <SearchFilter
+              searchValue={searchFilterRapot}
+              setSearchValue={setSearchFilterRapot}
+            />
           </div>
         </div>
 
         <TableRapot
-          data={dummyData}
-          // isLoading={isLoading}
-          // isSuccess={isSuccess}
-          // isError={isError}
-          // error={error}
-          isOpenPopUpMulai={isOpenPopUpMulai}
-          setIsOpenPopUpMulai={setIsOpenPopUpMulai}
-          isOpenPopUpLulus={isOpenPopUpLulus}
-          setIsOpenPopUpLulus={setIsOpenPopUpLulus}
+          data={rapot}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
+          error={error}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           isOpenPopUpDelete={isOpenPopUpDelete}
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+          isOpenPopUpGanjilAwal={isOpenPopUpGanjilAwal}
+          setIsOpenPopUpGanjilAwal={setIsOpenPopUpGanjilAwal}
+          setGetData={setGetData}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          limitPerPage={limitPerPage}
         />
 
         <PopUpEdit
@@ -106,6 +128,21 @@ const Rapot = () => {
             <DetailRapot />
           </div>
         </PopUpDetail>
+
+        <PopUpAction
+          title="Rapot ganjil awal"
+          icon={<PiBookBookmarkFill />}
+          isOpenPopUp={isOpenPopUpGanjilAwal}
+          setIsOpenPopUp={setIsOpenPopUpGanjilAwal}
+        >
+          <div className="flex flex-col gap-3">
+            <h1></h1>
+            <embed
+              src={`http://localhost:5500/${getData?.rapot_ganjil_awal}`}
+              type="application/pdf"
+            />
+          </div>
+        </PopUpAction>
       </div>
     </Layout>
   );

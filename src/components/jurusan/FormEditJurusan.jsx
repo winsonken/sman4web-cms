@@ -111,7 +111,7 @@ const FormEditJurusan = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpEdit}
           />
-          <Button title="Tambah" type="submit" />
+          <Button title="Ubah" type="submit" />
         </div>
       </div>
     </form>
