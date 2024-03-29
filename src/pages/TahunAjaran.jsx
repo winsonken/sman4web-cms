@@ -222,6 +222,7 @@ const Tahunajaran = () => {
           icon={<FaCalendar />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          className="md:max-w-3xl"
         >
           <FormAddTahunajaran setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
         </PopUpAdd>

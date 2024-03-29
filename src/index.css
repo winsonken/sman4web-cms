@@ -26,3 +26,7 @@
 .table-scroll::-webkit-scrollbar-thumb {
   background-color: transparent;
 }
+
+.card-scroll::-webkit-scrollbar {
+  display: none;
+}

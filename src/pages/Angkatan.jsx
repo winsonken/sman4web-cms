@@ -197,6 +197,7 @@ const Angkatan = () => {
           icon={<MdStairs />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          className="md:max-w-2xl"
         >
           <FormAddAngkatan setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
         </PopUpAdd>

@@ -50,6 +50,11 @@ const SelectInput = (props) => {
       ...provided,
       backgroundColor: '#FFFDDE',
     }),
+    // menu: (provided, state) => ({
+    //   ...provided,
+    //   maxHeight: '230px', // Set the max-height here
+    //   overflowY: 'auto',
+    // }),
   };
 
   const handleChange = (selectedOption) => {

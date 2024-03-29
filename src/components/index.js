@@ -19,6 +19,7 @@ import SelectFilter from './SelectFilter';
 import SelectInput from './SelectInput';
 import Sidebar from './Sidebar';
 import InputDate from './InputDate';
+import InputFile from './InputFile';
 
 export {
   Button,
@@ -42,4 +43,5 @@ export {
   SelectInput,
   Sidebar,
   InputDate,
+  InputFile,
 };

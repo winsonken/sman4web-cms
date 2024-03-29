@@ -79,7 +79,7 @@ const Ppdb = () => {
           icon={<FaUserPlus />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          className=""
+          className="xl:w-2/3"
         >
           <FormAddPpdb setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
         </PopUpAdd>

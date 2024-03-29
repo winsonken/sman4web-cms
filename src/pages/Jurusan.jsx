@@ -117,6 +117,7 @@ const Jurusan = () => {
           icon={<FaBookOpen />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          className="md:max-w-2xl"
         >
           <FormAddJurusan setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
         </PopUpAdd>

@@ -4,6 +4,7 @@ import Button from '../Button';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import InputFile from '../InputFile';
 
 const validationSchema = yup
   .object({
@@ -166,6 +167,10 @@ const FormAddPpdb = (props) => {
             register={register}
             errors={errors}
           />
+
+          <div className="sm:row-span-3">
+            <InputFile />
+          </div>
         </div>
 
         <div className="flex justify-end gap-2">

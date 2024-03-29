@@ -38,7 +38,9 @@ const Layout = (props) => {
 
         <div className={`h-full bg-main-gray p-3 flex justify-center`}>
           <div className="w-full max-h-[85vh] bg-white p-5 rounded-lg overflow-x-clip">
-            <div className="w-full h-full px-1 overflow-y-auto">{children}</div>
+            <div className="w-full h-full px-1 overflow-y-auto card-scroll">
+              {children}
+            </div>
           </div>
         </div>
       </div>
