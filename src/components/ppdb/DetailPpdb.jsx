@@ -3,6 +3,11 @@ import Button from '../Button';
 
 const DetailPpdb = (props) => {
   const { setIsOpenPopUpAdd } = props;
+  const {
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
   return (
     <div className="grid gap-5 max-w-xl h-fit max-h-[80%] p-3 rounded-md xl:max-w-2xl duration-200 overflow-y-auto ${className}">
       <div className=" ">

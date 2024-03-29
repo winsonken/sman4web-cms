@@ -5,6 +5,7 @@ import ButtonAction from '../ButtonAction';
 import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
+import ButtonPage from '../ButtonPage';
 const DetailRapotSebelum = (props) => {
   const {
     data,
@@ -71,10 +72,7 @@ const DetailRapotSebelum = (props) => {
               <td className="px-6 py-1">23</td>
               <td className="px-6 py-1">2022/2023</td>
               <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
-                <ButtonDetail
-                  isOpenPopUpDetail={isOpenPopUpDetail}
-                  setIsOpenPopUpDetail={setIsOpenPopUpDetail}
-                />
+                <ButtonPage />
               </td>
             </tr>
 
