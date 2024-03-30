@@ -3,11 +3,7 @@ import Button from '../Button';
 
 const DetailPpdb = (props) => {
   const { setIsOpenPopUpAdd } = props;
-  const {
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(validationSchema),
-  });
+
   return (
     <div className="grid gap-5 max-w-xl h-fit max-h-[80%] p-3 rounded-md xl:max-w-2xl duration-200 overflow-y-auto ${className}">
       <div className=" ">
@@ -94,14 +90,6 @@ const DetailPpdb = (props) => {
             087654367281
           </p>
         </div>
-      </div>
-      <div className="flex justify-end gap-2">
-        <Button
-          title="Batal"
-          type="cancel"
-          setIsOpenPopUp={setIsOpenPopUpAdd}
-        />
-        <Button title="Simpan" type="submit" />
       </div>
     </div>
   );
