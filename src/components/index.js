@@ -13,6 +13,7 @@ import PopUpAdd from './PopUpAdd';
 import PopUpDelete from './PopUpDelete';
 import PopUpDetail from './PopUpDetail';
 import ButtonPage from './ButtonPage';
+import ButtonDetailKelas from './ButtonDetailKelas';
 import PopUpEdit from './PopUpEdit';
 import SearchFilter from './SearchFilter';
 import SelectFilter from './SelectFilter';
@@ -36,6 +37,7 @@ export {
   PopUpAdd,
   PopUpDelete,
   PopUpDetail,
+  ButtonDetailKelas,
   ButtonPage,
   PopUpEdit,
   SearchFilter,
