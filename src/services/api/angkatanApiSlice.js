@@ -7,6 +7,11 @@ export const angkatanApiSlice = sman4webApi.injectEndpoints({
         `/api/v1/angkatan?no=${no}&q=${q}&page=${page}&limit=${limit}`,
       providesTags: ['Angkatan'],
     }),
+    getAngkatanLulus: builder.query({
+      query: ({ q, page, limit }) =>
+        `/api/v1/angkatan/lulus?q=${q}&page=${page}&limit=${limit}`,
+      providesTags: ['Angkatan'],
+    }),
     getAngkatanOption: builder.query({
       query: () => `/api/v1/angkatan?limit=1000`,
       providesTags: ['Angkatan'],
@@ -55,6 +60,7 @@ export const angkatanApiSlice = sman4webApi.injectEndpoints({
 
 export const {
   useGetAngkatanQuery,
+  useGetAngkatanLulusQuery,
   useGetAngkatanOptionQuery,
   useCreateAngkatanMutation,
   useUpdateAngkatanMutation,

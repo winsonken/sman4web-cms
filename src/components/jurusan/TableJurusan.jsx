@@ -13,6 +13,7 @@ const TableJurusan = (props) => {
     isSuccess,
     isError,
     error,
+    modules,
     isOpenPopUpEdit,
     setIsOpenPopUpEdit,
     isOpenPopUpDelete,
@@ -46,9 +47,11 @@ const TableJurusan = (props) => {
                 <th scope="col" className="px-6 py-4">
                   Nama jurusan
                 </th>
-                <th scope="col" className="text-center px-6 py-4">
-                  Aksi
-                </th>
+                {(modules?.ubah || modules?.hapus) && (
+                  <th scope="col" className="text-center px-6 py-4">
+                    Aksi
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -57,29 +60,35 @@ const TableJurusan = (props) => {
                   <tr className="bg-second-orange border-b">
                     <th
                       scope="row"
-                      className="px-6 py-1 font-medium text-gray-900 whitespace-nowrap"
+                      className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
                     >
                       {index + 1}
                     </th>
-                    <td className="px-6 py-1">
+                    <td className="px-6 py-2">
                       {allJurusanData?.nama_jurusan}
                     </td>
 
-                    <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
-                      <ButtonEdit
-                        data={allJurusanData}
-                        isOpenPopUpEdit={isOpenPopUpEdit}
-                        setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                        setGetData={setGetData}
-                      />
+                    {(modules?.ubah || modules?.hapus) && (
+                      <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
+                        {modules?.ubah && (
+                          <ButtonEdit
+                            data={allJurusanData}
+                            isOpenPopUpEdit={isOpenPopUpEdit}
+                            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                            setGetData={setGetData}
+                          />
+                        )}
 
-                      <ButtonDelete
-                        data={allJurusanData}
-                        isOpenPopUpDelete={isOpenPopUpDelete}
-                        setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                        setGetData={setGetData}
-                      />
-                    </td>
+                        {modules?.hapus && (
+                          <ButtonDelete
+                            data={allJurusanData}
+                            isOpenPopUpDelete={isOpenPopUpDelete}
+                            setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                            setGetData={setGetData}
+                          />
+                        )}
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (

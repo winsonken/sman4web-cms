@@ -19,6 +19,8 @@ import { TableRole, FormEditRole } from '../components/role';
 import { useGetRoleQuery } from '../services/api/roleApiSlice';
 import useDebounce from '../helpers/useDebounce';
 import { useGetModuleQuery } from '../services/api/moduleApiSlice';
+import { useSelector } from 'react-redux';
+import { selectCurrentModules } from '../services/features/authSlice';
 
 const Role = () => {
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
@@ -44,6 +46,17 @@ const Role = () => {
     role: getData?.id_role,
   });
 
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+
+  const modulesRole = filterModule('data_role');
+
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -66,6 +79,7 @@ const Role = () => {
           isSuccess={isSuccess}
           isError={isError}
           error={error}
+          modules={modulesRole}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           setGetData={setGetData}
@@ -79,6 +93,7 @@ const Role = () => {
           icon={<MdStairs />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          className="md:max-w-3xl"
         >
           <FormEditRole
             setIsOpenPopUpEdit={setIsOpenPopUpEdit}

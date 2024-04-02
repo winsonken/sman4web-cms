@@ -19,21 +19,32 @@ import {
   FormAddAngkatan,
   FormEditAngkatan,
   TableAngkatan,
+  TableAngkatanLulus,
 } from '../components/angkatan';
 
 import {
   useDeleteAngkatanMutation,
   useGetAngkatanOptionQuery,
   useGetAngkatanQuery,
+  useGetAngkatanLulusQuery,
   useUpdateMulaiAngkatanMutation,
   useUpdateLulusAngkatanMutation,
 } from '../services/api/angkatanApiSlice';
 import useDebounce from '../helpers/useDebounce';
+import { selectCurrentModules } from '../services/features/authSlice';
+import { useSelector } from 'react-redux';
 
 const Angkatan = () => {
   const [selectFilterAngkatan, setSelectFilterAngkatan] = useState('');
   const [searchFilterAngkatan, setSearchFilterAngkatan] = useState('');
   const debouncedSearchAngkatan = useDebounce(searchFilterAngkatan, 500);
+
+  const [searchFilterAngkatanLulus, setSearchFilterAngkatanLulus] =
+    useState('');
+  const debouncedSearchAngkatanLulus = useDebounce(
+    searchFilterAngkatanLulus,
+    500
+  );
 
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
@@ -41,7 +52,10 @@ const Angkatan = () => {
   const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
   const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const limitPerPage = 10;
+  const limitPerPage = 4;
+
+  const [currentPageAngkatanLulus, setCurrentPageAngkatanLulus] = useState(1);
+  const limitPerPageAngkatanLulus = 5;
   const [getData, setGetData] = useState([]);
 
   const {
@@ -55,6 +69,18 @@ const Angkatan = () => {
     q: debouncedSearchAngkatan,
     page: currentPage,
     limit: limitPerPage,
+  });
+
+  const {
+    data: angkatanLulus,
+    isLoading: isLoadingAngkatanLulus,
+    isSuccess: isSuccessAngkatanLulus,
+    isError: isErrorAngkatanLulus,
+    error: errorAngkatanLulus,
+  } = useGetAngkatanLulusQuery({
+    q: debouncedSearchAngkatanLulus,
+    page: currentPageAngkatanLulus,
+    limit: limitPerPageAngkatanLulus,
   });
 
   const [deleteAngkatan, { isLoadingDelete, isErrorDelete, errorDelete }] =
@@ -140,6 +166,17 @@ const Angkatan = () => {
     }
   };
 
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+
+  const modulesAngkatan = filterModule('data_angkatan');
+
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -147,12 +184,18 @@ const Angkatan = () => {
           <h1 className="text-xl font-semibold md:text-2xl">Angkatan</h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-          <ButtonAdd
-            title="Tambah angkatan"
-            isOpenPopUpAdd={isOpenPopUpAdd}
-            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          />
+        <div
+          className={`flex flex-col sm:flex-row gap-3 ${
+            modulesAngkatan?.tambah ? 'sm:justify-between' : 'sm:justify-end'
+          } `}
+        >
+          {modulesAngkatan?.tambah && (
+            <ButtonAdd
+              title="Tambah angkatan"
+              isOpenPopUpAdd={isOpenPopUpAdd}
+              setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+            />
+          )}
 
           <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3  ">
             <div className="sm:w-1/2">
@@ -178,6 +221,7 @@ const Angkatan = () => {
           isSuccess={isSuccess}
           isError={isError}
           error={error}
+          modules={modulesAngkatan}
           isOpenPopUpMulai={isOpenPopUpMulai}
           setIsOpenPopUpMulai={setIsOpenPopUpMulai}
           isOpenPopUpLulus={isOpenPopUpLulus}
@@ -191,6 +235,34 @@ const Angkatan = () => {
           setCurrentPage={setCurrentPage}
           limitPerPage={limitPerPage}
         />
+
+        <div className="flex flex-col gap-5 mt-5">
+          <div>
+            <h1 className="text-xl font-semibold md:text-2xl">
+              Angkatan lulus
+            </h1>
+          </div>
+
+          <div className="flex sm:justify-end">
+            <div className="w-full sm:w-1/2 duration-100 md:w-1/3 2xl:w-1/5">
+              <SearchFilter
+                searchValue={searchFilterAngkatanLulus}
+                setSearchValue={setSearchFilterAngkatanLulus}
+              />
+            </div>
+          </div>
+
+          <TableAngkatanLulus
+            data={angkatanLulus}
+            isLoading={isLoadingAngkatanLulus}
+            isSuccess={isSuccessAngkatanLulus}
+            isError={isErrorAngkatanLulus}
+            error={errorAngkatanLulus}
+            currentPage={currentPageAngkatanLulus}
+            setCurrentPage={setCurrentPageAngkatanLulus}
+            limitPerPage={limitPerPageAngkatanLulus}
+          />
+        </div>
 
         <PopUpAdd
           title="Tambah angkatan"
@@ -207,6 +279,7 @@ const Angkatan = () => {
           icon={<MdStairs />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          className="md:max-w-2xl"
         >
           <FormEditAngkatan
             setIsOpenPopUpEdit={setIsOpenPopUpEdit}
@@ -239,6 +312,7 @@ const Angkatan = () => {
           icon={<MdStairs />}
           isOpenPopUp={isOpenPopUpLulus}
           setIsOpenPopUp={setIsOpenPopUpLulus}
+          className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
             <h1>Apakah anda yakin meluluskan angkatan ini?</h1>
@@ -259,6 +333,7 @@ const Angkatan = () => {
           icon={<MdStairs />}
           isOpenPopUp={isOpenPopUpMulai}
           setIsOpenPopUp={setIsOpenPopUpMulai}
+          className="md:max-w-xl h-full"
         >
           <div className="flex flex-col gap-3">
             <h1>Apakah anda yakin memulai pembelajaran angkatan ini?</h1>

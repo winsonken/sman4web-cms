@@ -205,7 +205,7 @@ const FormEditTahunajaran = (props) => {
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-3">
+        <div className="grid grid-flow-row-dense grid-cols-1 sm:grid-cols-2 gap-3">
           <Controller
             name="tahun_mulai_ajaran"
             control={control}

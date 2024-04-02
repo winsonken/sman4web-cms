@@ -134,12 +134,13 @@ const Rapot = () => {
           icon={<PiBookBookmarkFill />}
           isOpenPopUp={isOpenPopUpGanjilAwal}
           setIsOpenPopUp={setIsOpenPopUpGanjilAwal}
+          className="md:max-w-5xl h-fit overflow-y-auto"
         >
-          <div className="flex flex-col gap-3">
-            <h1></h1>
+          <div className="w-full h-[350px] sm:h-[500px] md:h-[630px] duration-100 bg-blue-100">
             <embed
               src={`http://localhost:5500/${getData?.rapot_ganjil_awal}`}
               type="application/pdf"
+              className="w-full h-full"
             />
           </div>
         </PopUpAction>

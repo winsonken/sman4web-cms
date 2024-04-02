@@ -88,7 +88,11 @@ const Pagination = (props) => {
         </p>
       </div>
 
-      <div className="pagination w-full flex flex-row justify-center items-center gap-3 overflow-x-auto sm:w-fit">
+      <div
+        className={`pagination w-full flex flex-row justify-center items-center gap-3 overflow-x-auto sm:w-fit ${
+          totalRecord <= 1 ? 'hidden' : 'block'
+        }`}
+      >
         <div className="flex flex-row">
           <div
             className="text-xl cursor-pointer md:text-2xl"

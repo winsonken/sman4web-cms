@@ -83,11 +83,13 @@ const Ppdb = () => {
         >
           <FormAddPpdb setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
         </PopUpAdd>
+
         <PopUpEdit
           title="Ubah ppdb"
           icon={<FaUserPlus />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          className="xl:w-2/3"
         >
           <FormEditPpdb setIsOpenPopUpEdit={setIsOpenPopUpEdit} />
         </PopUpEdit>
@@ -117,6 +119,7 @@ const Ppdb = () => {
           icon={<FaUserPlus />}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+          className="xl:w-2/3"
         >
           <div>
             <DetailPpdb />
@@ -128,6 +131,7 @@ const Ppdb = () => {
           icon={<FaUserPlus />}
           isOpenPopUp={isOpenPopUpLulus}
           setIsOpenPopUp={setIsOpenPopUpLulus}
+          className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
             <h1>Apakah anda yakin menerima ppdb ini?</h1>
@@ -148,6 +152,7 @@ const Ppdb = () => {
           icon={<FaUserPlus />}
           isOpenPopUp={isOpenPopUpMulai}
           setIsOpenPopUp={setIsOpenPopUpMulai}
+          className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
             <h1>Apakah anda yakin menolak ppdb ini?</h1>

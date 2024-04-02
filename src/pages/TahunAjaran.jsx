@@ -29,6 +29,8 @@ import {
 } from '../services/api/tahunAjaranApiSlice';
 
 import useDebounce from '../helpers/useDebounce';
+import { useSelector } from 'react-redux';
+import { selectCurrentModules } from '../services/features/authSlice';
 
 const Tahunajaran = () => {
   const [searchFilterTahunAjaran, setSearchFilterTahunAjaran] = useState('');
@@ -43,7 +45,7 @@ const Tahunajaran = () => {
   const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
   const [isOpenPopUpSelesai, setIsOpenPopUpSelesai] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const limitPerPage = 10;
+  const limitPerPage = 3;
 
   const [currentPageTABerakhir, setCurrentPageTABerakhir] = useState(1);
   const limitPerPageTABerakhir = 10;
@@ -149,6 +151,17 @@ const Tahunajaran = () => {
     }
   };
 
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+
+  const modulesTahunAjaran = filterModule('data_tahun_ajaran');
+
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -156,12 +169,18 @@ const Tahunajaran = () => {
           <h1 className="text-xl font-semibold md:text-2xl">Tahun Ajaran</h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-          <ButtonAdd
-            title="Tambah tahun ajaran"
-            isOpenPopUpAdd={isOpenPopUpAdd}
-            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          />
+        <div
+          className={`flex flex-col sm:flex-row gap-3 ${
+            modulesTahunAjaran?.tambah ? 'sm:justify-between' : 'sm:justify-end'
+          }`}
+        >
+          {modulesTahunAjaran?.tambah && (
+            <ButtonAdd
+              title="Tambah tahun ajaran"
+              isOpenPopUpAdd={isOpenPopUpAdd}
+              setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+            />
+          )}
 
           <div className="w-full duration-100 sm:w-1/2 md:w-1/5">
             <SearchFilter
@@ -177,6 +196,7 @@ const Tahunajaran = () => {
           isSuccess={isSuccess}
           isError={isError}
           error={error}
+          modules={modulesTahunAjaran}
           isOpenPopUpMulai={isOpenPopUpMulai}
           setIsOpenPopUpMulai={setIsOpenPopUpMulai}
           isOpenPopUpSelesai={isOpenPopUpSelesai}
@@ -191,8 +211,8 @@ const Tahunajaran = () => {
           limitPerPage={limitPerPage}
         />
 
-        <div className="flex flex-col gap-5">
-          <h1 className="mt-8 text-xl font-semibold md:text-2xl">
+        <div className="flex flex-col gap-5 mt-5">
+          <h1 className="text-xl font-semibold md:text-2xl">
             Tahun Ajaran Berakhir
           </h1>
 
@@ -232,6 +252,7 @@ const Tahunajaran = () => {
           icon={<FaCalendar />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          className="md:max-w-3xl"
         >
           <FormEditTahunajaran
             setIsOpenPopUpEdit={setIsOpenPopUpEdit}
@@ -264,6 +285,7 @@ const Tahunajaran = () => {
           icon={<FaCalendar />}
           isOpenPopUp={isOpenPopUpMulai}
           setIsOpenPopUp={setIsOpenPopUpMulai}
+          className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
             <h1>Apakah anda yakin memulai tahun ajaran ini?</h1>
@@ -284,6 +306,7 @@ const Tahunajaran = () => {
           icon={<FaCalendar />}
           isOpenPopUp={isOpenPopUpSelesai}
           setIsOpenPopUp={setIsOpenPopUpSelesai}
+          className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
             <h1>Apakah anda yakin mengakhiri tahun ajaran ini?</h1>
