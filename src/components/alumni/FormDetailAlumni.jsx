@@ -20,7 +20,7 @@ const DetailAlumni = (props) => {
         <div>
           <h1 className="font-medium text-second-blue">Tanggal Lahir</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            08/08/1999  
+            08/08/1999
           </p>
         </div>
         <div>
@@ -95,14 +95,6 @@ const DetailAlumni = (props) => {
             IPA
           </p>
         </div>
-      </div>
-      <div className="flex justify-end gap-2">
-        <Button
-          title="Batal"
-          type="cancel"
-          setIsOpenPopUp={setIsOpenPopUpAdd}
-        />
-        <Button title="Simpan" type="submit" />
       </div>
     </div>
   );

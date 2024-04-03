@@ -19,6 +19,8 @@ import { MdLogout } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut, selectCurrentModules } from '../services/features/authSlice';
 import { FiActivity } from 'react-icons/fi';
+import { GiGraduateCap } from 'react-icons/gi';
+import { SiGoogleclassroom } from 'react-icons/si';
 
 const Sidebar = (props) => {
   const { openSidebar } = props;
@@ -44,6 +46,8 @@ const Sidebar = (props) => {
   const modulesSiswa = filterModule('data_siswa');
   const modulesGuru = filterModule('data_guru');
   const modulesAlumni = filterModule('data_alumni');
+  const modulesKelulusan = filterModule('data_kelulusan');
+  const modulesKelasSiswa = filterModule('data_kelas_siswa');
   const modulesJurusan = filterModule('data_jurusan');
   const modulesPrestasi = filterModule('data_prestasi');
   const modulesRapot = filterModule('data_rapot');
@@ -105,6 +109,18 @@ const Sidebar = (props) => {
       link: '/jurusan',
       icon: <FaBookOpen />,
       access: modulesJurusan?.akses,
+    },
+    {
+      name: 'Kelulusan',
+      link: '/kelulusan',
+      icon: <GiGraduateCap />,
+      access: true,
+    },
+    {
+      name: 'Kelas siswa',
+      link: '/kelas-siswa',
+      icon: <SiGoogleclassroom />,
+      access: true,
     },
     {
       name: 'Aktivitas',

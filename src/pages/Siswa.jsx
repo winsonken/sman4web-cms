@@ -39,11 +39,11 @@ const Siswa = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-            <ButtonAdd
-              title="Tambah Siswa"
-              // isOpenPopUpAdd={isOpenPopUpAdd}
-              // setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-            />
+          <ButtonAdd
+            title="Tambah Siswa"
+            isOpenPopUpAdd={isOpenPopUpAdd}
+            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          />
 
           <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/2  ">
             <div className="sm:w-1/2">
@@ -96,20 +96,19 @@ const Siswa = () => {
                   <td className="px-6 py-2">123456</td>
                   <td className="px-6 py-2">Aktif</td>
                   <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
                     <ButtonDetail
-                      // isOpenPopUpDetail={isOpenPopUpDetail}
-                      // setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+                      isOpenPopUpDetail={isOpenPopUpDetail}
+                      setIsOpenPopUpDetail={setIsOpenPopUpDetail}
                     />
 
                     <ButtonEdit
-                      // isOpenPopUpEdit={isOpenPopUpEdit}
-                      // setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                      isOpenPopUpEdit={isOpenPopUpEdit}
+                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
                     />
 
                     <ButtonDelete
-                      // isOpenPopUpDelete={isOpenPopUpDelete}
-                      // setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                      isOpenPopUpDelete={isOpenPopUpDelete}
+                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
                     />
                   </td>
                 </tr>
@@ -126,20 +125,19 @@ const Siswa = () => {
                   <td className="px-6 py-2">123456</td>
                   <td className="px-6 py-2">Aktif</td>
                   <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
                     <ButtonDetail
-                      // isOpenPopUpDetail={isOpenPopUpDetail}
-                      // setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+                      isOpenPopUpDetail={isOpenPopUpDetail}
+                      setIsOpenPopUpDetail={setIsOpenPopUpDetail}
                     />
 
                     <ButtonEdit
-                      // isOpenPopUpEdit={isOpenPopUpEdit}
-                      // setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                      isOpenPopUpEdit={isOpenPopUpEdit}
+                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
                     />
 
                     <ButtonDelete
-                      // isOpenPopUpDelete={isOpenPopUpDelete}
-                      // setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                      isOpenPopUpDelete={isOpenPopUpDelete}
+                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
                     />
                   </td>
                 </tr>
@@ -156,20 +154,19 @@ const Siswa = () => {
                   <td className="px-6 py-2">123456</td>
                   <td className="px-6 py-2">Aktif</td>
                   <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
                     <ButtonDetail
-                      // isOpenPopUpDetail={isOpenPopUpDetail}
-                      // setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+                      isOpenPopUpDetail={isOpenPopUpDetail}
+                      setIsOpenPopUpDetail={setIsOpenPopUpDetail}
                     />
 
                     <ButtonEdit
-                      // isOpenPopUpEdit={isOpenPopUpEdit}
-                      // setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                      isOpenPopUpEdit={isOpenPopUpEdit}
+                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
                     />
 
                     <ButtonDelete
-                      // isOpenPopUpDelete={isOpenPopUpDelete}
-                      // setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                      isOpenPopUpDelete={isOpenPopUpDelete}
+                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
                     />
                   </td>
                 </tr>
@@ -178,11 +175,11 @@ const Siswa = () => {
           </div>
 
           <Pagination
-            // currentPage={currentPage}
-            // setCurrentPage={setCurrentPage}
-            // totalPage={totalPage}
-            // totalRecord={totalRecord}
-            // limitPerPage={limitPerPage}
+          // currentPage={currentPage}
+          // setCurrentPage={setCurrentPage}
+          // totalPage={totalPage}
+          // totalRecord={totalRecord}
+          // limitPerPage={limitPerPage}
           />
         </div>
 
@@ -230,7 +227,7 @@ const Siswa = () => {
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
         >
-           <FormDetailSiswa setIsOpenPopUpDetail={setIsOpenPopUpDetail} />
+          <FormDetailSiswa setIsOpenPopUpDetail={setIsOpenPopUpDetail} />
         </PopUpDetail>
       </div>
     </Layout>
