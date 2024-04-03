@@ -5,7 +5,7 @@ import SelectFilter from '../SelectFilter';
 const DetailSiswa = (props) => {
   const { setIsOpenPopUpAdd } = props;
   return (
-    <div className="grid gap-5 max-w-xl h-fit max-h-[80%] p-3 rounded-md xl:max-w-2xl duration-200 overflow-y-auto ${className}"> 
+    <div className="grid gap-5 max-w-xl h-fit max-h-[80%] p-3 rounded-md xl:max-w-2xl duration-200 overflow-y-auto ${className}">
       <div className=" ">
         <h1>
           <img src="./public/Suki.jpeg" alt="Siswa" />
@@ -96,14 +96,6 @@ const DetailSiswa = (props) => {
             IPA
           </p>
         </div>
-      </div>
-      <div className="flex justify-end gap-2">
-        <Button
-          title="Batal"
-          type="cancel"
-          setIsOpenPopUp={setIsOpenPopUpAdd}
-        />
-        <Button title="Simpan" type="submit" />
       </div>
     </div>
   );

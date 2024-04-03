@@ -25,6 +25,12 @@ import { selectCurrentModules } from './services/features/authSlice';
 import { useSelector } from 'react-redux';
 import DetailPrestasi from './pages/DetailPrestasi';
 import Aktivitas from './pages/Aktivitas';
+import Kelulusan from './pages/Kelulusan';
+import KelasSiswa from './pages/KelasSiswa';
+import Error from './pages/Error';
+import ProfileSiswa from './pages/ProfileSiswa';
+import ProfileGuru from './pages/ProfileGuru';
+import ProfileTendik from './pages/ProfileTendik';
 
 function App() {
   const modules = useSelector(selectCurrentModules);
@@ -44,6 +50,8 @@ function App() {
   const modulesGuru = filterModule('data_guru');
   const modulesAlumni = filterModule('data_alumni');
   const modulesJurusan = filterModule('data_jurusan');
+  const modulesKelulusan = filterModule('data_kelulusan');
+  const modulesKelasSiswa = filterModule('data_kelas_siswa');
   const modulesPrestasi = filterModule('data_prestasi');
   const modulesRapot = filterModule('data_rapot');
   const modulesPelanggaran = filterModule('data_pelanggaran');
@@ -113,6 +121,12 @@ function App() {
           {modulesRole?.akses && <Route path="/role" element={<Role />} />}
 
           <Route path="/*" element={<Error404 />} />
+          <Route path="/kelulusan" element={<Kelulusan />} />
+          <Route path="/kelas-siswa" element={<KelasSiswa />} />
+          <Route path="/error" element={<Error />} />
+          <Route path="/profilesiswa" element={<ProfileSiswa />} />
+          <Route path="/profileguru" element={<ProfileGuru />} />
+          <Route path="/profiletendik" element={<ProfileTendik />} />
         </Route>
       </Routes>
       <ToastContainer />
