@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import { useGetSiswaOptionQuery } from '../../services/api/siswaApiSlice';
 import { formatDate } from '../../helpers/FormatDate';
-import { useCreatePrestasiMutation } from '../../services/api/prestasiApiSlice';
+import { useUpdatePrestasiMutation } from '../../services/api/prestasiApiSlice';
 
 const validationSchema = yup
   .object({
@@ -20,20 +20,21 @@ const validationSchema = yup
   })
   .required();
 
-const FormAddPrestasi = (props) => {
-  const { setIsOpenPopUpAdd } = props;
+const FormDetailEditPrestasi = (props) => {
+  const { data, setIsOpenPopUpEdit } = props;
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
     clearErrors,
+    setValue,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   const initialFormInput = {
+    id_prestasi: '',
     nama_prestasi: '',
     jenis_prestasi: '',
     tanggal_prestasi: '',
@@ -41,7 +42,7 @@ const FormAddPrestasi = (props) => {
   };
 
   const [formInput, setFormInput] = useState(initialFormInput);
-  console.log(formInput);
+
   const [selectedSiswaValue, setSelectedSiswaValue] = useState('');
 
   const handleChange = (e) => {
@@ -60,10 +61,11 @@ const FormAddPrestasi = (props) => {
     }));
   };
 
-  const [createPrestasi] = useCreatePrestasiMutation();
+  const [updatePrestasi] = useUpdatePrestasiMutation();
 
   const handleSubmitForm = async () => {
     let payload = {
+      id_prestasi: formInput?.id_prestasi,
       nama_prestasi: formInput?.nama_prestasi,
       jenis_prestasi: formInput?.jenis_prestasi,
       tanggal_prestasi: formatDate(formInput?.tanggal_prestasi),
@@ -71,14 +73,14 @@ const FormAddPrestasi = (props) => {
     };
 
     try {
-      const response = await createPrestasi(payload).unwrap();
+      const response = await updatePrestasi(payload).unwrap();
 
       if (!response.error) {
-        toast.success('Prestasi berhasil ditambahkan!', {
+        toast.success('Prestasi berhasil diubah!', {
           position: 'top-right',
           theme: 'light',
         });
-        setIsOpenPopUpAdd(false);
+        setIsOpenPopUpEdit(false);
       }
     } catch (error) {
       const errorMessage = error?.data?.message;
@@ -89,11 +91,18 @@ const FormAddPrestasi = (props) => {
     }
   };
 
-  const { data: siswaOption } = useGetSiswaOptionQuery();
-  const selectSiswa = siswaOption?.data?.map((e) => ({
-    value: e?.id_siswa,
-    label: e?.nama,
-  }));
+  useEffect(() => {
+    if (data) {
+      setFormInput({
+        id_prestasi: data?.id_prestasi,
+        nama_prestasi: data?.nama_prestasi,
+        jenis_prestasi: data?.jenis_prestasi,
+        tanggal_prestasi: data?.tanggal_prestasi,
+        siswa: data?.id_siswa,
+      });
+    }
+    setSelectedSiswaValue(data?.id_siswa);
+  }, [data, setFormInput]);
 
   useEffect(() => {
     const fieldsToCheck = [
@@ -113,8 +122,22 @@ const FormAddPrestasi = (props) => {
   }, [formInput, clearErrors, errors]);
 
   useEffect(() => {
+    if (data) {
+      setValue('nama_prestasi', data?.nama_prestasi);
+      setValue('jenis_prestasi', data?.jenis_prestasi);
+      setValue('tanggal_prestasi', data?.tanggal_prestasi);
+      setValue('siswa', data?.id_siswa);
+    }
+  }, [data, setFormInput, setValue]);
+
+  const { data: siswaOption } = useGetSiswaOptionQuery();
+  const selectSiswa = siswaOption?.data?.map((e) => ({
+    value: e?.id_siswa,
+    label: e?.nama,
+  }));
+
+  useEffect(() => {
     setValue('siswa', selectedSiswaValue);
-    clearErrors('siswa');
   }, [selectedSiswaValue, setValue]);
 
   return (
@@ -135,6 +158,7 @@ const FormAddPrestasi = (props) => {
                 placeholder="Select siswa"
                 errors={errors}
                 isSearchable
+                disabled
               />
             )}
           />
@@ -142,6 +166,7 @@ const FormAddPrestasi = (props) => {
             type="text"
             label="Jenis prestasi"
             name="jenis_prestasi"
+            value={formInput?.jenis_prestasi}
             onChange={handleChange}
             register={register}
             errors={errors}
@@ -150,6 +175,7 @@ const FormAddPrestasi = (props) => {
             type="text"
             label="Nama Prestasi"
             name="nama_prestasi"
+            value={formInput?.nama_prestasi}
             onChange={handleChange}
             register={register}
             errors={errors}
@@ -176,13 +202,13 @@ const FormAddPrestasi = (props) => {
           <Button
             title="Batal"
             type="cancel"
-            setIsOpenPopUp={setIsOpenPopUpAdd}
+            setIsOpenPopUp={setIsOpenPopUpEdit}
           />
-          <Button title="Simpan" type="submit" />
+          <Button title="Ubah" type="submit" />
         </div>
       </div>
     </form>
   );
 };
 
-export default FormAddPrestasi;
+export default FormDetailEditPrestasi;

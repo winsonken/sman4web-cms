@@ -105,7 +105,7 @@ const FormEditAngkatan = (props) => {
     if (data) {
       setValue('no_angkatan', data?.no_angkatan);
       setValue('tahun', data?.tahun);
-      setValue('status_angkatan', data?.status_angkatann);
+      setValue('status_angkatan', data?.status_angkatan);
     }
   }, [data, setFormInput, setValue]);
 

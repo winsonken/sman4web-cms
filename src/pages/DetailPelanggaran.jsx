@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaMedal } from 'react-icons/fa6';
+import { MdDoNotDisturb } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import {
   Button,
@@ -12,20 +12,21 @@ import {
   SelectFilter,
   SearchFilter,
 } from '../components';
-import {
-  FormDetailAddPrestasi,
-  FormDetailEditPrestasi,
-  TableDetailPrestasi,
-} from '../components/detail-prestasi';
+
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
-  useDeletePrestasiMutation,
-  useGetPrestasiBySiswaQuery,
-} from '../services/api/prestasiApiSlice';
+  useDeletePelanggaranMutation,
+  useGetPelanggaranBySiswaQuery,
+} from '../services/api/pelanggaranApiSlice';
+import {
+  FormDetailAddPelanggaran,
+  FormDetailEditPelanggaran,
+  TableDetailPelanggaran,
+} from '../components/detail-pelanggaran';
 import { useSelector } from 'react-redux';
 import { selectCurrentModules } from '../services/features/authSlice';
 
-const DetailPrestasi = () => {
+const DetailPelanggaran = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const limitPerPage = 10;
 
@@ -46,21 +47,21 @@ const DetailPrestasi = () => {
     isSuccess,
     isError,
     error,
-  } = useGetPrestasiBySiswaQuery({
+  } = useGetPelanggaranBySiswaQuery({
     siswa: id_siswa,
     page: currentPage,
     limit: limitPerPage,
   });
 
-  const [deletePrestasi] = useDeletePrestasiMutation();
+  const [deletePelanggaran] = useDeletePelanggaranMutation();
 
   const handleDelete = async () => {
     try {
-      const response = await deletePrestasi({
-        id: getData?.id_prestasi,
+      const response = await deletePelanggaran({
+        id: getData?.id_pelanggaran,
       }).unwrap();
       if (!response.error) {
-        toast.success('Prestasi berhasil dihapus!', {
+        toast.success('Pelanggaran berhasil dihapus!', {
           position: 'top-right',
           theme: 'light',
         });
@@ -91,7 +92,9 @@ const DetailPrestasi = () => {
       <div className="flex flex-col gap-5">
         <div className="flex justify-between">
           <div>
-            <h1 className="text-xl font-semibold md:text-2xl">Data prestasi</h1>
+            <h1 className="text-xl font-semibold md:text-2xl">
+              Data pelanggaran
+            </h1>
             <p>Nama siswa: {nama}</p>
             <p>NIPD: {nipd}</p>
           </div>
@@ -109,14 +112,14 @@ const DetailPrestasi = () => {
         <div className={`flex flex-col sm:flex-row gap-3`}>
           {modulesAktivitas?.tambah && (
             <ButtonAdd
-              title="Tambah prestasi"
+              title="Tambah pelanggaran"
               isOpenPopUpAdd={isOpenPopUpAdd}
               setIsOpenPopUpAdd={setIsOpenPopUpAdd}
             />
           )}
         </div>
 
-        <TableDetailPrestasi
+        <TableDetailPelanggaran
           data={pelanggaran}
           isLoading={isLoading}
           isSuccess={isSuccess}
@@ -132,56 +135,56 @@ const DetailPrestasi = () => {
           setCurrentPage={setCurrentPage}
           limitPerPage={limitPerPage}
         />
-      </div>
 
-      <PopUpAdd
-        title="Tambah prestasi"
-        icon={<FaMedal />}
-        isOpenPopUpAdd={isOpenPopUpAdd}
-        setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-        className="md:max-w-3xl"
-      >
-        <FormDetailAddPrestasi
-          siswa={id_siswa}
+        <PopUpAdd
+          title="Tambah pelanggaran"
+          icon={<MdDoNotDisturb />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-        />
-      </PopUpAdd>
+          className="md:max-w-xl"
+        >
+          <FormDetailAddPelanggaran
+            siswa={id_siswa}
+            isOpenPopUpAdd={isOpenPopUpAdd}
+            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          />
+        </PopUpAdd>
 
-      <PopUpEdit
-        title="Ubah prestasi"
-        icon={<FaMedal />}
-        isOpenPopUpEdit={isOpenPopUpEdit}
-        setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-        className="md:max-w-3xl"
-      >
-        <FormDetailEditPrestasi
+        <PopUpEdit
+          title="Ubah pelanggaran"
+          icon={<MdDoNotDisturb />}
+          isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-          data={getData}
-        />
-      </PopUpEdit>
+          className="md:max-w-3xl"
+        >
+          <FormDetailEditPelanggaran
+            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+            data={getData}
+          />
+        </PopUpEdit>
 
-      <PopUpDelete
-        title="Hapus prestasi"
-        icon={<FaMedal />}
-        isOpenPopUpDelete={isOpenPopUpDelete}
-        setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-      >
-        <div className="flex flex-col gap-3">
-          <h1>Apakah anda yakin menghapus prestasi siswa ini?</h1>
+        <PopUpDelete
+          title="Hapus pelanggaran"
+          icon={<MdDoNotDisturb />}
+          isOpenPopUpDelete={isOpenPopUpDelete}
+          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+        >
+          <div className="flex flex-col gap-3">
+            <h1>Apakah anda yakin menghapus pelanggaran siswa ini?</h1>
 
-          <div className="flex justify-end gap-2">
-            <Button
-              title="Batal"
-              type="cancel"
-              setIsOpenPopUp={setIsOpenPopUpDelete}
-            />
-            <Button title="Hapus" onClick={handleDelete} />
+            <div className="flex justify-end gap-2">
+              <Button
+                title="Batal"
+                type="cancel"
+                setIsOpenPopUp={setIsOpenPopUpDelete}
+              />
+              <Button title="Hapus" onClick={handleDelete} />
+            </div>
           </div>
-        </div>
-      </PopUpDelete>
+        </PopUpDelete>
+      </div>
     </Layout>
   );
 };
 
-export default DetailPrestasi;
+export default DetailPelanggaran;

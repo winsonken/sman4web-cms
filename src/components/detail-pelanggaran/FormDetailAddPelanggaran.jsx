@@ -9,39 +9,38 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import { useGetSiswaOptionQuery } from '../../services/api/siswaApiSlice';
 import { formatDate } from '../../helpers/FormatDate';
-import { useCreatePrestasiMutation } from '../../services/api/prestasiApiSlice';
+import { useCreatePelanggaranMutation } from '../../services/api/pelanggaranApiSlice';
 
 const validationSchema = yup
   .object({
     siswa: yup.string().required('Siswa is required'),
-    jenis_prestasi: yup.string().required('Jenis prestasi is required'),
-    nama_prestasi: yup.string().required('Nama prestasi is required'),
-    tanggal_prestasi: yup.string().required('Tanggal prestasi is required'),
+    jenis_pelanggaran: yup.string().required('Jenis pelanggaran is required'),
+    tanggal_pelanggaran: yup
+      .string()
+      .required('Tanggal pelanggaran is required'),
   })
   .required();
 
-const FormAddPrestasi = (props) => {
-  const { setIsOpenPopUpAdd } = props;
+const FormDetailAddPelanggaran = (props) => {
+  const { siswa, isOpenPopUpAdd, setIsOpenPopUpAdd } = props;
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-    clearErrors,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   const initialFormInput = {
-    nama_prestasi: '',
-    jenis_prestasi: '',
-    tanggal_prestasi: '',
+    jenis_pelanggaran: '',
+    tanggal_pelanggaran: '',
     siswa: '',
   };
 
   const [formInput, setFormInput] = useState(initialFormInput);
-  console.log(formInput);
+
   const [selectedSiswaValue, setSelectedSiswaValue] = useState('');
 
   const handleChange = (e) => {
@@ -52,29 +51,28 @@ const FormAddPrestasi = (props) => {
     }));
   };
 
-  const handleTanggalPrestasi = (date, field) => {
+  const handleTanggalPelanggaran = (date, field) => {
     field.onChange(date);
     setFormInput((prev) => ({
       ...prev,
-      tanggal_prestasi: date,
+      tanggal_pelanggaran: date,
     }));
   };
 
-  const [createPrestasi] = useCreatePrestasiMutation();
+  const [createPelanggaran] = useCreatePelanggaranMutation();
 
   const handleSubmitForm = async () => {
     let payload = {
-      nama_prestasi: formInput?.nama_prestasi,
-      jenis_prestasi: formInput?.jenis_prestasi,
-      tanggal_prestasi: formatDate(formInput?.tanggal_prestasi),
+      jenis_pelanggaran: formInput?.jenis_pelanggaran,
+      tanggal_pelanggaran: formatDate(formInput?.tanggal_pelanggaran),
       siswa: selectedSiswaValue,
     };
 
     try {
-      const response = await createPrestasi(payload).unwrap();
+      const response = await createPelanggaran(payload).unwrap();
 
       if (!response.error) {
-        toast.success('Prestasi berhasil ditambahkan!', {
+        toast.success('Pelanggaran berhasil ditambahkan!', {
           position: 'top-right',
           theme: 'light',
         });
@@ -96,26 +94,12 @@ const FormAddPrestasi = (props) => {
   }));
 
   useEffect(() => {
-    const fieldsToCheck = [
-      'nama_prestasi',
-      'jenis_prestasi',
-      'tanggal_prestasi',
-      'siswa',
-    ];
-
-    fieldsToCheck.forEach((field) => {
-      if (errors[field] && formInput[field] !== '') {
-        if (errors[field].type === 'required') {
-          clearErrors(field);
-        }
-      }
-    });
-  }, [formInput, clearErrors, errors]);
+    setValue('siswa', selectedSiswaValue);
+  }, [selectedSiswaValue, setValue]);
 
   useEffect(() => {
-    setValue('siswa', selectedSiswaValue);
-    clearErrors('siswa');
-  }, [selectedSiswaValue, setValue]);
+    setSelectedSiswaValue(siswa);
+  }, [isOpenPopUpAdd]);
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -135,37 +119,31 @@ const FormAddPrestasi = (props) => {
                 placeholder="Select siswa"
                 errors={errors}
                 isSearchable
+                disabled
               />
             )}
           />
+
           <Input
             type="text"
-            label="Jenis prestasi"
-            name="jenis_prestasi"
-            onChange={handleChange}
-            register={register}
-            errors={errors}
-          />
-          <Input
-            type="text"
-            label="Nama Prestasi"
-            name="nama_prestasi"
+            label="Jenis Pelanggaran"
+            name="jenis_pelanggaran"
             onChange={handleChange}
             register={register}
             errors={errors}
           />
 
           <Controller
-            name="tanggal_prestasi"
+            name="tanggal_pelanggaran"
             control={control}
             render={({ field }) => (
               <InputDate
                 field={field}
-                label="Tanggal prestasi"
-                name="tanggal_prestasi"
+                label="Tanggal pelanggaran"
+                name="tanggal_pelanggaran"
                 dateFormat="yyyy/MM/dd"
-                placeholder="Select tanggal prestasi"
-                onChange={(date) => handleTanggalPrestasi(date, field)}
+                placeholder="Select tanggal pelanggaran"
+                onChange={(date) => handleTanggalPelanggaran(date, field)}
                 errors={errors}
               />
             )}
@@ -185,4 +163,4 @@ const FormAddPrestasi = (props) => {
   );
 };
 
-export default FormAddPrestasi;
+export default FormDetailAddPelanggaran;

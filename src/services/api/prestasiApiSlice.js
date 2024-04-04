@@ -12,8 +12,36 @@ export const prestasiApiSlice = sman4webApi.injectEndpoints({
         `/api/v1/prestasi?siswa=${siswa}&page=${page}&limit=${limit}`,
       providesTags: ['Prestasi'],
     }),
+    createPrestasi: builder.mutation({
+      query: (body) => ({
+        url: '/api/v1/prestasi',
+        method: 'POST',
+        body,
+      }),
+      invalidatesTags: ['Prestasi'],
+    }),
+    updatePrestasi: builder.mutation({
+      query: (body) => ({
+        url: '/api/v1/prestasi',
+        method: 'PUT',
+        body,
+      }),
+      invalidatesTags: ['Prestasi'],
+    }),
+    deletePrestasi: builder.mutation({
+      query: ({ id }) => ({
+        url: `/api/v1/prestasi/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Prestasi'],
+    }),
   }),
 });
 
-export const { useGetPrestasiQuery, useGetPrestasiBySiswaQuery } =
-  prestasiApiSlice;
+export const {
+  useGetPrestasiQuery,
+  useGetPrestasiBySiswaQuery,
+  useCreatePrestasiMutation,
+  useUpdatePrestasiMutation,
+  useDeletePrestasiMutation,
+} = prestasiApiSlice;

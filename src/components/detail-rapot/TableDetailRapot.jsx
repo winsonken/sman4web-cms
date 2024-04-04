@@ -5,15 +5,15 @@ import ButtonAction from '../ButtonAction';
 import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
-import ButtonPage from '../ButtonPage';
 
-const TableRapot = (props) => {
+const TableDetailRapot = (props) => {
   const {
     data,
     isLoading,
     isSuccess,
     isError,
     error,
+    setGetData,
     isOpenPopUpGanjilAwal,
     setIsOpenPopUpGanjilAwal,
     isOpenPopUpGanjilAkhir,
@@ -22,13 +22,12 @@ const TableRapot = (props) => {
     setIsOpenPopUpGenapAwal,
     isOpenPopUpGenapAkhir,
     setIsOpenPopUpGenapAkhir,
-    setGetData,
     currentPage,
     setCurrentPage,
     limitPerPage,
   } = props;
 
-  const rapotSiswaData = data?.data;
+  const rapotData = data?.data;
   const pagination = data?.pagination;
 
   const totalPage = pagination?.total_page;
@@ -69,11 +68,14 @@ const TableRapot = (props) => {
                 <th scope="col" className="px-6 py-4">
                   Rapot genap akhir
                 </th>
+                <th scope="col" className="text-center px-6 py-4">
+                  Aksi
+                </th>
               </tr>
             </thead>
             <tbody>
-              {rapotSiswaData.length > 0 > 0 ? (
-                rapotSiswaData.map((allRapotSiswaData, index) => (
+              {rapotData.length > 0 > 0 ? (
+                rapotData.map((allRapotData, index) => (
                   <tr className="bg-second-orange border-b">
                     <th
                       scope="row"
@@ -81,19 +83,17 @@ const TableRapot = (props) => {
                     >
                       {index + 1}
                     </th>
+                    <td className="px-6 py-2">{allRapotData?.nama_siswa}</td>
+                    <td className="px-6 py-2">{allRapotData?.nipd}</td>
                     <td className="px-6 py-2">
-                      {allRapotSiswaData?.nama_siswa}
-                    </td>
-                    <td className="px-6 py-2">{allRapotSiswaData?.nipd}</td>
-                    <td className="px-6 py-2">
-                      {allRapotSiswaData?.tahun_mulai_ajaran}-
-                      {allRapotSiswaData?.tahun_akhir_ajaran}
+                      {allRapotData?.tahun_mulai_ajaran}-
+                      {allRapotData?.tahun_akhir_ajaran}
                     </td>
                     <td className="px-6 py-2">
-                      {allRapotSiswaData?.rapot_ganjil_awal ? (
+                      {allRapotData?.rapot_ganjil_awal ? (
                         <ButtonAction
                           title="Lihat rapot"
-                          data={allRapotSiswaData}
+                          data={allRapotData}
                           isOpenPopUp={isOpenPopUpGanjilAwal}
                           setIsOpenPopUp={setIsOpenPopUpGanjilAwal}
                           setGetData={setGetData}
@@ -103,10 +103,10 @@ const TableRapot = (props) => {
                       )}
                     </td>
                     <td className="px-6 py-2">
-                      {allRapotSiswaData?.rapot_ganjil_akhir ? (
+                      {allRapotData?.rapot_ganjil_akhir ? (
                         <ButtonAction
                           title="Lihat rapot"
-                          data={allRapotSiswaData}
+                          data={allRapotData}
                           isOpenPopUp={isOpenPopUpGanjilAkhir}
                           setIsOpenPopUp={setIsOpenPopUpGanjilAkhir}
                           setGetData={setGetData}
@@ -116,10 +116,10 @@ const TableRapot = (props) => {
                       )}
                     </td>
                     <td className="px-6 py-2">
-                      {allRapotSiswaData?.rapot_genap_awal ? (
+                      {allRapotData?.rapot_genap_awal ? (
                         <ButtonAction
                           title="Lihat rapot"
-                          data={allRapotSiswaData}
+                          data={allRapotData}
                           isOpenPopUp={isOpenPopUpGenapAwal}
                           setIsOpenPopUp={setIsOpenPopUpGenapAwal}
                           setGetData={setGetData}
@@ -129,10 +129,10 @@ const TableRapot = (props) => {
                       )}
                     </td>
                     <td className="px-6 py-2">
-                      {allRapotSiswaData?.rapot_genap_akhir ? (
+                      {allRapotData?.rapot_genap_akhir ? (
                         <ButtonAction
                           title="Lihat rapot"
-                          data={allRapotSiswaData}
+                          data={allRapotData}
                           isOpenPopUp={isOpenPopUpGenapAkhir}
                           setIsOpenPopUp={setIsOpenPopUpGenapAkhir}
                           setGetData={setGetData}
@@ -141,12 +141,27 @@ const TableRapot = (props) => {
                         'Belum ada'
                       )}
                     </td>
+                    <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
+                      <ButtonEdit
+                        data={allRapotData}
+                        // isOpenPopUpEdit={isOpenPopUpEdit}
+                        // setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                        setGetData={setGetData}
+                      />
+
+                      <ButtonDelete
+                        data={allRapotData}
+                        // isOpenPopUpDelete={isOpenPopUpDelete}
+                        // setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                        setGetData={setGetData}
+                      />
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="8"
+                    colSpan="9"
                     className="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
                     <div className="text-sm  text-gray-500 text-center">
@@ -171,4 +186,4 @@ const TableRapot = (props) => {
   );
 };
 
-export default TableRapot;
+export default TableDetailRapot;

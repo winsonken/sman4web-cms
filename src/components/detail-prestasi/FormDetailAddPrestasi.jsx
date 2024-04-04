@@ -20,15 +20,14 @@ const validationSchema = yup
   })
   .required();
 
-const FormAddPrestasi = (props) => {
-  const { setIsOpenPopUpAdd } = props;
+const FormDetailAddPrestasi = (props) => {
+  const { siswa, isOpenPopUpAdd, setIsOpenPopUpAdd } = props;
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-    clearErrors,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
@@ -41,7 +40,7 @@ const FormAddPrestasi = (props) => {
   };
 
   const [formInput, setFormInput] = useState(initialFormInput);
-  console.log(formInput);
+
   const [selectedSiswaValue, setSelectedSiswaValue] = useState('');
 
   const handleChange = (e) => {
@@ -96,26 +95,12 @@ const FormAddPrestasi = (props) => {
   }));
 
   useEffect(() => {
-    const fieldsToCheck = [
-      'nama_prestasi',
-      'jenis_prestasi',
-      'tanggal_prestasi',
-      'siswa',
-    ];
-
-    fieldsToCheck.forEach((field) => {
-      if (errors[field] && formInput[field] !== '') {
-        if (errors[field].type === 'required') {
-          clearErrors(field);
-        }
-      }
-    });
-  }, [formInput, clearErrors, errors]);
+    setValue('siswa', selectedSiswaValue);
+  }, [selectedSiswaValue, setValue]);
 
   useEffect(() => {
-    setValue('siswa', selectedSiswaValue);
-    clearErrors('siswa');
-  }, [selectedSiswaValue, setValue]);
+    setSelectedSiswaValue(siswa);
+  }, [isOpenPopUpAdd]);
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -135,6 +120,7 @@ const FormAddPrestasi = (props) => {
                 placeholder="Select siswa"
                 errors={errors}
                 isSearchable
+                disabled
               />
             )}
           />
@@ -185,4 +171,4 @@ const FormAddPrestasi = (props) => {
   );
 };
 
-export default FormAddPrestasi;
+export default FormDetailAddPrestasi;

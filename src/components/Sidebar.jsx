@@ -49,6 +49,7 @@ const Sidebar = (props) => {
   const modulesKelulusan = filterModule('data_kelulusan');
   const modulesKelasSiswa = filterModule('data_kelas_siswa');
   const modulesJurusan = filterModule('data_jurusan');
+  const modulesAktivitas = filterModule('data_aktivitas');
   const modulesPrestasi = filterModule('data_prestasi');
   const modulesRapot = filterModule('data_rapot');
   const modulesPelanggaran = filterModule('data_pelanggaran');
@@ -111,22 +112,22 @@ const Sidebar = (props) => {
       access: modulesJurusan?.akses,
     },
     {
-      name: 'Kelulusan',
-      link: '/kelulusan',
-      icon: <GiGraduateCap />,
-      access: true,
+      name: 'Aktivitas',
+      link: '/aktivitas',
+      icon: <FiActivity />,
+      access: modulesAktivitas?.akses,
+    },
+    {
+      name: 'PPDB',
+      link: '/ppdb',
+      icon: <FaUserPlus />,
+      access: modulesPpdb?.akses,
     },
     {
       name: 'Kelas siswa',
       link: '/kelas-siswa',
       icon: <SiGoogleclassroom />,
-      access: true,
-    },
-    {
-      name: 'Aktivitas',
-      link: '/aktivitas',
-      icon: <FiActivity />,
-      access: true,
+      access: modulesKelasSiswa?.akses,
     },
     {
       name: 'Prestasi',
@@ -147,10 +148,10 @@ const Sidebar = (props) => {
       access: modulesPelanggaran?.akses,
     },
     {
-      name: 'PPDB',
-      link: '/ppdb',
-      icon: <FaUserPlus />,
-      access: modulesPpdb?.akses,
+      name: 'Kelulusan',
+      link: '/kelulusan',
+      icon: <GiGraduateCap />,
+      access: modulesKelulusan?.akses,
     },
     {
       name: 'Role',

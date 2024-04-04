@@ -58,9 +58,6 @@ const TableAngkatan = (props) => {
                   Jumlah siswa
                 </th>
                 <th scope="col" className="px-6 py-4">
-                  Siswa lulus
-                </th>
-                <th scope="col" className="px-6 py-4">
                   Status
                 </th>
                 {modules?.ubah && (
@@ -91,9 +88,6 @@ const TableAngkatan = (props) => {
                     <td className="px-6 py-2">{allAngkatanData?.tahun}</td>
                     <td className="px-6 py-2">
                       {allAngkatanData?.jumlah_siswa || '-'}
-                    </td>
-                    <td className="px-6 py-2">
-                      {allAngkatanData?.siswa_lulus || '-'}
                     </td>
                     <td className="px-6 py-2">
                       {allAngkatanData?.status_angkatan == 0

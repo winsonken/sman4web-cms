@@ -75,6 +75,7 @@ const SelectInput = (props) => {
         value={selectedOption}
         onChange={handleChange}
         isSearchable={isSearchable}
+        isDisabled={disabled}
       />
 
       {errors?.[name]?.message && (

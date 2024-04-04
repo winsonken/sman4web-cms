@@ -9,39 +9,40 @@ import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import { useGetSiswaOptionQuery } from '../../services/api/siswaApiSlice';
 import { formatDate } from '../../helpers/FormatDate';
-import { useCreatePrestasiMutation } from '../../services/api/prestasiApiSlice';
+import { useUpdatePelanggaranMutation } from '../../services/api/pelanggaranApiSlice';
 
 const validationSchema = yup
   .object({
     siswa: yup.string().required('Siswa is required'),
-    jenis_prestasi: yup.string().required('Jenis prestasi is required'),
-    nama_prestasi: yup.string().required('Nama prestasi is required'),
-    tanggal_prestasi: yup.string().required('Tanggal prestasi is required'),
+    jenis_pelanggaran: yup.string().required('Jenis pelanggaran is required'),
+    tanggal_pelanggaran: yup
+      .string()
+      .required('Tanggal pelanggaran is required'),
   })
   .required();
 
-const FormAddPrestasi = (props) => {
-  const { setIsOpenPopUpAdd } = props;
+const FormDetailEditPelanggaran = (props) => {
+  const { data, setIsOpenPopUpEdit } = props;
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
     clearErrors,
+    setValue,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
   const initialFormInput = {
-    nama_prestasi: '',
-    jenis_prestasi: '',
-    tanggal_prestasi: '',
+    id_pelanggaran: '',
+    jenis_pelanggaran: '',
+    tanggal_pelanggaran: '',
     siswa: '',
   };
 
   const [formInput, setFormInput] = useState(initialFormInput);
-  console.log(formInput);
+
   const [selectedSiswaValue, setSelectedSiswaValue] = useState('');
 
   const handleChange = (e) => {
@@ -52,33 +53,33 @@ const FormAddPrestasi = (props) => {
     }));
   };
 
-  const handleTanggalPrestasi = (date, field) => {
+  const handleTanggalPelanggaran = (date, field) => {
     field.onChange(date);
     setFormInput((prev) => ({
       ...prev,
-      tanggal_prestasi: date,
+      tanggal_pelanggaran: date,
     }));
   };
 
-  const [createPrestasi] = useCreatePrestasiMutation();
+  const [updatePelanggaran] = useUpdatePelanggaranMutation();
 
   const handleSubmitForm = async () => {
     let payload = {
-      nama_prestasi: formInput?.nama_prestasi,
-      jenis_prestasi: formInput?.jenis_prestasi,
-      tanggal_prestasi: formatDate(formInput?.tanggal_prestasi),
+      id_pelanggaran: formInput?.id_pelanggaran,
+      jenis_pelanggaran: formInput?.jenis_pelanggaran,
+      tanggal_pelanggaran: formatDate(formInput?.tanggal_pelanggaran),
       siswa: selectedSiswaValue,
     };
 
     try {
-      const response = await createPrestasi(payload).unwrap();
+      const response = await updatePelanggaran(payload).unwrap();
 
       if (!response.error) {
-        toast.success('Prestasi berhasil ditambahkan!', {
+        toast.success('Pelanggaran berhasil diubah!', {
           position: 'top-right',
           theme: 'light',
         });
-        setIsOpenPopUpAdd(false);
+        setIsOpenPopUpEdit(false);
       }
     } catch (error) {
       const errorMessage = error?.data?.message;
@@ -89,19 +90,20 @@ const FormAddPrestasi = (props) => {
     }
   };
 
-  const { data: siswaOption } = useGetSiswaOptionQuery();
-  const selectSiswa = siswaOption?.data?.map((e) => ({
-    value: e?.id_siswa,
-    label: e?.nama,
-  }));
+  useEffect(() => {
+    if (data) {
+      setFormInput({
+        id_pelanggaran: data?.id_pelanggaran,
+        jenis_pelanggaran: data?.jenis_pelanggaran,
+        tanggal_pelanggaran: data?.tanggal_pelanggaran,
+        siswa: data?.id_siswa,
+      });
+    }
+    setSelectedSiswaValue(data?.id_siswa);
+  }, [data, setFormInput]);
 
   useEffect(() => {
-    const fieldsToCheck = [
-      'nama_prestasi',
-      'jenis_prestasi',
-      'tanggal_prestasi',
-      'siswa',
-    ];
+    const fieldsToCheck = ['jenis_pelanggaran', 'tanggal_pelanggaran', 'siswa'];
 
     fieldsToCheck.forEach((field) => {
       if (errors[field] && formInput[field] !== '') {
@@ -113,8 +115,21 @@ const FormAddPrestasi = (props) => {
   }, [formInput, clearErrors, errors]);
 
   useEffect(() => {
+    if (data) {
+      setValue('jenis_pelanggaran', data?.jenis_pelanggaran);
+      setValue('tanggal_pelanggaran', data?.tanggal_pelanggaran);
+      setValue('siswa', data?.id_siswa);
+    }
+  }, [data, setFormInput, setValue]);
+
+  const { data: siswaOption } = useGetSiswaOptionQuery();
+  const selectSiswa = siswaOption?.data?.map((e) => ({
+    value: e?.id_siswa,
+    label: e?.nama,
+  }));
+
+  useEffect(() => {
     setValue('siswa', selectedSiswaValue);
-    clearErrors('siswa');
   }, [selectedSiswaValue, setValue]);
 
   return (
@@ -135,37 +150,32 @@ const FormAddPrestasi = (props) => {
                 placeholder="Select siswa"
                 errors={errors}
                 isSearchable
+                disabled
               />
             )}
           />
+
           <Input
             type="text"
-            label="Jenis prestasi"
-            name="jenis_prestasi"
-            onChange={handleChange}
-            register={register}
-            errors={errors}
-          />
-          <Input
-            type="text"
-            label="Nama Prestasi"
-            name="nama_prestasi"
+            label="Jenis Pelanggaran"
+            name="jenis_pelanggaran"
+            value={formInput?.jenis_pelanggaran}
             onChange={handleChange}
             register={register}
             errors={errors}
           />
 
           <Controller
-            name="tanggal_prestasi"
+            name="tanggal_pelanggaran"
             control={control}
             render={({ field }) => (
               <InputDate
                 field={field}
-                label="Tanggal prestasi"
-                name="tanggal_prestasi"
+                label="Tanggal pelanggaran"
+                name="tanggal_pelanggaran"
                 dateFormat="yyyy/MM/dd"
-                placeholder="Select tanggal prestasi"
-                onChange={(date) => handleTanggalPrestasi(date, field)}
+                placeholder="Select tanggal pelanggaran"
+                onChange={(date) => handleTanggalPelanggaran(date, field)}
                 errors={errors}
               />
             )}
@@ -176,7 +186,7 @@ const FormAddPrestasi = (props) => {
           <Button
             title="Batal"
             type="cancel"
-            setIsOpenPopUp={setIsOpenPopUpAdd}
+            setIsOpenPopUp={setIsOpenPopUpEdit}
           />
           <Button title="Simpan" type="submit" />
         </div>
@@ -185,4 +195,4 @@ const FormAddPrestasi = (props) => {
   );
 };
 
-export default FormAddPrestasi;
+export default FormDetailEditPelanggaran;

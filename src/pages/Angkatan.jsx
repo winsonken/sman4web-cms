@@ -333,7 +333,7 @@ const Angkatan = () => {
           icon={<MdStairs />}
           isOpenPopUp={isOpenPopUpMulai}
           setIsOpenPopUp={setIsOpenPopUpMulai}
-          className="md:max-w-xl h-full"
+          className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
             <h1>Apakah anda yakin memulai pembelajaran angkatan ini?</h1>

@@ -3,7 +3,7 @@ import { sman4webApi } from './sman4webApi';
 export const moduleApiSlice = sman4webApi.injectEndpoints({
   endpoints: (builder) => ({
     getModule: builder.query({
-      query: ({ role }) => `/api/v1/modul-user?role=${role}`,
+      query: ({ role }) => `/api/v1/modul-user?role=${role}&limit=20`,
       providesTags: ['Module'],
     }),
     updateModule: builder.mutation({
