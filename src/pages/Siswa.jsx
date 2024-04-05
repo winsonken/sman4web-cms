@@ -2,26 +2,23 @@ import React, { useState } from 'react';
 
 import { PiUsersThreeFill } from 'react-icons/pi';
 
-import {
-  Button,
-  ButtonAdd,
-  Layout,
-  PopUpAdd,
-  PopUpAction,
-  PopUpEdit,
-  PopUpDelete,
-  PopUpDetail,
-  SelectFilter,
-  SearchFilter,
-} from '../components';
+import Layout from '../components/Layout';
+import ButtonAdd from '../components/ButtonAdd';
+import PopUpAdd from '../components/PopUpAdd';
+import PopUpEdit from '../components/PopUpEdit';
+import PopUpDelete from '../components/PopUpDelete';
+import SelectFilter from '../components/SelectFilter';
+import SearchFilter from '../components/SearchFilter';
+import ButtonEdit from '../components/ButtonEdit';
+import ButtonDelete from '../components/ButtonDelete';
+import Button from '../components/Button';
+import ButtonDetail from '../components/ButtonDetail';
+import PopUpDetail from '../components/PopUpDetail';
+import Pagination from '../components/Pagination';
 
-import {
-  FormAddSiswa,
-  FormEditSiswa,
-  FormDetailSiswa,
-  TableSiswa,
-} from '../components/siswa';
-
+import FormAddSiswa from '../components/siswa/FormAddSiswa';
+import FormEditSiswa from '../components/siswa/FormEditSiswa';
+import FormDetailSiswa from '../components/siswa/FormDetailSiswa';
 const Siswa = () => {
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
@@ -29,8 +26,10 @@ const Siswa = () => {
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
   const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
   const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
-
-  const dummyData = [];
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPage = 8;
+  const totalRecord = 16;
+  const limitPerPage = 10;
 
   return (
     <Layout>
@@ -40,11 +39,11 @@ const Siswa = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-            <ButtonAdd
-              title="Tambah Siswa"
-              // isOpenPopUpAdd={isOpenPopUpAdd}
-              // setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-            />
+          <ButtonAdd
+            title="Tambah Siswa"
+            isOpenPopUpAdd={isOpenPopUpAdd}
+            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          />
 
           <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/2  ">
             <div className="sm:w-1/2">
@@ -97,20 +96,19 @@ const Siswa = () => {
                   <td className="px-6 py-2">123456</td>
                   <td className="px-6 py-2">Aktif</td>
                   <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
                     <ButtonDetail
-                      // isOpenPopUpDetail={isOpenPopUpDetail}
-                      // setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+                      isOpenPopUpDetail={isOpenPopUpDetail}
+                      setIsOpenPopUpDetail={setIsOpenPopUpDetail}
                     />
 
                     <ButtonEdit
-                      // isOpenPopUpEdit={isOpenPopUpEdit}
-                      // setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                      isOpenPopUpEdit={isOpenPopUpEdit}
+                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
                     />
 
                     <ButtonDelete
-                      // isOpenPopUpDelete={isOpenPopUpDelete}
-                      // setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                      isOpenPopUpDelete={isOpenPopUpDelete}
+                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
                     />
                   </td>
                 </tr>
@@ -127,20 +125,19 @@ const Siswa = () => {
                   <td className="px-6 py-2">123456</td>
                   <td className="px-6 py-2">Aktif</td>
                   <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
                     <ButtonDetail
-                      // isOpenPopUpDetail={isOpenPopUpDetail}
-                      // setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+                      isOpenPopUpDetail={isOpenPopUpDetail}
+                      setIsOpenPopUpDetail={setIsOpenPopUpDetail}
                     />
 
                     <ButtonEdit
-                      // isOpenPopUpEdit={isOpenPopUpEdit}
-                      // setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                      isOpenPopUpEdit={isOpenPopUpEdit}
+                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
                     />
 
                     <ButtonDelete
-                      // isOpenPopUpDelete={isOpenPopUpDelete}
-                      // setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                      isOpenPopUpDelete={isOpenPopUpDelete}
+                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
                     />
                   </td>
                 </tr>
@@ -157,20 +154,19 @@ const Siswa = () => {
                   <td className="px-6 py-2">123456</td>
                   <td className="px-6 py-2">Aktif</td>
                   <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
                     <ButtonDetail
-                      // isOpenPopUpDetail={isOpenPopUpDetail}
-                      // setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+                      isOpenPopUpDetail={isOpenPopUpDetail}
+                      setIsOpenPopUpDetail={setIsOpenPopUpDetail}
                     />
 
                     <ButtonEdit
-                      // isOpenPopUpEdit={isOpenPopUpEdit}
-                      // setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                      isOpenPopUpEdit={isOpenPopUpEdit}
+                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
                     />
 
                     <ButtonDelete
-                      // isOpenPopUpDelete={isOpenPopUpDelete}
-                      // setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                      isOpenPopUpDelete={isOpenPopUpDelete}
+                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
                     />
                   </td>
                 </tr>
@@ -179,11 +175,11 @@ const Siswa = () => {
           </div>
 
           <Pagination
-            // currentPage={currentPage}
-            // setCurrentPage={setCurrentPage}
-            // totalPage={totalPage}
-            // totalRecord={totalRecord}
-            // limitPerPage={limitPerPage}
+          // currentPage={currentPage}
+          // setCurrentPage={setCurrentPage}
+          // totalPage={totalPage}
+          // totalRecord={totalRecord}
+          // limitPerPage={limitPerPage}
           />
         </div>
 
