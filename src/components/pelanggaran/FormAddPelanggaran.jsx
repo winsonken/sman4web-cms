@@ -127,8 +127,9 @@ const FormAddPelanggaran = (props) => {
                 selectedValue={selectedSiswaValue}
                 setSelectedValue={setSelectedSiswaValue}
                 placeholder="Select siswa"
-                errors={errors}
                 isSearchable
+                isClearable
+                errors={errors}
               />
             )}
           />

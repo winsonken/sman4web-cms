@@ -12,6 +12,10 @@ export const tahunAjaran = sman4webApi.injectEndpoints({
         `/api/v1/tahun-ajaran/berakhir?q=${q}&page=${page}&limit=${limit}`,
       providesTags: ['Tahun ajaran'],
     }),
+    getTahunAjaranBelumMulaiOption: builder.query({
+      query: () => `/api/v1/tahun-ajaran?status=0&limit=1000`,
+      providesTags: ['Tahun ajaran'],
+    }),
     createTahunAjaran: builder.mutation({
       query: (body) => ({
         url: '/api/v1/tahun-ajaran',
@@ -57,6 +61,7 @@ export const tahunAjaran = sman4webApi.injectEndpoints({
 export const {
   useGetTahunAjaranQuery,
   useGetTahunAjaranBerakhirQuery,
+  useGetTahunAjaranBelumMulaiOptionQuery,
   useCreateTahunAjaranMutation,
   useUpdateTahunAjaranMutation,
   useDeleteTahunAjaranMutation,
