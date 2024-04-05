@@ -2,25 +2,36 @@ import React, { useState } from 'react';
 
 import { RiDoorOpenFill } from 'react-icons/ri';
 
-import Layout from '../components/Layout';
-import ButtonAdd from '../components/ButtonAdd';
-import SelectFilter from '../components/SelectFilter';
-import SearchFilter from '../components/SearchFilter';
-import ButtonDetail from '../components/ButtonDetail';
-import PopUpDetail from '../components/PopUpDetail';
-import PopUpAdd from '../components/PopUpAdd';
-import Pagination from '../components/Pagination';
+import {
+  Button,
+  ButtonAdd,
+  Layout,
+  PopUpAdd,
+  PopUpAction,
+  PopUpEdit,
+  PopUpDelete,
+  PopUpDetail,
+  ButtonDetailKelas,
+  SelectFilter,
+  SearchFilter,
+} from '../components';
 
 
-import FormAddKelas from '../components/kelas/FormAddKelas';
-
+import {
+  FormAddKelas,
+  TableKelas,
+  DetailKelas,
+} from '../components/kelas';
+import { useGetAngkatanQuery } from '../services/api/angkatanApiSlice';
 const Kelas = () => {
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
+  const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
+  const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPage = 8;
-  const totalRecord = 16;
-  const limitPerPage = 10;
+  const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
+  const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
+
+  const dummyData = [];
 
   return (
     <Layout>
@@ -46,67 +57,23 @@ const Kelas = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3">
-          <div className="table-scroll relative overflow-x-auto rounded-t-lg">
-            <table className="w-full text-sm text-left rtl:text-right text-black">
-              <thead className="text-xs text-gray-700 uppercase bg-main-orange">
-                <tr>
-                  <th scope="col" className="px-6 py-4">
-                    No
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Kelas
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Nama kelas
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Wali kelas
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Angakatan
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Tahun ajaran
-                  </th>
-                  <th scope="col" className="text-center px-6 py-4">
-                    Aksi
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="bg-second-orange border-b">
-                  <th
-                    scope="row"
-                    className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
-                  >
-                    1
-                  </th>
-                  <td className="px-6 py-2">X</td>
-                  <td className="px-6 py-2">XA</td>
-                  <td className="px-6 py-2">Wali kelas</td>
-                  <td className="px-6 py-2">1</td>
-                  <td className="px-6 py-2">2023/2024</td>
-                  <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
-                    <ButtonDetail
-                      isOpenPopUpDetail={isOpenPopUpDetail}
-                      setIsOpenPopUpDetail={setIsOpenPopUpDetail}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPage={totalPage}
-            totalRecord={totalRecord}
-            limitPerPage={limitPerPage}
-          />
-        </div>
+        <TableKelas
+          data={dummyData}
+          // isLoading={isLoading}
+          // isSuccess={isSuccess}
+          // isError={isError}
+          // error={error}
+          isOpenPopUpMulai={isOpenPopUpMulai}
+          setIsOpenPopUpMulai={setIsOpenPopUpMulai}
+          isOpenPopUpLulus={isOpenPopUpLulus}
+          setIsOpenPopUpLulus={setIsOpenPopUpLulus}
+          isOpenPopUpDetail={isOpenPopUpDetail}
+          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+          isOpenPopUpEdit={isOpenPopUpEdit}
+          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          isOpenPopUpDelete={isOpenPopUpDelete}
+          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+        />
 
         <PopUpAdd
           title="Tambah kelas"
@@ -123,7 +90,9 @@ const Kelas = () => {
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
         >
-          <div>Bagian ini ganti jadi file contoh: DetailAngkatan.jsx</div>
+          <div>
+            <DetailKelas />
+          </div>
         </PopUpDetail>
       </div>
     </Layout>

@@ -19,6 +19,7 @@ import Ppdb from './pages/Ppdb';
 import Kelas from './pages/Kelas';
 import Error404 from './pages/Error404';
 import DetailRapot from './pages/DetailRapot';
+import DetailKelas from './pages/DetailKelas';
 import Role from './pages/Role';
 import RequireAuth from './components/RequireAuth';
 import { selectCurrentModules } from './services/features/authSlice';
@@ -127,6 +128,13 @@ function App() {
             <>
               <Route path="/rapot" element={<Rapot />} />
               <Route path="/detailrapot" element={<DetailRapot />} />
+            </>
+          )}
+
+          {modulesRapot?.akses && (
+            <>
+              <Route path="/kelas" element={<Kelas />} />
+              <Route path="/detailkelas" element={<DetailKelas />} />
             </>
           )}
 

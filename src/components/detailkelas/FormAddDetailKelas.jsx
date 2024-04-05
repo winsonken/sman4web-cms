@@ -7,14 +7,13 @@ import * as yup from 'yup';
 
 const validationSchema = yup
   .object({
-    kelas: yup.string().required('Kelas is required'),
-    jurusan: yup.string().required('Jurusan is required'),
-    nomor: yup.string().required('Nomor is required'),
+    no_angkatan: yup.string().required('No Angkatan is required'),
+    tahun: yup.string().required('Tahun is required'),
   })
   .required();
 
-const FormAddKelas = (props) => {
-  const { setIsOpenPopUpAdd } = props;
+const FormAddDetailRapot = (props) => {
+  const { setIsOpenPopUpUpload } = props;
   const {
     register,
     handleSubmit,
@@ -26,7 +25,6 @@ const FormAddKelas = (props) => {
   const initialFormInput = {
     no_angkatan: '',
     tahun: '',
-    jurusan: '',
   };
 
   const [formInput, setFormInput] = useState(initialFormInput);
@@ -47,30 +45,10 @@ const FormAddKelas = (props) => {
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-3">
-          <div className='flex flex-col gap-4'>
-            <div className='flex justify-between gap-7'>
-              <Input
-              className="w-4/5"
-                label="Kelas"
-                name="kelas"
-                onChange={handleChange}
-                register={register}
-                errors={errors}
-              />
-              <Input
-              className="w-4/5"
-                label="Jurusan"
-                name="jurusan"
-                onChange={handleChange}
-                register={register}
-                errors={errors}
-              />
-            </div>
-          </div>
           <Input
-            type="number"
-            label="Nomor"
-            name="nomor"
+            type="file"
+            label="Upload Rapot"
+            name="upload_rapot"
             onChange={handleChange}
             register={register}
             errors={errors}
@@ -81,13 +59,13 @@ const FormAddKelas = (props) => {
           <Button
             title="Batal"
             type="cancel"
-            setIsOpenPopUp={setIsOpenPopUpAdd}
+            setIsOpenPopUp={setIsOpenPopUpUpload}
           />
-          <Button title="Tambah" type="submit" />
+          <Button title="Simpan" type="submit" />
         </div>
       </div>
     </form>
   );
 };
 
-export default FormAddKelas;
+export default FormAddDetailRapot;
