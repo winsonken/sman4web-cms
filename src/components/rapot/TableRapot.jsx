@@ -16,6 +16,12 @@ const TableRapot = (props) => {
     error,
     isOpenPopUpGanjilAwal,
     setIsOpenPopUpGanjilAwal,
+    isOpenPopUpGanjilAkhir,
+    setIsOpenPopUpGanjilAkhir,
+    isOpenPopUpGenapAwal,
+    setIsOpenPopUpGenapAwal,
+    isOpenPopUpGenapAkhir,
+    setIsOpenPopUpGenapAkhir,
     setGetData,
     currentPage,
     setCurrentPage,
@@ -101,8 +107,8 @@ const TableRapot = (props) => {
                         <ButtonAction
                           title="Lihat rapot"
                           data={allRapotSiswaData}
-                          isOpenPopUp={isOpenPopUpGanjilAwal}
-                          setIsOpenPopUp={setIsOpenPopUpGanjilAwal}
+                          isOpenPopUp={isOpenPopUpGanjilAkhir}
+                          setIsOpenPopUp={setIsOpenPopUpGanjilAkhir}
                           setGetData={setGetData}
                         />
                       ) : (
@@ -114,8 +120,8 @@ const TableRapot = (props) => {
                         <ButtonAction
                           title="Lihat rapot"
                           data={allRapotSiswaData}
-                          isOpenPopUp={isOpenPopUpGanjilAwal}
-                          setIsOpenPopUp={setIsOpenPopUpGanjilAwal}
+                          isOpenPopUp={isOpenPopUpGenapAwal}
+                          setIsOpenPopUp={setIsOpenPopUpGenapAwal}
                           setGetData={setGetData}
                         />
                       ) : (
@@ -127,8 +133,8 @@ const TableRapot = (props) => {
                         <ButtonAction
                           title="Lihat rapot"
                           data={allRapotSiswaData}
-                          isOpenPopUp={isOpenPopUpGanjilAwal}
-                          setIsOpenPopUp={setIsOpenPopUpGanjilAwal}
+                          isOpenPopUp={isOpenPopUpGenapAkhir}
+                          setIsOpenPopUp={setIsOpenPopUpGenapAkhir}
                           setGetData={setGetData}
                         />
                       ) : (

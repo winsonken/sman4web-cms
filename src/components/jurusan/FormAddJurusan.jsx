@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from '../Input';
 import Button from '../Button';
 import { useForm } from 'react-hook-form';
@@ -19,6 +19,7 @@ const FormAddJurusan = (props) => {
     register,
     handleSubmit,
     formState: { errors },
+    clearErrors,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
@@ -57,6 +58,18 @@ const FormAddJurusan = (props) => {
       });
     }
   };
+
+  useEffect(() => {
+    const fieldsToCheck = ['nama_jurusan'];
+
+    fieldsToCheck.forEach((field) => {
+      if (errors[field] && formInput[field] !== '') {
+        if (errors[field].type === 'required') {
+          clearErrors(field);
+        }
+      }
+    });
+  }, [formInput, clearErrors, errors]);
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>

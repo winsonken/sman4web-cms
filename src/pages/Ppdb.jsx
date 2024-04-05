@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { FaUserPlus } from 'react-icons/fa6';
-
+import { toast } from 'react-toastify';
 import {
   Button,
   ButtonAdd,
+  ButtonCustom,
   Layout,
   PopUpAdd,
   PopUpAction,
   PopUpEdit,
   PopUpDelete,
   PopUpDetail,
+  PopUpCustom,
   SelectFilter,
   SearchFilter,
 } from '../components';
@@ -21,17 +23,161 @@ import {
   DetailPpdb,
 } from '../components/ppdb';
 
-import { useGetAngkatanQuery } from '../services/api/angkatanApiSlice';
+import {
+  useDeletePPDBMutation,
+  useGetPPDBQuery,
+  useUpdatePindahPpdbMutation,
+  useUpdateTerimaPpdbMutation,
+  useUpdateTerimaSemuaPpdbMutation,
+  useUpdateTolakPpdbMutation,
+} from '../services/api/ppdbApiSlice';
+import useDebounce from '../helpers/useDebounce';
 
 const Ppdb = () => {
+  const [searchFilterPpdb, setSearchFilterPpdb] = useState('');
+  const debouncedSearchPpdb = useDebounce(searchFilterPpdb, 500);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const limitPerPage = 10;
+  const [getData, setGetData] = useState([]);
+
+  const {
+    data: ppdb,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetPPDBQuery({
+    q: debouncedSearchPpdb,
+    page: currentPage,
+    limit: limitPerPage,
+  });
+
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
-  const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
-  const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
+  const [isOpenPopUpTerimaPpdb, setIsOpenPopUpTerimaPpdb] = useState(false);
+  const [isOpenPopUpTolakPpdb, setIsOpenPopUpTolakPpdb] = useState(false);
+  const [isOpenPopUpTerimaSemua, setIsOpenPopUpTerimaSemua] = useState(false);
+  const [isOpenPopUpPindahPpdb, setIsOpenPopUpPindahPpdb] = useState(false);
 
-  const dummyData = [];
+  const [deletePpdb] = useDeletePPDBMutation();
+
+  const handleDelete = async () => {
+    try {
+      const response = await deletePpdb({ id: getData?.id_ppdb }).unwrap();
+      if (!response.error) {
+        toast.success('Ppdb berhasil dihapus!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpDelete(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
+
+  const [updateTerimaPpdb] = useUpdateTerimaPpdbMutation();
+
+  const handleTerimaPpdb = async () => {
+    const payload = {
+      id_ppdb: getData?.id_ppdb,
+    };
+
+    try {
+      const response = await updateTerimaPpdb(payload).unwrap();
+
+      if (!response.error) {
+        toast.success('Ppdb berhasil diterima!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpTerimaPpdb(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
+
+  const [updateTolakPpdb] = useUpdateTolakPpdbMutation();
+
+  const handleTolakPpdb = async () => {
+    const payload = {
+      id_ppdb: getData?.id_ppdb,
+    };
+
+    try {
+      const response = await updateTolakPpdb(payload).unwrap();
+
+      if (!response.error) {
+        toast.success('Ppdb berhasil ditolak!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpTolakPpdb(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
+
+  const [updateTerimaSemua] = useUpdateTerimaSemuaPpdbMutation();
+
+  const handleTerimaSemua = async () => {
+    try {
+      const response = await updateTerimaSemua().unwrap();
+
+      if (!response.error) {
+        toast.success('Semua ppdb berhasil diterima!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpTerimaSemua(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
+
+  const [updatePindahPpdb] = useUpdatePindahPpdbMutation();
+
+  const handlePindahPpdb = async () => {
+    try {
+      const response = await updatePindahPpdb().unwrap();
+
+      if (!response.error) {
+        toast.success('Semua ppdb berhasil dipindahkan!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpPindahPpdb(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
 
   return (
     <Layout>
@@ -51,27 +197,45 @@ const Ppdb = () => {
 
           <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3 justify-end ">
             <div className="sm:w-1/2">
-              <SearchFilter />
+              <SearchFilter
+                searchValue={searchFilterPpdb}
+                setSearchValue={setSearchFilterPpdb}
+              />
             </div>
           </div>
         </div>
 
+        <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+          <ButtonCustom
+            title="Terima semua"
+            setIsOpenPopUp={setIsOpenPopUpTerimaSemua}
+          />
+          <ButtonCustom
+            title="Pindahkan ppdb"
+            setIsOpenPopUp={setIsOpenPopUpPindahPpdb}
+          />
+        </div>
+
         <TablePpdb
-          data={dummyData}
-          // isLoading={isLoading}
-          // isSuccess={isSuccess}
-          // isError={isError}
-          // error={error}
-          isOpenPopUpMulai={isOpenPopUpMulai}
-          setIsOpenPopUpMulai={setIsOpenPopUpMulai}
-          isOpenPopUpLulus={isOpenPopUpLulus}
-          setIsOpenPopUpLulus={setIsOpenPopUpLulus}
+          data={ppdb}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
+          error={error}
+          isOpenPopUpTerimaPpdb={isOpenPopUpTerimaPpdb}
+          setIsOpenPopUpTerimaPpdb={setIsOpenPopUpTerimaPpdb}
+          isOpenPopUpTolakPpdb={isOpenPopUpTolakPpdb}
+          setIsOpenPopUpTolakPpdb={setIsOpenPopUpTolakPpdb}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           isOpenPopUpDelete={isOpenPopUpDelete}
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+          setGetData={setGetData}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          limitPerPage={limitPerPage}
         />
 
         <PopUpAdd
@@ -83,13 +247,18 @@ const Ppdb = () => {
         >
           <FormAddPpdb setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
         </PopUpAdd>
+
         <PopUpEdit
           title="Ubah ppdb"
           icon={<FaUserPlus />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          className="xl:w-2/3"
         >
-          <FormEditPpdb setIsOpenPopUpEdit={setIsOpenPopUpEdit} />
+          <FormEditPpdb
+            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+            data={getData}
+          />
         </PopUpEdit>
 
         <PopUpDelete
@@ -107,7 +276,7 @@ const Ppdb = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpDelete}
               />
-              <Button title="Hapus" type="submit" />
+              <Button title="Hapus" onClick={handleDelete} />
             </div>
           </div>
         </PopUpDelete>
@@ -117,17 +286,19 @@ const Ppdb = () => {
           icon={<FaUserPlus />}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+          className="xl:w-2/3"
         >
           <div>
-            <DetailPpdb />
+            <DetailPpdb data={getData} />
           </div>
         </PopUpDetail>
 
         <PopUpAction
           title="Terima ppdb"
           icon={<FaUserPlus />}
-          isOpenPopUp={isOpenPopUpLulus}
-          setIsOpenPopUp={setIsOpenPopUpLulus}
+          isOpenPopUp={isOpenPopUpTerimaPpdb}
+          setIsOpenPopUp={setIsOpenPopUpTerimaPpdb}
+          className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
             <h1>Apakah anda yakin menerima ppdb ini?</h1>
@@ -136,9 +307,9 @@ const Ppdb = () => {
               <Button
                 title="Batal"
                 type="cancel"
-                setIsOpenPopUp={setIsOpenPopUpLulus}
+                setIsOpenPopUp={setIsOpenPopUpTerimaPpdb}
               />
-              <Button title="Simpan" type="submit" />
+              <Button title="Simpan" onClick={handleTerimaPpdb} />
             </div>
           </div>
         </PopUpAction>
@@ -146,8 +317,9 @@ const Ppdb = () => {
         <PopUpAction
           title="Tolak ppdb"
           icon={<FaUserPlus />}
-          isOpenPopUp={isOpenPopUpMulai}
-          setIsOpenPopUp={setIsOpenPopUpMulai}
+          isOpenPopUp={isOpenPopUpTolakPpdb}
+          setIsOpenPopUp={setIsOpenPopUpTolakPpdb}
+          className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
             <h1>Apakah anda yakin menolak ppdb ini?</h1>
@@ -156,12 +328,56 @@ const Ppdb = () => {
               <Button
                 title="Batal"
                 type="cancel"
-                setIsOpenPopUp={setIsOpenPopUpMulai}
+                setIsOpenPopUp={setIsOpenPopUpTolakPpdb}
               />
-              <Button title="Simpan" type="submit" />
+              <Button title="Simpan" onClick={handleTolakPpdb} />
             </div>
           </div>
         </PopUpAction>
+
+        <PopUpCustom
+          title="Terima semua ppdb"
+          icon={<FaUserPlus />}
+          isOpenPopUp={isOpenPopUpTerimaSemua}
+          setIsOpenPopUp={setIsOpenPopUpTerimaSemua}
+          className="md:max-w-xl"
+        >
+          <div className="flex flex-col gap-3">
+            <h1>Apakah anda yakin menerima semua ppdb ini?</h1>
+
+            <div className="flex justify-end gap-2">
+              <Button
+                title="Batal"
+                type="cancel"
+                setIsOpenPopUp={setIsOpenPopUpTerimaSemua}
+              />
+              <Button title="Simpan" onClick={handleTerimaSemua} />
+            </div>
+          </div>
+        </PopUpCustom>
+
+        <PopUpCustom
+          title="Pindah semua ppdb"
+          icon={<FaUserPlus />}
+          isOpenPopUp={isOpenPopUpPindahPpdb}
+          setIsOpenPopUp={setIsOpenPopUpPindahPpdb}
+          className="md:max-w-xl"
+        >
+          <div className="flex flex-col gap-3">
+            <h1>
+              Apakah anda yakin memindahkan semua ppdb ini sebagai siswa aktif?
+            </h1>
+
+            <div className="flex justify-end gap-2">
+              <Button
+                title="Batal"
+                type="cancel"
+                setIsOpenPopUp={setIsOpenPopUpPindahPpdb}
+              />
+              <Button title="Simpan" onClick={handlePindahPpdb} />
+            </div>
+          </div>
+        </PopUpCustom>
       </div>
     </Layout>
   );

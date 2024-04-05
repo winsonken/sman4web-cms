@@ -17,6 +17,7 @@ const SelectInput = (props) => {
     field,
     disabled,
     isSearchable,
+    isClearable,
     errors,
   } = props;
 
@@ -29,11 +30,11 @@ const SelectInput = (props) => {
       boxShadow: 'none',
       padding: '2px',
     }),
-    container: (provided) => ({
-      ...provided,
-      minHeight: '100%',
-      height: '100%',
-    }),
+    // container: (provided) => ({
+    //   ...provided,
+    //   minHeight: '100%',
+    //   height: '100%',
+    // }),
     singleValue: (provided, state) => ({
       ...provided,
       color: '#FFFDDE',
@@ -50,11 +51,6 @@ const SelectInput = (props) => {
       ...provided,
       backgroundColor: '#FFFDDE',
     }),
-    // menu: (provided, state) => ({
-    //   ...provided,
-    //   maxHeight: '230px', // Set the max-height here
-    //   overflowY: 'auto',
-    // }),
   };
 
   const handleChange = (selectedOption) => {
@@ -80,6 +76,8 @@ const SelectInput = (props) => {
         value={selectedOption}
         onChange={handleChange}
         isSearchable={isSearchable}
+        isDisabled={disabled}
+        isClearable={isClearable}
       />
 
       {errors?.[name]?.message && (

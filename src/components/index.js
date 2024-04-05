@@ -21,6 +21,9 @@ import SelectInput from './SelectInput';
 import Sidebar from './Sidebar';
 import InputDate from './InputDate';
 import InputFile from './InputFile';
+import InputImage from './InputImage';
+import ButtonCustom from './ButtonCustom';
+import PopUpCustom from './PopUpCustom';
 
 export {
   Button,
@@ -46,4 +49,7 @@ export {
   Sidebar,
   InputDate,
   InputFile,
+  InputImage,
+  ButtonCustom,
+  PopUpCustom,
 };

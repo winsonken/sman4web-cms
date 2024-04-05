@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 
 import { FaMedal } from 'react-icons/fa6';
+import { MdDoNotDisturb } from 'react-icons/md';
 
 import {
   Button,
@@ -18,13 +19,18 @@ import { TableAktivitas } from '../components/aktivitas';
 import { useGetSiswaQuery } from '../services/api/siswaApiSlice';
 import useDebounce from '../helpers/useDebounce';
 import { FormAddPrestasi } from '../components/prestasi';
+import { FormAddPelanggaran } from '../components/pelanggaran';
+import { useSelector } from 'react-redux';
+import { selectCurrentModules } from '../services/features/authSlice';
 
 const Aktivitas = () => {
   const [searchFilterSiswa, setSearchFilterSiswa] = useState('');
 
   const debouncedSearchSiswa = useDebounce(searchFilterSiswa, 500);
 
-  const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
+  const [isOpenPopUpAddPrestasi, setIsOpenPopUpAddPrestasi] = useState(false);
+  const [isOpenPopUpAddPelanggaran, setIsOpenPopUpAddPelanggaran] =
+    useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
@@ -43,6 +49,17 @@ const Aktivitas = () => {
     page: currentPage,
     limit: limitPerPage,
   });
+
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+
+  const modulesAktivitas = filterModule('data_aktivitas');
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -50,23 +67,26 @@ const Aktivitas = () => {
           <h1 className="text-xl font-semibold md:text-2xl">Aktivitas</h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
+        <div
+          className={`flex flex-col sm:flex-row gap-3 ${
+            modulesAktivitas?.tambah ? 'sm:justify-between' : 'sm:justify-end'
+          }`}
+        >
           <div className="flex flex-col gap-3 sm:flex-row">
-            <ButtonAdd
-              title="Tambah prestasi"
-              isOpenPopUpAdd={isOpenPopUpAdd}
-              setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-            />
-            <ButtonAdd
-              title="Tambah pelanggaran"
-              // isOpenPopUpAdd={isOpenPopUpAdd}
-              // setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-            />
-            <ButtonAdd
-              title="Tambah rapot"
-              // isOpenPopUpAdd={isOpenPopUpAdd}
-              // setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-            />
+            {modulesAktivitas?.tambah && (
+              <>
+                <ButtonAdd
+                  title="Tambah prestasi"
+                  isOpenPopUpAdd={isOpenPopUpAddPrestasi}
+                  setIsOpenPopUpAdd={setIsOpenPopUpAddPrestasi}
+                />
+                <ButtonAdd
+                  title="Tambah pelanggaran"
+                  isOpenPopUpAdd={isOpenPopUpAddPelanggaran}
+                  setIsOpenPopUpAdd={setIsOpenPopUpAddPelanggaran}
+                />
+              </>
+            )}
           </div>
 
           <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3 justify-end ">
@@ -103,10 +123,23 @@ const Aktivitas = () => {
         <PopUpAdd
           title="Tambah prestasi"
           icon={<FaMedal />}
-          isOpenPopUpAdd={isOpenPopUpAdd}
-          setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          isOpenPopUpAdd={isOpenPopUpAddPrestasi}
+          setIsOpenPopUpAdd={setIsOpenPopUpAddPrestasi}
+          className="md:max-w-3xl"
         >
-          <FormAddPrestasi setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
+          <FormAddPrestasi setIsOpenPopUpAdd={setIsOpenPopUpAddPrestasi} />
+        </PopUpAdd>
+
+        <PopUpAdd
+          title="Tambah pelanggaran"
+          icon={<MdDoNotDisturb />}
+          isOpenPopUpAdd={isOpenPopUpAddPelanggaran}
+          setIsOpenPopUpAdd={setIsOpenPopUpAddPelanggaran}
+          className="md:max-w-3xl"
+        >
+          <FormAddPelanggaran
+            setIsOpenPopUpAdd={setIsOpenPopUpAddPelanggaran}
+          />
         </PopUpAdd>
       </div>
     </Layout>

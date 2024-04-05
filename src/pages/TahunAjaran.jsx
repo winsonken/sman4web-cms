@@ -29,6 +29,8 @@ import {
 } from '../services/api/tahunAjaranApiSlice';
 
 import useDebounce from '../helpers/useDebounce';
+import { useSelector } from 'react-redux';
+import { selectCurrentModules } from '../services/features/authSlice';
 
 const Tahunajaran = () => {
   const [searchFilterTahunAjaran, setSearchFilterTahunAjaran] = useState('');
@@ -43,7 +45,7 @@ const Tahunajaran = () => {
   const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
   const [isOpenPopUpSelesai, setIsOpenPopUpSelesai] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const limitPerPage = 10;
+  const limitPerPage = 3;
 
   const [currentPageTABerakhir, setCurrentPageTABerakhir] = useState(1);
   const limitPerPageTABerakhir = 10;
@@ -149,6 +151,17 @@ const Tahunajaran = () => {
     }
   };
 
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+
+  const modulesTahunAjaran = filterModule('data_tahun_ajaran');
+
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -156,12 +169,18 @@ const Tahunajaran = () => {
           <h1 className="text-xl font-semibold md:text-2xl">Tahun Ajaran</h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-          <ButtonAdd
-            title="Tambah tahun ajaran"
-            isOpenPopUpAdd={isOpenPopUpAdd}
-            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          />
+        <div
+          className={`flex flex-col sm:flex-row gap-3 ${
+            modulesTahunAjaran?.tambah ? 'sm:justify-between' : 'sm:justify-end'
+          }`}
+        >
+          {modulesTahunAjaran?.tambah && (
+            <ButtonAdd
+              title="Tambah tahun ajaran"
+              isOpenPopUpAdd={isOpenPopUpAdd}
+              setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+            />
+          )}
 
           <div className="w-full duration-100 sm:w-1/2 md:w-1/5">
             <SearchFilter
@@ -171,110 +190,30 @@ const Tahunajaran = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3">
-          <div className="table-scroll relative overflow-x-auto rounded-t-lg">
-            <table className="w-full text-sm text-left rtl:text-right text-black">
-              <thead className="text-xs text-gray-700 uppercase bg-main-orange">
-                <tr>
-                  <th scope="col" className="px-6 py-4">
-                    No
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Tahun Ajaran
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Periode ganjil
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Periode Genap
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Status
-                  </th>
-                  <th scope="col" className="text-center px-6 py-4">
-                    Aksi
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="bg-second-orange border-b">
-                  <th
-                    scope="row"
-                    className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
-                  >
-                    1
-                  </th>
-                  <td className="px-6 py-2">2022-2023</td>
-                  <td className="px-6 py-2">19/07/22 - 13/12/22</td>
-                  <td className="px-6 py-2">05/01/23 - 15/06/23</td>
-                  <td className="px-6 py-2">Lulus</td>
-                  <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
+        <TableTahunAjaran
+          data={tahunAjaran}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
+          error={error}
+          isOpenPopUpMulai={isOpenPopUpMulai}
+          setIsOpenPopUpMulai={setIsOpenPopUpMulai}
+          isOpenPopUpSelesai={isOpenPopUpSelesai}
+          setIsOpenPopUpSelesai={setIsOpenPopUpSelesai}
+          isOpenPopUpEdit={isOpenPopUpEdit}
+          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          isOpenPopUpDelete={isOpenPopUpDelete}
+          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+          setGetData={setGetData}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          limitPerPage={limitPerPage}
+        />
 
-                    <ButtonAction
-                      title="Lulus"
-                      isOpenPopUp={isOpenPopUpLulus}
-                      setIsOpenPopUp={setIsOpenPopUpLulus}
-                    />
-
-                    <ButtonEdit
-                      isOpenPopUpEdit={isOpenPopUpEdit}
-                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                    />
-
-                    <ButtonDelete
-                      isOpenPopUpDelete={isOpenPopUpDelete}
-                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                    />
-                  </td>
-                </tr>
-
-                <tr className="bg-green-100 border-b">
-                  <th
-                    scope="row"
-                    className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
-                  > 2
-                  </th>
-                  <td className="px-6 py-2">2023-2024</td>
-                  <td className="px-6 py-2">19/07/22 - 13/12/22</td>
-                  <td className="px-6 py-2">05/01/24 - 15/06/24</td>
-                  <td className="px-6 py-2">Belum dimulai</td>
-                  <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-
-                    <ButtonAction
-                      title="Mulai"
-                      isOpenPopUp={isOpenPopUpMulai}
-                      setIsOpenPopUp={setIsOpenPopUpMulai}
-                    />
-
-                    <ButtonEdit
-                      isOpenPopUpEdit={isOpenPopUpEdit}
-                      setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                    />
-
-                    <ButtonDelete
-                      isOpenPopUpDelete={isOpenPopUpDelete}
-                      setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPage={totalPage}
-            totalRecord={totalRecord}
-            limitPerPage={limitPerPage}
-          />
-        </div>
-
-        {/* Table kedua */}
-        <div>
-          <h1 className="mt-8 text-xl font-semibold md:text-2xl">Tahun Ajaran Berakhir</h1>
-        </div>
+        <div className="flex flex-col gap-5">
+          <h1 className="mt-8 text-xl font-semibold md:text-2xl">
+            Tahun Ajaran Berakhir
+          </h1>
 
 
         <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
@@ -438,6 +377,7 @@ const Tahunajaran = () => {
           icon={<FaCalendar />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          className="md:max-w-3xl"
         >
           <FormEditTahunajaran
             setIsOpenPopUpEdit={setIsOpenPopUpEdit}
@@ -470,6 +410,7 @@ const Tahunajaran = () => {
           icon={<FaCalendar />}
           isOpenPopUp={isOpenPopUpMulai}
           setIsOpenPopUp={setIsOpenPopUpMulai}
+          className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
             <h1>Apakah anda yakin memulai tahun ajaran ini?</h1>
@@ -490,6 +431,7 @@ const Tahunajaran = () => {
           icon={<FaCalendar />}
           isOpenPopUp={isOpenPopUpSelesai}
           setIsOpenPopUp={setIsOpenPopUpSelesai}
+          className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
             <h1>Apakah anda yakin mengakhiri tahun ajaran ini?</h1>

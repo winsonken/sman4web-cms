@@ -24,6 +24,8 @@ import {
   FormEditJurusan,
   TableJurusan,
 } from '../components/jurusan';
+import { selectCurrentModules } from '../services/features/authSlice';
+import { useSelector } from 'react-redux';
 
 const Jurusan = () => {
   const [searchFilterJurusan, setSearchFilterJurusan] = useState('');
@@ -74,6 +76,17 @@ const Jurusan = () => {
     }
   };
 
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+
+  const modulesJurusan = filterModule('data_jurusan');
+
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -81,12 +94,18 @@ const Jurusan = () => {
           <h1 className="text-xl font-semibold md:text-2xl">Jurusan</h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-          <ButtonAdd
-            title="Tambah jurusan"
-            isOpenPopUpAdd={isOpenPopUpAdd}
-            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          />
+        <div
+          className={`flex flex-col sm:flex-row gap-3 ${
+            modulesJurusan?.tambah ? 'sm:justify-between' : 'sm:justify-end'
+          }`}
+        >
+          {modulesJurusan?.tambah && (
+            <ButtonAdd
+              title="Tambah jurusan"
+              isOpenPopUpAdd={isOpenPopUpAdd}
+              setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+            />
+          )}
 
           <div className="w-full duration-100 sm:w-1/2 md:w-1/5">
             <SearchFilter
@@ -102,6 +121,7 @@ const Jurusan = () => {
           isSuccess={isSuccess}
           isError={isError}
           error={error}
+          modules={modulesJurusan}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           isOpenPopUpDelete={isOpenPopUpDelete}
@@ -127,6 +147,7 @@ const Jurusan = () => {
           icon={<FaBookOpen />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          className="md:max-w-2xl"
         >
           <FormEditJurusan
             setIsOpenPopUpEdit={setIsOpenPopUpEdit}

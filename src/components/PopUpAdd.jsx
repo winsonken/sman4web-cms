@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from './Icon';
+import { IoClose } from 'react-icons/io5';
 
 const PopUpAdd = (props) => {
   const {
@@ -27,12 +28,21 @@ const PopUpAdd = (props) => {
                 e.stopPropagation();
               }}
             >
-              <div className="w-full  flex flex-col gap-3 overflow-x-clip">
-                <div className="flex items-center gap-2">
-                  <Icon icons={icon} type="add" />
-                  <h1 className="text-base font-semibold">
-                    {title || 'Tambah data'}
-                  </h1>
+              <div className="w-full flex flex-col gap-3 overflow-x-clip">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <Icon icons={icon} type="add" />
+                    <h1 className="text-base font-semibold">
+                      {title || 'Tambah data'}
+                    </h1>
+                  </div>
+
+                  <IoClose
+                    className="text-2xl cursor-pointer"
+                    onClick={() => {
+                      setIsOpenPopUpAdd(false);
+                    }}
+                  />
                 </div>
 
                 <div>{children}</div>

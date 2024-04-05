@@ -13,6 +13,7 @@ const TableTahunAjaran = (props) => {
     isSuccess,
     isError,
     error,
+    modules,
     isOpenPopUpMulai,
     setIsOpenPopUpMulai,
     isOpenPopUpSelesai,
@@ -58,9 +59,16 @@ const TableTahunAjaran = (props) => {
                 <th scope="col" className="px-6 py-4">
                   Status
                 </th>
-                <th scope="col" className="text-center px-6 py-4">
-                  Aksi
-                </th>
+                {modules?.ubah && (
+                  <th scope="col" className="px-6 py-4 text-center">
+                    Status Tahun Ajaran
+                  </th>
+                )}
+                {(modules?.ubah || modules?.hapus) && (
+                  <th scope="col" className="text-center px-6 py-4">
+                    Aksi
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -94,41 +102,51 @@ const TableTahunAjaran = (props) => {
                         ? 'Berakhir'
                         : ''}
                     </td>
-                    <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
-                      {allTahunAjaran?.status_tahun_ajaran == 0 && (
-                        <ButtonAction
-                          title="Mulai"
-                          data={allTahunAjaran}
-                          isOpenPopUp={isOpenPopUpMulai}
-                          setIsOpenPopUp={setIsOpenPopUpMulai}
-                          setGetData={setGetData}
-                        />
-                      )}
+                    {modules?.ubah && (
+                      <td className="px-6 py-2 text-center">
+                        {allTahunAjaran?.status_tahun_ajaran == 0 && (
+                          <ButtonAction
+                            title="Mulai"
+                            data={allTahunAjaran}
+                            isOpenPopUp={isOpenPopUpMulai}
+                            setIsOpenPopUp={setIsOpenPopUpMulai}
+                            setGetData={setGetData}
+                          />
+                        )}
 
-                      {allTahunAjaran?.status_tahun_ajaran == 1 && (
-                        <ButtonAction
-                          title="Selesai"
-                          data={allTahunAjaran}
-                          isOpenPopUp={isOpenPopUpSelesai}
-                          setIsOpenPopUp={setIsOpenPopUpSelesai}
-                          setGetData={setGetData}
-                        />
-                      )}
+                        {allTahunAjaran?.status_tahun_ajaran == 1 && (
+                          <ButtonAction
+                            title="Selesai"
+                            data={allTahunAjaran}
+                            isOpenPopUp={isOpenPopUpSelesai}
+                            setIsOpenPopUp={setIsOpenPopUpSelesai}
+                            setGetData={setGetData}
+                          />
+                        )}
+                      </td>
+                    )}
 
-                      <ButtonEdit
-                        data={allTahunAjaran}
-                        isOpenPopUpEdit={isOpenPopUpEdit}
-                        setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                        setGetData={setGetData}
-                      />
+                    {(modules?.ubah || modules?.hapus) && (
+                      <td className="flex flex-row justify-center items-center gap-2 px-6 py-2">
+                        {modules?.ubah && (
+                          <ButtonEdit
+                            data={allTahunAjaran}
+                            isOpenPopUpEdit={isOpenPopUpEdit}
+                            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                            setGetData={setGetData}
+                          />
+                        )}
 
-                      <ButtonDelete
-                        data={allTahunAjaran}
-                        isOpenPopUpDelete={isOpenPopUpDelete}
-                        setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                        setGetData={setGetData}
-                      />
-                    </td>
+                        {modules?.hapus && (
+                          <ButtonDelete
+                            data={allTahunAjaran}
+                            isOpenPopUpDelete={isOpenPopUpDelete}
+                            setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                            setGetData={setGetData}
+                          />
+                        )}
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (

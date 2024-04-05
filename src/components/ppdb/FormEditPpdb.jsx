@@ -1,159 +1,505 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from '../Input';
-import SelectInput from '../SelectInput';
 import Button from '../Button';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
+import SelectInput from '../SelectInput';
+import InputImage from '../InputImage';
+import InputDate from '../InputDate';
+import { useGetAngkatanBelumMulaiOptionQuery } from '../../services/api/angkatanApiSlice';
+import { useGetTahunAjaranBelumMulaiOptionQuery } from '../../services/api/tahunAjaranApiSlice';
+
+import { formatDate } from '../../helpers/FormatDate';
+import { useUpdatePPDBMutation } from '../../services/api/ppdbApiSlice';
 
 const validationSchema = yup
   .object({
-    nama_siswa_ppdb: yup.string().required('Nama required'),
-    no_pendaftaran_ppdb: yup.string().required('No Pendaftaran required'),
-    nipd_ppdb: yup.string().required('NIPD required'),
-    tanggal_lahir_ppdb: yup.string().required('Tanggal Lahir required'),
-    email_ppdb: yup.string().required('Email required'),
-    tempat_lahir_ppdb: yup.string().required('Tempat Lahir required'),
-    jenis_kelamin_ppdb: yup.string().required('Jenis Kelamin required'),
-    agama_ppdb: yup.string().required('Agama required'),
-    status_ppdb: yup.string().required('Status PPDB required'),
-    alamat_ppdb: yup.string().required('Alamat required'),
-    angkatan_ppdb: yup.string().required('Angkatan required'),
-    no_telp_ppdb: yup.string().required('No Telp PPDB required'),
-    no_telp_ortu: yup.string().required('No Telp Ortu required'),
-    nama_ortu: yup.string().required('Nama Ortu required'),
+    no_pendaftaran: yup
+      .string()
+      .max(15, 'No pendaftaran must be at most 15 characters')
+      .required('No Pendaftaran is required'),
+    nama: yup.string().required('Nama siswa is required'),
+    jenis_kelamin: yup.string().required('Jenis kelamin is required'),
+    nipd: yup
+      .string()
+      .max(10, 'NIPD must be at most 10 characters')
+      .required('NIPD is required'),
+    nik: yup
+      .string()
+      .max(16, 'NIK must be at most 16 characters')
+      .required('NIK is required'),
+    no_telepon_siswa: yup
+      .string()
+      .max(13, 'No telepon siswa must be at most 13 characters')
+      .required('No Telepon siswa is required'),
+    alamat: yup.string().required('Alamat is required'),
+    email: yup
+      .string()
+      .max(30, 'Email must be at most 30 characters')
+      .required('Email is required'),
+    tempat_lahir: yup
+      .string()
+      .max(30, 'Tempat lahir must be at most 30 characters')
+      .required('Tempat lahir is required'),
+    tanggal_lahir: yup.string().required('Tanggal lahir is required'),
+    agama: yup
+      .string()
+      .max(20, 'Agama must be at most 20 characters')
+      .required('Agama is required'),
+    nama_ortu: yup.string().required('Nama ortu is required'),
+    no_telepon_ortu: yup
+      .string()
+      .max(13, 'No telepon ortu must be at most 13 characters')
+      .required('No telepon ortu is required'),
+    angkatan: yup.string().required('Angkatan is required'),
+    tahun_ajaran: yup.string().required('Tahun ajaran is required'),
+    status_ppdb: yup.string().required('Status ppdb is required'),
   })
   .required();
 
 const FormEditPpdb = (props) => {
-  const { setIsOpenPopUpEdit } = props;
+  const { data, setIsOpenPopUpEdit } = props;
   const {
     control,
     register,
     handleSubmit,
     formState: { errors },
+    clearErrors,
+    setValue,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = (e) => {
-    toast.success('Angkatan berhasil diubah!', {
-      position: 'top-right',
-      theme: 'light',
-    });
+  const [selectedStatusValue, setSelectedStatusValue] = useState('');
+  const [jenisKelaminValue, setJenisKelaminValue] = useState('');
+  const [selectedAngkatanValue, setSelectedAngkatanValue] = useState('');
+  const [selectedTahunAjaranValue, setSelectedTahunAjaranValue] = useState('');
+  const [selectedImage, setSelectedImage] = useState('');
+  const [imageValue, setImageValue] = useState('');
+
+  const { data: angkatanOption } = useGetAngkatanBelumMulaiOptionQuery();
+  const selectAngkatan = angkatanOption?.data?.map((e) => ({
+    value: e?.id_angkatan,
+    label: e?.no_angkatan,
+  }));
+
+  const { data: tahunAjaranOption } = useGetTahunAjaranBelumMulaiOptionQuery();
+  const selectTahunAjaran = tahunAjaranOption?.data?.map((e) => ({
+    value: e?.id_tahun_ajaran,
+    label: `${e?.tahun_mulai_ajaran}-${e?.tahun_akhir_ajaran}`,
+  }));
+
+  const initialFormInput = {
+    id_ppdb: '',
+    no_pendaftaran: '',
+    nama: '',
+    jenis_kelamin: '',
+    nipd: '',
+    nik: '',
+    no_telepon_siswa: '',
+    alamat: '',
+    email: '',
+    tempat_lahir: '',
+    tanggal_lahir: '',
+    agama: '',
+    nama_ortu: '',
+    no_telepon_ortu: '',
+    image: '',
+    angkatan: '',
+    tahun_ajaran: '',
+    status_ppdb: '',
+  };
+  const [formInput, setFormInput] = useState(initialFormInput);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      setFormInput((prev) => ({
+        ...prev,
+        image: file,
+      }));
+      setSelectedImage(file);
+    }
+  };
+
+  const [updatePpdb] = useUpdatePPDBMutation();
+
+  const handleSubmitForm = async () => {
+    const formData = new FormData();
+    formData.append('id_ppdb', formInput?.id_ppdb);
+    formData.append('no_pendaftaran', formInput?.no_pendaftaran);
+    formData.append('nama', formInput?.nama);
+    formData.append('jenis_kelamin', jenisKelaminValue);
+    formData.append('nipd', formInput?.nipd);
+    formData.append('nik', formInput?.nik);
+    formData.append('no_telepon_siswa', formInput?.no_telepon_siswa);
+    formData.append('alamat', formInput?.alamat);
+    formData.append('email', formInput?.email);
+    formData.append('tempat_lahir', formInput?.tempat_lahir);
+    formData.append('tanggal_lahir', formatDate(formInput?.tanggal_lahir));
+    formData.append('agama', formInput?.agama);
+    formData.append('nama_ortu', formInput?.nama_ortu);
+    formData.append('no_telepon_ortu', formInput?.no_telepon_ortu);
+    formData.append('image', selectedImage);
+    formData.append('angkatan', selectedAngkatanValue);
+    formData.append('tahun_ajaran', selectedTahunAjaranValue);
+    formData.append('status_ppdb', selectedStatusValue);
+
+    try {
+      const response = await updatePpdb(formData).unwrap();
+      if (!response.error) {
+        toast.success('Ppdb berhasil diubah!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpEdit(false);
+      }
+    } catch (error) {
+      console.log(error);
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
+
+  const handleTanggalLahir = (date, field) => {
+    field.onChange(date);
+    setFormInput((prev) => ({
+      ...prev,
+      tanggal_lahir: date,
+    }));
+  };
+
+  useEffect(() => {
+    if (data) {
+      setFormInput({
+        id_ppdb: data?.id_ppdb,
+        no_pendaftaran: data?.no_pendaftaran,
+        nama: data?.nama,
+        jenis_kelamin: data?.jenis_kelamin,
+        nipd: data?.nipd,
+        nik: data?.nik,
+        no_telepon_siswa: data?.no_telepon_siswa,
+        alamat: data?.alamat,
+        email: data?.email,
+        tempat_lahir: data?.tempat_lahir,
+        tanggal_lahir: data?.tanggal_lahir,
+        agama: data?.agama,
+        nama_ortu: data?.nama_ortu,
+        no_telepon_ortu: data?.no_telepon_ortu,
+        image: data?.foto,
+        angkatan: data?.angkatan,
+        tahun_ajaran: data?.tahun_ajaran,
+        status_ppdb: data?.status_ppdb,
+      });
+    }
+    setJenisKelaminValue(data?.jenis_kelamin);
+    setSelectedAngkatanValue(data?.angkatan);
+    setSelectedTahunAjaranValue(data?.tahun_ajaran);
+    setSelectedStatusValue(data?.status_ppdb);
+    setImageValue(data?.foto);
+  }, [data, setFormInput]);
+
+  useEffect(() => {
+    const fieldsToCheck = [
+      'no_pendaftaran',
+      'nama',
+      'nipd',
+      'nik',
+      'no_telepon_siswa',
+      'alamat',
+      'email',
+      'tempat_lahir',
+      'agama',
+      'nama_ortu',
+      'no_telepon_ortu',
+      'foto',
+    ];
+
+    fieldsToCheck.forEach((field) => {
+      if (errors[field] && formInput[field] !== '') {
+        if (errors[field].type === 'required') {
+          clearErrors(field);
+        }
+      }
+    });
+  }, [formInput, clearErrors, errors]);
+
+  useEffect(() => {
+    if (data) {
+      setValue('no_pendaftaran', data?.no_pendaftaran);
+      setValue('nama', data?.nama);
+      setValue('jenis_kelamin', data?.jenis_kelamin);
+      setValue('nipd', data?.nipd);
+      setValue('nik', data?.nik);
+      setValue('no_telepon_siswa', data?.no_telepon_siswa);
+      setValue('alamat', data?.alamat);
+      setValue('email', data?.email);
+      setValue('tempat_lahir', data?.tempat_lahir);
+      setValue('tanggal_lahir', data?.tanggal_lahir);
+      setValue('agama', data?.agama);
+      setValue('nama_ortu', data?.nama_ortu);
+      setValue('no_telepon_ortu', data?.no_telepon_ortu);
+      setValue('image', data?.foto);
+      setValue('angkatan', data?.angkatan);
+      setValue('tahun_ajaran', data?.tahun_ajaran);
+      setValue('status_ppdb', data?.status_ppdb);
+    }
+  }, [data, setFormInput, setValue]);
+
+  useEffect(() => {
+    setValue('jenis_kelamin', jenisKelaminValue);
+
+    clearErrors('jenis_kelamin');
+  }, [jenisKelaminValue, setValue]);
+
+  useEffect(() => {
+    setValue('angkatan', selectedAngkatanValue);
+
+    clearErrors('angkatan');
+  }, [selectedAngkatanValue, setValue]);
+  useEffect(() => {
+    setValue('tahun_ajaran', selectedTahunAjaranValue);
+
+    clearErrors('tahun_ajaran');
+  }, [selectedTahunAjaranValue, setValue]);
+
+  const jenisKelamin = [
+    { value: 'Laki-laki', label: 'Laki-laki' },
+    { value: 'Perempuan', label: 'Perempuan' },
+  ];
+
+  const statusPpdb = [
+    { value: 0, label: 'Menunggu penerimaan' },
+    { value: 1, label: 'Diterima' },
+    { value: 2, label: 'Ditolak' },
+  ];
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col gap-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:grid-cols-3 ">
+        <div className="grid grid-flow-row-dense grid-cols-1 sm:grid-cols-2 gap-3 md:grid-cols-3 ">
+          <div className="sm:row-span-2">
+            <InputImage
+              imageValue={imageValue}
+              setImageValue={setImageValue}
+              onChange={handleImageChange}
+              selectedImage={selectedImage}
+              setSelectedImage={setSelectedImage}
+            />
+          </div>
+
           <Input
-            type="file"
-            label="Foto"
-            name="foto_ppdb"
+            type="text"
+            label="No pendaftaran"
+            name="no_pendaftaran"
+            value={formInput?.no_pendaftaran}
+            onChange={handleChange}
             register={register}
             errors={errors}
           />
+
           <Input
             type="text"
-            label="Nama"
-            name="nama_siswa_ppdb"
+            label="Nama siswa"
+            name="nama"
+            value={formInput?.nama}
+            onChange={handleChange}
             register={register}
             errors={errors}
           />
-          <Input
-            type="text"
-            label="No Pendaftaran"
-            name="no_pendaftaran_ppdb"
-            register={register}
-            errors={errors}
+
+          <Controller
+            name="jenis_kelamin"
+            control={control}
+            render={({ field }) => (
+              <SelectInput
+                field={field}
+                data={jenisKelamin}
+                label="Jenis kelamin"
+                name="jenis_kelamin"
+                selectedValue={jenisKelaminValue}
+                setSelectedValue={setJenisKelaminValue}
+                placeholder="Select jenis kelamin"
+                isClearable
+                errors={errors}
+              />
+            )}
           />
 
           <Input
             type="text"
             label="NIPD"
-            name="nipd_ppdb"
+            name="nipd"
+            value={formInput?.nipd}
+            onChange={handleChange}
             register={register}
             errors={errors}
           />
 
           <Input
-            type="date"
-            label="Tanggal Lahir"
-            name="tanggal_lahir_ppdb"
+            type="number"
+            label="NIK"
+            name="nik"
+            // max="16"
+            value={formInput?.nik}
+            onChange={handleChange}
             register={register}
             errors={errors}
           />
+
+          <Input
+            type="number"
+            label="No Telp siswa"
+            name="no_telepon_siswa"
+            value={formInput?.no_telepon_siswa}
+            onChange={handleChange}
+            register={register}
+            errors={errors}
+          />
+
+          <Input
+            type="text"
+            label="Alamat"
+            name="alamat"
+            value={formInput?.alamat}
+            onChange={handleChange}
+            register={register}
+            errors={errors}
+          />
+
           <Input
             type="text"
             label="Email"
-            name="email_ppdb"
+            name="email"
+            value={formInput?.email}
+            onChange={handleChange}
             register={register}
             errors={errors}
           />
           <Input
             type="text"
             label="Tempat Lahir"
-            name="tempat_lahir_ppdb"
+            name="tempat_lahir"
+            value={formInput?.tempat_lahir}
+            onChange={handleChange}
             register={register}
             errors={errors}
           />
-          <Input
-            type="text"
-            label="Jenis Kelamin"
-            name="jenis_kelamin_ppdb"
-            register={register}
-            errors={errors}
+
+          <Controller
+            name="tanggal_lahir"
+            control={control}
+            render={({ field }) => (
+              <InputDate
+                field={field}
+                label="Tanggal lahir"
+                name="tanggal_lahir"
+                value={formInput?.tanggal_lahir}
+                dateFormat="yyyy/MM/dd"
+                placeholder="Select tanggal lahir"
+                onChange={(date) => handleTanggalLahir(date, field)}
+                errors={errors}
+              />
+            )}
           />
+
           <Input
             type="text"
             label="Agama"
-            name="agama_ppdb"
+            name="agama"
+            value={formInput?.agama}
+            onChange={handleChange}
             register={register}
             errors={errors}
           />
-          <Input
-            type="text"
-            label="Status PPDB"
-            name="status_ppdb"
-            register={register}
-            errors={errors}
-          />
-          <Input
-            type="text"
-            label="Alamat"
-            name="alamat_ppdb"
-            register={register}
-            errors={errors}
-          />
-          <Input
-            type="number"
-            label="Angkatan"
-            name="angkatan_ppdb"
-            register={register}
-            errors={errors}
-          />
-          <Input
-            type="text"
-            label="No Telp PPDB"
-            name="no_telp_ppdb"
-            register={register}
-            errors={errors}
-          />
-          <Input
-            type="text"
-            label="No Telp Ortu"
-            name="no_telp_ortu"
-            register={register}
-            errors={errors}
-          />
+
           <Input
             type="text"
             label="Nama Ortu"
             name="nama_ortu"
+            value={formInput?.nama_ortu}
+            onChange={handleChange}
             register={register}
             errors={errors}
+          />
+
+          <Input
+            type="number"
+            label="No Telp ortu"
+            name="no_telepon_ortu"
+            value={formInput?.no_telepon_ortu}
+            onChange={handleChange}
+            register={register}
+            errors={errors}
+          />
+
+          <Controller
+            name="angkatan"
+            control={control}
+            render={({ field }) => (
+              <SelectInput
+                field={field}
+                data={selectAngkatan}
+                label="Angkatan"
+                name="angkatan"
+                selectedValue={selectedAngkatanValue}
+                setSelectedValue={setSelectedAngkatanValue}
+                placeholder="Select angkatan"
+                isSearchable
+                isClearable
+                errors={errors}
+              />
+            )}
+          />
+
+          <Controller
+            name="tahun_ajaran"
+            control={control}
+            render={({ field }) => (
+              <SelectInput
+                field={field}
+                data={selectTahunAjaran}
+                label="Tahun ajaran"
+                name="tahun_ajaran"
+                selectedValue={selectedTahunAjaranValue}
+                setSelectedValue={setSelectedTahunAjaranValue}
+                placeholder="Select tahun ajaran"
+                isSearchable
+                isClearable
+                errors={errors}
+              />
+            )}
+          />
+
+          <Controller
+            name="status_ppdb"
+            control={control}
+            render={({ field }) => (
+              <SelectInput
+                field={field}
+                data={statusPpdb}
+                label="Status"
+                name="status_ppdb"
+                selectedValue={selectedStatusValue}
+                setSelectedValue={setSelectedStatusValue}
+                placeholder="Select status ppdb"
+                errors={errors}
+              />
+            )}
           />
         </div>
 

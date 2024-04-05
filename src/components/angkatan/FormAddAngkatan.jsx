@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from '../Input';
 import Button from '../Button';
 import { useForm } from 'react-hook-form';
@@ -20,6 +20,7 @@ const FormAddAngkatan = (props) => {
     register,
     handleSubmit,
     formState: { errors },
+    clearErrors,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
@@ -60,6 +61,18 @@ const FormAddAngkatan = (props) => {
       });
     }
   };
+
+  useEffect(() => {
+    const fieldsToCheck = ['no_angkatan', 'tahun'];
+
+    fieldsToCheck.forEach((field) => {
+      if (errors[field] && formInput[field] !== '') {
+        if (errors[field].type === 'required') {
+          clearErrors(field);
+        }
+      }
+    });
+  }, [formInput, clearErrors, errors]);
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>

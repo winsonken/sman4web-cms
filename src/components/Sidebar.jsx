@@ -19,6 +19,8 @@ import { MdLogout } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut, selectCurrentModules } from '../services/features/authSlice';
 import { FiActivity } from 'react-icons/fi';
+import { GiGraduateCap } from 'react-icons/gi';
+import { SiGoogleclassroom } from 'react-icons/si';
 
 const Sidebar = (props) => {
   const { openSidebar } = props;
@@ -44,7 +46,10 @@ const Sidebar = (props) => {
   const modulesSiswa = filterModule('data_siswa');
   const modulesGuru = filterModule('data_guru');
   const modulesAlumni = filterModule('data_alumni');
+  const modulesKelulusan = filterModule('data_kelulusan');
+  const modulesKelasSiswa = filterModule('data_kelas_siswa');
   const modulesJurusan = filterModule('data_jurusan');
+  const modulesAktivitas = filterModule('data_aktivitas');
   const modulesPrestasi = filterModule('data_prestasi');
   const modulesRapot = filterModule('data_rapot');
   const modulesPelanggaran = filterModule('data_pelanggaran');
@@ -110,7 +115,19 @@ const Sidebar = (props) => {
       name: 'Aktivitas',
       link: '/aktivitas',
       icon: <FiActivity />,
-      access: true,
+      access: modulesAktivitas?.akses,
+    },
+    {
+      name: 'PPDB',
+      link: '/ppdb',
+      icon: <FaUserPlus />,
+      access: modulesPpdb?.akses,
+    },
+    {
+      name: 'Kelas siswa',
+      link: '/kelas-siswa',
+      icon: <SiGoogleclassroom />,
+      access: modulesKelasSiswa?.akses,
     },
     {
       name: 'Prestasi',
@@ -131,10 +148,10 @@ const Sidebar = (props) => {
       access: modulesPelanggaran?.akses,
     },
     {
-      name: 'PPDB',
-      link: '/ppdb',
-      icon: <FaUserPlus />,
-      access: modulesPpdb?.akses,
+      name: 'Kelulusan',
+      link: '/kelulusan',
+      icon: <GiGraduateCap />,
+      access: modulesKelulusan?.akses,
     },
     {
       name: 'Role',

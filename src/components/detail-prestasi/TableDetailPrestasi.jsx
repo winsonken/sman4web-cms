@@ -13,6 +13,12 @@ const TableDetailPrestasi = (props) => {
     isSuccess,
     isError,
     error,
+    modules,
+    isOpenPopUpEdit,
+    setIsOpenPopUpEdit,
+    isOpenPopUpDelete,
+    setIsOpenPopUpDelete,
+    setGetData,
     currentPage,
     setCurrentPage,
     limitPerPage,
@@ -47,9 +53,11 @@ const TableDetailPrestasi = (props) => {
                 <th scope="col" className="px-6 py-4">
                   Tahun
                 </th>
-                <th scope="col" className="text-center px-6 py-4">
-                  Aksi
-                </th>
+                {(modules?.ubah || modules?.hapus) && (
+                  <th scope="col" className="text-center px-6 py-4">
+                    Aksi
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -69,15 +77,35 @@ const TableDetailPrestasi = (props) => {
                       {allPrestasiData?.jenis_prestasi}
                     </td>
                     <td className="px-6 py-2">
-                      {allPrestasiData?.tahun_prestasi}
+                      {allPrestasiData?.tanggal_prestasi}
                     </td>
-                    <td className="px-6 py-2"></td>
+                    {(modules?.ubah || modules?.hapus) && (
+                      <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
+                        {modules?.ubah && (
+                          <ButtonEdit
+                            data={allPrestasiData}
+                            isOpenPopUpEdit={isOpenPopUpEdit}
+                            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                            setGetData={setGetData}
+                          />
+                        )}
+
+                        {modules?.hapus && (
+                          <ButtonDelete
+                            data={allPrestasiData}
+                            isOpenPopUpDelete={isOpenPopUpDelete}
+                            setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                            setGetData={setGetData}
+                          />
+                        )}
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="7"
+                    colSpan="5"
                     className="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
                     <div className="text-sm  text-gray-500 text-center">

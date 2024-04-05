@@ -26,6 +26,13 @@ import { selectCurrentModules } from './services/features/authSlice';
 import { useSelector } from 'react-redux';
 import DetailPrestasi from './pages/DetailPrestasi';
 import Aktivitas from './pages/Aktivitas';
+import Kelulusan from './pages/Kelulusan';
+import KelasSiswa from './pages/KelasSiswa';
+import Error from './pages/Error';
+import ProfileSiswa from './pages/ProfileSiswa';
+import ProfileGuru from './pages/ProfileGuru';
+import ProfileTendik from './pages/ProfileTendik';
+import DetailPelanggaran from './pages/DetailPelanggaran';
 
 function App() {
   const modules = useSelector(selectCurrentModules);
@@ -44,7 +51,10 @@ function App() {
   const modulesSiswa = filterModule('data_siswa');
   const modulesGuru = filterModule('data_guru');
   const modulesAlumni = filterModule('data_alumni');
+  const modulesKelulusan = filterModule('data_kelulusan');
+  const modulesKelasSiswa = filterModule('data_kelas_siswa');
   const modulesJurusan = filterModule('data_jurusan');
+  const modulesAktivitas = filterModule('data_aktivitas');
   const modulesPrestasi = filterModule('data_prestasi');
   const modulesRapot = filterModule('data_rapot');
   const modulesPelanggaran = filterModule('data_pelanggaran');
@@ -89,7 +99,23 @@ function App() {
             <Route path="/jurusan" element={<Jurusan />} />
           )}
 
-          <Route path="/aktivitas" element={<Aktivitas />} />
+          {modulesAktivitas?.akses && (
+            <>
+              <Route path="/aktivitas" element={<Aktivitas />} />
+              <Route path="/aktivitas/prestasi" element={<DetailPrestasi />} />
+              <Route
+                path="/aktivitas/pelanggaran"
+                element={<DetailPelanggaran />}
+              />
+              <Route path="/aktivitas/rapot" element={<DetailRapot />} />
+            </>
+          )}
+
+          {modulesPpdb?.akses && <Route path="/ppdb" element={<Ppdb />} />}
+
+          {modulesKelasSiswa?.akses && (
+            <Route path="/kelas-siswa" element={<KelasSiswa />} />
+          )}
 
           {modulesPrestasi?.akses && (
             <>
@@ -116,11 +142,18 @@ function App() {
             <Route path="/pelanggaran" element={<Pelanggaran />} />
           )}
 
-          {modulesPpdb?.akses && <Route path="/ppdb" element={<Ppdb />} />}
+          {modulesKelulusan?.akses && (
+            <Route path="/kelulusan" element={<Kelulusan />} />
+          )}
 
           {modulesRole?.akses && <Route path="/role" element={<Role />} />}
 
           <Route path="/*" element={<Error404 />} />
+
+          <Route path="/error" element={<Error />} />
+          <Route path="/profilesiswa" element={<ProfileSiswa />} />
+          <Route path="/profileguru" element={<ProfileGuru />} />
+          <Route path="/profiletendik" element={<ProfileTendik />} />
         </Route>
       </Routes>
       <ToastContainer />

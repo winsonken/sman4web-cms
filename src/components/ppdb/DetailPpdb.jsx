@@ -1,93 +1,122 @@
 import React from 'react';
-import Button from '../Button';
 
 const DetailPpdb = (props) => {
-  const { setIsOpenPopUpAdd } = props;
+  const { data } = props;
 
   return (
-    <div className="grid gap-5 max-w-xl h-fit max-h-[80%] p-3 rounded-md xl:max-w-2xl duration-200 overflow-y-auto ${className}">
-      <div className=" ">
-        <h1>
-          <img src="./public/Suki.jpeg" alt="Siswa" />
-        </h1>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:grid-cols-3">
+    <div className="">
+      <div className="grid grid-flow-row-dense grid-cols-1 sm:grid-cols-2 gap-3 md:grid-cols-3">
+        <div className="sm:row-span-3">
+          <img
+            src={
+              data?.foto
+                ? `http://localhost:5500/${data?.foto}`
+                : './default-user.jpeg'
+            }
+            alt="Siswa"
+            className="w-full h-full rounded-md object-cover"
+          />
+        </div>
+        <div>
+          <h1 className="font-medium text-second-blue">No pendaftaran</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {data?.no_pendaftaran}
+          </p>
+        </div>
         <div>
           <h1 className="font-medium text-second-blue">Nama</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            Maria Zhang
-          </p>
-        </div>
-        <div>
-          <h1 className="font-medium text-second-blue">Tanggal Lahir</h1>
-          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            08/08/1999
-          </p>
-        </div>
-        <div>
-          <h1 className="font-medium text-second-blue">NIPD</h1>
-          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            90.100.600
-          </p>
-        </div>
-        <div>
-          <h1 className="font-medium text-second-blue">Tempat Lahir</h1>
-          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            Polandia
-          </p>
-        </div>
-        <div>
-          <h1 className="font-medium text-second-blue">Email</h1>
-          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            suki@gmail.com
+            {data?.nama}
           </p>
         </div>
         <div>
           <h1 className="font-medium text-second-blue">Jenis Kelamin</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            Wanita
+            {data?.jenis_kelamin}
           </p>
         </div>
         <div>
-          <h1 className="font-medium text-second-blue">Agama</h1>
+          <h1 className="font-medium text-second-blue">NIPD</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            Kim Jong Un
+            {data?.nipd}
           </p>
         </div>
         <div>
-          <h1 className="font-medium text-second-blue">Status PPDB</h1>
+          <h1 className="font-medium text-second-blue">NIK</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            Aktif
+            {data?.nik}
+          </p>
+        </div>
+        <div>
+          <h1 className="font-medium text-second-blue">No Telepon siswa</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {data?.no_telepon_siswa}
           </p>
         </div>
         <div>
           <h1 className="font-medium text-second-blue">Alamat</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            Kintamani Blok B
+            {data?.alamat}
           </p>
         </div>
         <div>
-          <h1 className="font-medium text-second-blue">Angkatan</h1>
+          <h1 className="font-medium text-second-blue">Email</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            Angkatan ke-24
+            {data?.email}
           </p>
         </div>
         <div>
-          <h1 className="font-medium text-second-blue">No Telp PPDB</h1>
+          <h1 className="font-medium text-second-blue">Tempat Lahir</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            085678971654
+            {data?.tempat_lahir}
+          </p>
+        </div>
+        <div>
+          <h1 className="font-medium text-second-blue">Tanggal Lahir</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {data?.tanggal_lahir}
+          </p>
+        </div>
+        <div>
+          <h1 className="font-medium text-second-blue">Agama</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {data?.agama}
           </p>
         </div>
         <div>
           <h1 className="font-medium text-second-blue">Nama Ortu</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            Jaka Prataka
+            {data?.nama_ortu}
           </p>
         </div>
         <div>
-          <h1 className="font-medium text-second-blue">No Telp Ortu</h1>
+          <h1 className="font-medium text-second-blue">No Telepon Ortu</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            087654367281
+            {data?.no_telepon_ortu}
+          </p>
+        </div>
+        <div>
+          <h1 className="font-medium text-second-blue">Angkatan</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {data?.no_angkatan}
+          </p>
+        </div>
+        <div>
+          <h1 className="font-medium text-second-blue">Tahun ajaran</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {`${data?.tahun_mulai_ajaran} - ${data?.tahun_akhir_ajaran}`}
+          </p>
+        </div>
+        <div>
+          <h1 className="font-medium text-second-blue">Status PPDB</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {data?.status_ppdb == 0
+              ? 'Menunggu penerimaan'
+              : data?.status_ppdb == 1
+              ? 'Diterima'
+              : data?.status_ppdb == 2
+              ? 'Ditolak'
+              : ''}
           </p>
         </div>
       </div>

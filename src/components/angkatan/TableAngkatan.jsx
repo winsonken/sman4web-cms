@@ -13,6 +13,7 @@ const TableAngkatan = (props) => {
     isSuccess,
     isError,
     error,
+    modules,
     isOpenPopUpMulai,
     setIsOpenPopUpMulai,
     isOpenPopUpLulus,
@@ -59,12 +60,16 @@ const TableAngkatan = (props) => {
                 <th scope="col" className="px-6 py-4">
                   Status
                 </th>
-                <th scope="col" className="px-6 py-4">
-                  Siswa lulus
-                </th>
-                <th scope="col" className="text-center px-6 py-4">
-                  Aksi
-                </th>
+                {modules?.ubah && (
+                  <th scope="col" className="px-3 py-4 text-center">
+                    Status Tahun ajaran
+                  </th>
+                )}
+                {(modules?.ubah || modules?.hapus) && (
+                  <th scope="col" className="text-center px-6 py-4">
+                    Aksi
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -73,18 +78,18 @@ const TableAngkatan = (props) => {
                   <tr className="bg-second-orange border-b">
                     <th
                       scope="row"
-                      className="px-6 py-1 font-medium text-gray-900 whitespace-nowrap"
+                      className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
                     >
                       {index + 1}
                     </th>
-                    <td className="px-6 py-1">
+                    <td className="px-6 py-2">
                       {allAngkatanData?.no_angkatan}
                     </td>
-                    <td className="px-6 py-1">{allAngkatanData?.tahun}</td>
-                    <td className="px-6 py-1">
+                    <td className="px-6 py-2">{allAngkatanData?.tahun}</td>
+                    <td className="px-6 py-2">
                       {allAngkatanData?.jumlah_siswa || '-'}
                     </td>
-                    <td className="px-6 py-1">
+                    <td className="px-6 py-2">
                       {allAngkatanData?.status_angkatan == 0
                         ? 'Belum dimulai'
                         : allAngkatanData?.status_angkatan == 1
@@ -93,50 +98,60 @@ const TableAngkatan = (props) => {
                         ? 'Lulus'
                         : '-'}
                     </td>
-                    <td className="px-6 py-1">
-                      {allAngkatanData?.siswa_lulus || '-'}
-                    </td>
-                    <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
-                      {allAngkatanData?.status_angkatan == 0 && (
-                        <ButtonAction
-                          title="Mulai"
-                          data={allAngkatanData}
-                          isOpenPopUp={isOpenPopUpMulai}
-                          setIsOpenPopUp={setIsOpenPopUpMulai}
-                          setGetData={setGetData}
-                        />
-                      )}
+                    {modules?.ubah && (
+                      <td className="px-6 py-2">
+                        <div className="flex justify-center items-center">
+                          {allAngkatanData?.status_angkatan == 0 ? (
+                            <ButtonAction
+                              title="Mulai"
+                              data={allAngkatanData}
+                              isOpenPopUp={isOpenPopUpMulai}
+                              setIsOpenPopUp={setIsOpenPopUpMulai}
+                              setGetData={setGetData}
+                            />
+                          ) : (
+                            ''
+                          )}
 
-                      {allAngkatanData?.status_angkatan == 1 && (
-                        <ButtonAction
-                          title="Lulus"
-                          data={allAngkatanData}
-                          isOpenPopUp={isOpenPopUpLulus}
-                          setIsOpenPopUp={setIsOpenPopUpLulus}
-                          setGetData={setGetData}
-                        />
-                      )}
+                          {allAngkatanData?.status_angkatan == 1 && (
+                            <ButtonAction
+                              title="Lulus"
+                              data={allAngkatanData}
+                              isOpenPopUp={isOpenPopUpLulus}
+                              setIsOpenPopUp={setIsOpenPopUpLulus}
+                              setGetData={setGetData}
+                            />
+                          )}
+                        </div>
+                      </td>
+                    )}
+                    {(modules?.ubah || modules?.hapus) && (
+                      <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
+                        {modules?.ubah && (
+                          <ButtonEdit
+                            data={allAngkatanData}
+                            isOpenPopUpEdit={isOpenPopUpEdit}
+                            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                            setGetData={setGetData}
+                          />
+                        )}
 
-                      <ButtonEdit
-                        data={allAngkatanData}
-                        isOpenPopUpEdit={isOpenPopUpEdit}
-                        setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                        setGetData={setGetData}
-                      />
-
-                      <ButtonDelete
-                        data={allAngkatanData}
-                        isOpenPopUpDelete={isOpenPopUpDelete}
-                        setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                        setGetData={setGetData}
-                      />
-                    </td>
+                        {modules?.hapus && (
+                          <ButtonDelete
+                            data={allAngkatanData}
+                            isOpenPopUpDelete={isOpenPopUpDelete}
+                            setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                            setGetData={setGetData}
+                          />
+                        )}
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="7"
+                    colSpan="8"
                     className="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
                     <div className="text-sm  text-gray-500 text-center">

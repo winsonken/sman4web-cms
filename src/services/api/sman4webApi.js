@@ -21,6 +21,7 @@ export const sman4webApi = createApi({
     'Prestasi',
     'Pelanggaran',
     'Rapot',
+    'Ppdb',
     'Role',
     'Module',
   ],

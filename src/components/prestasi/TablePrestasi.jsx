@@ -76,7 +76,7 @@ const TablePrestasi = (props) => {
                       {allPrestasiSiswaData?.jenis_prestasi}
                     </td>
                     <td className="px-6 py-2">
-                      {allPrestasiSiswaData?.tahun_prestasi}
+                      {allPrestasiSiswaData?.tanggal_prestasi}
                     </td>
                   </tr>
                 ))

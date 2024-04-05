@@ -6,15 +6,17 @@ import InputDate from '../InputDate';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { toast } from 'react-toastify';
 import { useGetSiswaOptionQuery } from '../../services/api/siswaApiSlice';
 import { formatDate } from '../../helpers/FormatDate';
+import { useCreatePrestasiMutation } from '../../services/api/prestasiApiSlice';
 
 const validationSchema = yup
   .object({
     siswa: yup.string().required('Siswa is required'),
     jenis_prestasi: yup.string().required('Jenis prestasi is required'),
     nama_prestasi: yup.string().required('Nama prestasi is required'),
-    tahun_prestasi: yup.string().required('Tahun prestasi is required'),
+    tanggal_prestasi: yup.string().required('Tanggal prestasi is required'),
   })
   .required();
 
@@ -26,6 +28,7 @@ const FormAddPrestasi = (props) => {
     handleSubmit,
     formState: { errors },
     setValue,
+    clearErrors,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
@@ -33,7 +36,7 @@ const FormAddPrestasi = (props) => {
   const initialFormInput = {
     nama_prestasi: '',
     jenis_prestasi: '',
-    tahun_prestasi: '',
+    tanggal_prestasi: '',
     siswa: '',
   };
 
@@ -49,21 +52,41 @@ const FormAddPrestasi = (props) => {
     }));
   };
 
-  const handleTahunPrestasi = (date, field) => {
+  const handleTanggalPrestasi = (date, field) => {
     field.onChange(date);
     setFormInput((prev) => ({
       ...prev,
-      tahun_prestasi: date,
+      tanggal_prestasi: date,
     }));
   };
 
-  const handleSubmitForm = (e) => {
+  const [createPrestasi] = useCreatePrestasiMutation();
+
+  const handleSubmitForm = async () => {
     let payload = {
       nama_prestasi: formInput?.nama_prestasi,
       jenis_prestasi: formInput?.jenis_prestasi,
-      tahun_prestasi: formatDate(rmformInput?.tahun_prestasi),
+      tanggal_prestasi: formatDate(formInput?.tanggal_prestasi),
       siswa: selectedSiswaValue,
     };
+
+    try {
+      const response = await createPrestasi(payload).unwrap();
+
+      if (!response.error) {
+        toast.success('Prestasi berhasil ditambahkan!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpAdd(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
   };
 
   const { data: siswaOption } = useGetSiswaOptionQuery();
@@ -73,7 +96,25 @@ const FormAddPrestasi = (props) => {
   }));
 
   useEffect(() => {
+    const fieldsToCheck = [
+      'nama_prestasi',
+      'jenis_prestasi',
+      'tanggal_prestasi',
+      'siswa',
+    ];
+
+    fieldsToCheck.forEach((field) => {
+      if (errors[field] && formInput[field] !== '') {
+        if (errors[field].type === 'required') {
+          clearErrors(field);
+        }
+      }
+    });
+  }, [formInput, clearErrors, errors]);
+
+  useEffect(() => {
     setValue('siswa', selectedSiswaValue);
+    clearErrors('siswa');
   }, [selectedSiswaValue, setValue]);
 
   return (
@@ -92,8 +133,9 @@ const FormAddPrestasi = (props) => {
                 selectedValue={selectedSiswaValue}
                 setSelectedValue={setSelectedSiswaValue}
                 placeholder="Select siswa"
-                errors={errors}
                 isSearchable
+                isClearable
+                errors={errors}
               />
             )}
           />
@@ -115,16 +157,16 @@ const FormAddPrestasi = (props) => {
           />
 
           <Controller
-            name="tahun_prestasi"
+            name="tanggal_prestasi"
             control={control}
             render={({ field }) => (
               <InputDate
                 field={field}
                 label="Tanggal prestasi"
-                name="tahun_prestasi"
+                name="tanggal_prestasi"
                 dateFormat="yyyy/MM/dd"
                 placeholder="Select tanggal prestasi"
-                onChange={(date) => handleTahunPrestasi(date, field)}
+                onChange={(date) => handleTanggalPrestasi(date, field)}
                 errors={errors}
               />
             )}

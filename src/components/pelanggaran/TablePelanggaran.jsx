@@ -44,7 +44,7 @@ const TablePelanggaran = (props) => {
                   NIPD
                 </th>
                 <th scope="col" className="px-6 py-4">
-                  Nama pelanggaran
+                  Jenis pelanggaran
                 </th>
                 <th scope="col" className="px-6 py-4">
                   Tanggal pelanggaran
@@ -68,7 +68,7 @@ const TablePelanggaran = (props) => {
                       {allPelanggaranSiswaData?.nipd}
                     </td>
                     <td className="px-6 py-2">
-                      {allPelanggaranSiswaData?.nama_pelanggaran}
+                      {allPelanggaranSiswaData?.jenis_pelanggaran}
                     </td>
                     <td className="px-6 py-2">
                       {allPelanggaranSiswaData?.tanggal_pelanggaran}

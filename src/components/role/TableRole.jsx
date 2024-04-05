@@ -13,6 +13,7 @@ const TableRole = (props) => {
     isSuccess,
     isError,
     error,
+    modules,
     isOpenPopUpEdit,
     setIsOpenPopUpEdit,
     isOpenPopUpDelete,
@@ -48,9 +49,11 @@ const TableRole = (props) => {
                 <th scope="col" className="px-6 py-4">
                   Status
                 </th>
-                <th scope="col" className="text-center px-6 py-4">
-                  Aksi
-                </th>
+                {modules?.ubah && (
+                  <th scope="col" className="text-center px-6 py-4">
+                    Aksi
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -69,14 +72,16 @@ const TableRole = (props) => {
                     <td className="px-6 py-1">
                       {allRoleData?.status_role == 1 ? 'Aktif' : 'Tidak aktif'}
                     </td>
-                    <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
-                      <ButtonEdit
-                        data={allRoleData}
-                        isOpenPopUpEdit={isOpenPopUpEdit}
-                        setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                        setGetData={setGetData}
-                      />
-                    </td>
+                    {modules?.ubah && (
+                      <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
+                        <ButtonEdit
+                          data={allRoleData}
+                          isOpenPopUpEdit={isOpenPopUpEdit}
+                          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                          setGetData={setGetData}
+                        />
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (
