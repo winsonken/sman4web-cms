@@ -14,7 +14,8 @@ const DetailPpdb = (props) => {
                 : './default-user.jpeg'
             }
             alt="Siswa"
-            className="w-full h-full rounded-md object-cover"
+            className="w-full h-full max-h-52 rounded-md object-cover"
+            loading="lazy"
           />
         </div>
         <div>

@@ -7,6 +7,10 @@ export const jurusanApiSlice = sman4webApi.injectEndpoints({
         `/api/v1/jurusan?q=${q}&page=${page}&limit=${limit}`,
       providesTags: ['Jurusan'],
     }),
+    getJurusanOption: builder.query({
+      query: () => `/api/v1/jurusan?limit=1000`,
+      providesTags: ['Jurusan'],
+    }),
     createJurusan: builder.mutation({
       query: (body) => ({
         url: '/api/v1/jurusan',
@@ -35,6 +39,7 @@ export const jurusanApiSlice = sman4webApi.injectEndpoints({
 
 export const {
   useGetJurusanQuery,
+  useGetJurusanOptionQuery,
   useCreateJurusanMutation,
   useUpdateJurusanMutation,
   useDeleteJurusanMutation,

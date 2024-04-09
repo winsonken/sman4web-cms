@@ -6,26 +6,19 @@ import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
 
-const TableSiswa = (props) => {
+const TableSiswaBaru = (props) => {
   const {
     data,
     isLoading,
     isSuccess,
     isError,
     error,
-    isOpenPopUpDetail,
-    setIsOpenPopUpDetail,
-    isOpenPopUpEdit,
-    setIsOpenPopUpEdit,
-    isOpenPopUpDelete,
-    setIsOpenPopUpDelete,
-    setGetData,
     currentPage,
     setCurrentPage,
     limitPerPage,
   } = props;
 
-  const siswaData = data?.data;
+  const siswaBaruData = data?.data;
   const pagination = data?.pagination;
 
   const totalPage = pagination?.total_page;
@@ -57,20 +50,14 @@ const TableSiswa = (props) => {
                   NIPD
                 </th>
                 <th scope="col" className="px-6 py-4">
-                  Angkatan
-                </th>
-                <th scope="col" className="px-6 py-4">
                   Status
-                </th>
-                <th scope="col" className="text-center px-6 py-4">
-                  Aksi
                 </th>
               </tr>
             </thead>
 
             <tbody>
-              {siswaData.length > 0 ? (
-                siswaData.map((allSiswaData, index) => (
+              {siswaBaruData.length > 0 ? (
+                siswaBaruData.map((allSiswaBaruData, index) => (
                   <tr className="bg-second-orange border-b">
                     <th
                       scope="row"
@@ -81,8 +68,8 @@ const TableSiswa = (props) => {
                     <td className="px-6 py-2">
                       <img
                         src={
-                          allSiswaData?.foto
-                            ? `http://localhost:5500/${allSiswaData?.foto}`
+                          allSiswaBaruData?.foto
+                            ? `http://localhost:5500/${allSiswaBaruData?.foto}`
                             : './default-user.jpeg'
                         }
                         alt="Siswa"
@@ -91,37 +78,12 @@ const TableSiswa = (props) => {
                       />
                     </td>
                     <td className="px-6 py-2">
-                      {allSiswaData?.no_pendaftaran}
+                      {allSiswaBaruData?.no_pendaftaran}
                     </td>
-                    <td className="px-6 py-2">{allSiswaData?.nama}</td>
-                    <td className="px-6 py-2">{allSiswaData?.nipd}</td>
-                    <td className="px-6 py-2">{allSiswaData?.no_angkatan}</td>
+                    <td className="px-6 py-2">{allSiswaBaruData?.nama}</td>
+                    <td className="px-6 py-2">{allSiswaBaruData?.nipd}</td>
                     <td className="px-6 py-2">
-                      {allSiswaData?.status_siswa == 1 ? 'Aktif' : ''}
-                    </td>
-                    <td className=" px-6 py-1">
-                      <div className="flex flex-row justify-center items-center gap-2">
-                        <ButtonDetail
-                          data={allSiswaData}
-                          isOpenPopUpDetail={isOpenPopUpDetail}
-                          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
-                          setGetData={setGetData}
-                        />
-
-                        <ButtonEdit
-                          data={allSiswaData}
-                          isOpenPopUpEdit={isOpenPopUpEdit}
-                          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                          setGetData={setGetData}
-                        />
-
-                        <ButtonDelete
-                          data={allSiswaData}
-                          isOpenPopUpDelete={isOpenPopUpDelete}
-                          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                          setGetData={setGetData}
-                        />
-                      </div>
+                      {allSiswaBaruData?.status_siswa == 0 ? 'Baru' : ''}
                     </td>
                   </tr>
                 ))
@@ -153,4 +115,4 @@ const TableSiswa = (props) => {
   );
 };
 
-export default TableSiswa;
+export default TableSiswaBaru;

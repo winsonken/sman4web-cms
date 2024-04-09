@@ -91,6 +91,7 @@ const TablePpdb = (props) => {
                         }
                         alt="Siswa"
                         className="w-20 max-h-12 object-cover rounded-md"
+                        loading="lazy"
                       />
                     </td>
                     <td className="px-6 py-2">{allPpdbData?.no_pendaftaran}</td>

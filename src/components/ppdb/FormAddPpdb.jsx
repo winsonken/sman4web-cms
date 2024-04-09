@@ -151,7 +151,7 @@ const FormAddPpdb = (props) => {
     try {
       const response = await createPpdb(formData).unwrap();
       if (!response.error) {
-        toast.success('Angkatan berhasil ditambahkan!', {
+        toast.success('Ppdb berhasil ditambahkan!', {
           position: 'top-right',
           theme: 'light',
         });
@@ -222,7 +222,6 @@ const FormAddPpdb = (props) => {
     { value: 'Perempuan', label: 'Perempuan' },
   ];
 
-  console.log(selectedImage);
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col gap-6">

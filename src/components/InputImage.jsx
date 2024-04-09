@@ -17,7 +17,7 @@ const InputImage = (props) => {
     event.preventDefault();
     event.stopPropagation();
     setSelectedImage('');
-    setImageValue('');
+    setImageValue && setImageValue('');
   };
   return (
     <div className="flex flex-col gap-1 w-full h-full">
