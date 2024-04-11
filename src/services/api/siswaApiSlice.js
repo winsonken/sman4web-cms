@@ -27,7 +27,7 @@ export const siswaApiSlice = sman4webApi.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Siswa'],
+      invalidatesTags: ['Siswa', 'Angkatan'],
     }),
     updateSiswa: builder.mutation({
       query: (body) => ({
@@ -35,14 +35,14 @@ export const siswaApiSlice = sman4webApi.injectEndpoints({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['Siswa'],
+      invalidatesTags: ['Siswa', 'Angkatan'],
     }),
     deleteSiswa: builder.mutation({
       query: ({ id }) => ({
         url: `/api/v1/siswa/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Siswa'],
+      invalidatesTags: ['Siswa', 'Angkatan'],
     }),
     updateAktifSiswa: builder.mutation({
       query: (body) => ({

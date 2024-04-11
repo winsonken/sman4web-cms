@@ -11,11 +11,13 @@ import InputDate from '../InputDate';
 
 import { formatDate } from '../../helpers/FormatDate';
 import Loading from '../Loading';
-import { useCreateGuruMutation } from '../../services/api/guruApiSlice';
+
+import { useGetRoleOptionQuery } from '../../services/api/roleApiSlice';
+import { useCreateTendikMutation } from '../../services/api/tendikApiSlice';
 
 const validationSchema = yup
   .object({
-    nama: yup.string().required('Nama guru is required'),
+    nama: yup.string().required('Nama tendik is required'),
     jenis_kelamin: yup.string().required('Jenis kelamin is required'),
     nik: yup
       .string()
@@ -25,14 +27,14 @@ const validationSchema = yup
       .string()
       .max(30, 'Jenis PTK must be at most 30 characters')
       .required('Jenis PTK is required'),
-    no_guru: yup
+    no_tendik: yup
       .string()
       .max(20, 'NIP/NRPTK/NIG must be at most 20 characters')
       .required('NIP/NRPTK/NIG is required'),
-    no_telepon_guru: yup
+    no_telepon_tendik: yup
       .string()
-      .max(13, 'No telepon guru must be at most 13 characters')
-      .required('No Telepon guru is required'),
+      .max(13, 'No telepon tendik must be at most 13 characters')
+      .required('No Telepon tendik is required'),
     alamat: yup.string().required('Alamat is required'),
     email: yup
       .string()
@@ -49,11 +51,12 @@ const validationSchema = yup
       .required('Agama is required'),
     status_kawin: yup.string().required('Status kawin is required'),
     status_kepegawaian: yup.string().required('Status kepegawaian is required'),
+    role: yup.string().required('Role is required'),
   })
   .required();
 
-const FormAddGuru = (props) => {
-  const { setIsOpenPopUpAdd } = props;
+const FormAddTendik = (props) => {
+  const { selectRole, setIsOpenPopUpAdd } = props;
   const {
     control,
     register,
@@ -66,15 +69,16 @@ const FormAddGuru = (props) => {
   });
 
   const [jenisKelaminValue, setJenisKelaminValue] = useState('');
+  const [selectedRoleValue, setSelectedRoleValue] = useState('');
   const [selectedImage, setSelectedImage] = useState('');
 
   const initialFormInput = {
     nama: '',
     jenis_kelamin: '',
     nik: '',
-    no_guru: '',
+    no_tendik: '',
     jenis_ptk: '',
-    no_telepon_guru: '',
+    no_telepon_tendik: '',
     alamat: '',
     email: '',
     tempat_lahir: '',
@@ -83,6 +87,7 @@ const FormAddGuru = (props) => {
     image: '',
     status_kawin: '',
     status_kepegawaian: '',
+    role: '',
   };
   const [formInput, setFormInput] = useState(initialFormInput);
 
@@ -106,17 +111,17 @@ const FormAddGuru = (props) => {
     }
   };
 
-  const [createGuru, { isLoading, isSuccess, isError, error }] =
-    useCreateGuruMutation();
+  const [createTendik, { isLoading, isSuccess, isError, error }] =
+    useCreateTendikMutation();
 
   const handleSubmitForm = async () => {
     const formData = new FormData();
     formData.append('nama', formInput?.nama);
     formData.append('jenis_kelamin', jenisKelaminValue);
     formData.append('nik', formInput?.nik);
-    formData.append('no_guru', formInput?.no_guru);
+    formData.append('no_tendik', formInput?.no_tendik);
     formData.append('jenis_ptk', formInput?.jenis_ptk);
-    formData.append('no_telepon_guru', formInput?.no_telepon_guru);
+    formData.append('no_telepon_tendik', formInput?.no_telepon_tendik);
     formData.append('alamat', formInput?.alamat);
     formData.append('email', formInput?.email);
     formData.append('tempat_lahir', formInput?.tempat_lahir);
@@ -125,11 +130,12 @@ const FormAddGuru = (props) => {
     formData.append('image', selectedImage);
     formData.append('status_kawin', formInput?.status_kawin);
     formData.append('status_kepegawaian', formInput?.status_kepegawaian);
+    formData.append('role', selectedRoleValue);
 
     try {
-      const response = await createGuru(formData).unwrap();
+      const response = await createTendik(formData).unwrap();
       if (!response.error) {
-        toast.success('Guru berhasil ditambahkan!', {
+        toast.success('Tendik berhasil ditambahkan!', {
           position: 'top-right',
           theme: 'light',
         });
@@ -157,14 +163,15 @@ const FormAddGuru = (props) => {
       'nama',
       'nik',
       'jenis_ptk',
-      'no_guru',
-      'no_telepon_guru',
+      'no_tendik',
+      'no_telepon_tendik',
       'alamat',
       'email',
       'tempat_lahir',
       'agama',
       'status_kawim',
       'status_kepegawaian',
+      'role',
     ];
 
     fieldsToCheck.forEach((field) => {
@@ -180,6 +187,11 @@ const FormAddGuru = (props) => {
     setValue('jenis_kelamin', jenisKelaminValue);
     clearErrors('jenis_kelamin');
   }, [jenisKelaminValue, setValue]);
+
+  useEffect(() => {
+    setValue('role', selectedRoleValue);
+    clearErrors('role');
+  }, [selectedRoleValue, setValue]);
 
   const jenisKelamin = [
     { value: 'Laki-laki', label: 'Laki-laki' },
@@ -200,7 +212,7 @@ const FormAddGuru = (props) => {
 
           <Input
             type="text"
-            label="Nama guru"
+            label="Nama tendik"
             name="nama"
             onChange={handleChange}
             register={register}
@@ -247,7 +259,7 @@ const FormAddGuru = (props) => {
           <Input
             type="text"
             label="NIP/NRPTK/NIG"
-            name="no_guru"
+            name="no_tendik"
             onChange={handleChange}
             register={register}
             errors={errors}
@@ -255,8 +267,8 @@ const FormAddGuru = (props) => {
 
           <Input
             type="number"
-            label="No Telp guru"
-            name="no_telepon_guru"
+            label="No Telp tendik"
+            name="no_telepon_tendik"
             onChange={handleChange}
             register={register}
             errors={errors}
@@ -321,6 +333,7 @@ const FormAddGuru = (props) => {
             register={register}
             errors={errors}
           />
+
           <Input
             type="text"
             label="Status kepegawaian"
@@ -328,6 +341,25 @@ const FormAddGuru = (props) => {
             onChange={handleChange}
             register={register}
             errors={errors}
+          />
+
+          <Controller
+            name="role"
+            control={control}
+            render={({ field }) => (
+              <SelectInput
+                field={field}
+                data={selectRole}
+                label="Role"
+                name="role"
+                selectedValue={selectedRoleValue}
+                setSelectedValue={setSelectedRoleValue}
+                placeholder="Select role"
+                errors={errors}
+                isSearchable
+                isClearable
+              />
+            )}
           />
         </div>
 
@@ -343,4 +375,4 @@ const FormAddGuru = (props) => {
     </form>
   );
 };
-export default FormAddGuru;
+export default FormAddTendik;

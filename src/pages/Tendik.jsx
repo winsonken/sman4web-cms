@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { FaChalkboardTeacher } from 'react-icons/fa';
+import { GrUserAdmin } from 'react-icons/gr';
 import { toast } from 'react-toastify';
 
 import {
@@ -16,23 +16,24 @@ import {
   SearchFilter,
 } from '../components';
 
-import {
-  FormAddGuru,
-  FormEditGuru,
-  FormDetailGuru,
-  TableGuru,
-} from '../components/guru';
-import {
-  useDeleteGuruMutation,
-  useGetGuruQuery,
-} from '../services/api/guruApiSlice';
 import useDebounce from '../helpers/useDebounce';
+import {
+  useDeleteTendikMutation,
+  useGetTendikQuery,
+} from '../services/api/tendikApiSlice';
+import {
+  FormAddTendik,
+  FormDetailTendik,
+  FormEditTendik,
+  TableTendik,
+} from '../components/tendik';
+import { useGetRoleOptionQuery } from '../services/api/roleApiSlice';
 import { useSelector } from 'react-redux';
 import { selectCurrentModules } from '../services/features/authSlice';
 
-const Guru = () => {
-  const [searchFilterGuru, setSearchFilterGuru] = useState('');
-  const debouncedSearchGuru = useDebounce(searchFilterGuru, 500);
+const Tendik = () => {
+  const [searchFilterTendik, setSearchFilterTendik] = useState('');
+  const debouncedSearchTendik = useDebounce(searchFilterTendik, 500);
 
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
@@ -43,27 +44,39 @@ const Guru = () => {
   const limitPerPage = 10;
   const [getData, setGetData] = useState([]);
 
+  const { data: role } = useGetRoleOptionQuery();
+
+  const filterRole = role?.data?.filter(
+    (e) => e.nama_role == 'tendik' || e.nama_role == 'admin'
+  );
+
+  const selectRole = filterRole?.map((e) => ({
+    value: e?.id_role,
+    label: e?.nama_role,
+  }));
+
   const {
-    data: guru,
+    data: tendik,
     isLoading,
     isSuccess,
     isError,
     error,
-  } = useGetGuruQuery({
-    q: debouncedSearchGuru,
+  } = useGetTendikQuery({
+    q: debouncedSearchTendik,
     page: currentPage,
     limit: limitPerPage,
   });
 
-  const [deleteGuru, { isLoading: isLoadingDelete }] = useDeleteGuruMutation();
+  const [deleteTendik, { isLoading: isLoadingDelete }] =
+    useDeleteTendikMutation();
 
   const handleDelete = async () => {
     try {
-      const response = await deleteGuru({
-        id: getData?.id_guru,
+      const response = await deleteTendik({
+        id: getData?.id_tendik,
       }).unwrap();
       if (!response.error) {
-        toast.success('Guru berhasil dihapus!', {
+        toast.success('Tendik berhasil dihapus!', {
           position: 'top-right',
           theme: 'light',
         });
@@ -87,23 +100,23 @@ const Guru = () => {
     return module;
   };
 
-  const modulesGuru = filterModule('data_guru');
+  const modulesTendik = filterModule('data_tendik');
 
   return (
     <Layout>
       <div className="flex flex-col gap-5">
         <div>
-          <h1 className="text-xl font-semibold md:text-2xl">Guru</h1>
+          <h1 className="text-xl font-semibold md:text-2xl">Tendik</h1>
         </div>
 
         <div
-          className={`flex flex-col sm:flex-row sm:justify-between gap-3 ${
-            modulesGuru?.tambah ? 'sm:justify-between' : 'sm:justify-end'
+          className={`flex flex-col sm:flex-row gap-3 ${
+            modulesTendik?.tambah ? 'sm:justify-between' : 'sm:justify-end'
           }`}
         >
-          {modulesGuru?.tambah && (
+          {modulesTendik?.tambah && (
             <ButtonAdd
-              title="Tambah Guru"
+              title="Tambah Tendik"
               isOpenPopUpAdd={isOpenPopUpAdd}
               setIsOpenPopUpAdd={setIsOpenPopUpAdd}
             />
@@ -111,19 +124,19 @@ const Guru = () => {
 
           <div className="w-full duration-100 sm:w-1/2 md:w-1/5">
             <SearchFilter
-              searchValue={searchFilterGuru}
-              setSearchValue={setSearchFilterGuru}
+              searchValue={searchFilterTendik}
+              setSearchValue={setSearchFilterTendik}
             />
           </div>
         </div>
 
-        <TableGuru
-          data={guru}
+        <TableTendik
+          data={tendik}
           isLoading={isLoading}
           isSuccess={isSuccess}
           isError={isError}
           error={error}
-          modules={modulesGuru}
+          modules={modulesTendik}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
           isOpenPopUpEdit={isOpenPopUpEdit}
@@ -137,29 +150,33 @@ const Guru = () => {
         />
 
         <PopUpAdd
-          title="Tambah Guru"
-          icon={<FaChalkboardTeacher />}
+          title="Tambah Tendik"
+          icon={<GrUserAdmin />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
         >
-          <FormAddGuru setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
+          <FormAddTendik
+            selectRole={selectRole}
+            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          />
         </PopUpAdd>
 
         <PopUpEdit
-          title="Ubah Guru"
-          icon={<FaChalkboardTeacher />}
+          title="Ubah Tendik"
+          icon={<GrUserAdmin />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
         >
-          <FormEditGuru
+          <FormEditTendik
             data={getData}
+            selectRole={selectRole}
             setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           />
         </PopUpEdit>
 
         <PopUpDelete
-          title="Hapus guru"
-          icon={<FaChalkboardTeacher />}
+          title="Hapus Tendik"
+          icon={<GrUserAdmin />}
           isOpenPopUpDelete={isOpenPopUpDelete}
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
         >
@@ -181,12 +198,12 @@ const Guru = () => {
         </PopUpDelete>
 
         <PopUpDetail
-          title="Detail Guru"
-          icon={<FaChalkboardTeacher />}
+          title="Detail Tendik"
+          icon={<GrUserAdmin />}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
         >
-          <FormDetailGuru
+          <FormDetailTendik
             data={getData}
             setIsOpenPopUpDetail={setIsOpenPopUpDetail}
           />
@@ -196,4 +213,4 @@ const Guru = () => {
   );
 };
 
-export default Guru;
+export default Tendik;

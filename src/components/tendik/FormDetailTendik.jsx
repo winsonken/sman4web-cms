@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FormDetailGuru = (props) => {
+const FormDetailTendik = (props) => {
   const { data } = props;
 
   return (
@@ -13,7 +13,7 @@ const FormDetailGuru = (props) => {
                 ? `http://localhost:5500/${data?.foto}`
                 : './default-user.jpeg'
             }
-            alt="Guru"
+            alt="Tendik"
             className="w-full h-full max-h-52 rounded-md object-cover"
             loading="lazy"
           />
@@ -45,13 +45,13 @@ const FormDetailGuru = (props) => {
         <div>
           <h1 className="font-medium text-second-blue">NIP/NRPTK/NIG</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            {data?.no_guru}
+            {data?.no_tendik}
           </p>
         </div>
         <div>
-          <h1 className="font-medium text-second-blue">No Telepon guru</h1>
+          <h1 className="font-medium text-second-blue">No Telepon tendik</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            {data?.no_telepon_guru}
+            {data?.no_telepon_tendik}
           </p>
         </div>
         <div>
@@ -91,9 +91,15 @@ const FormDetailGuru = (props) => {
           </p>
         </div>
         <div>
-          <h1 className="font-medium text-second-blue">Status guru</h1>
+          <h1 className="font-medium text-second-blue">Status tendik</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            {data?.status_guru == 1 ? 'Aktif' : ''}
+            {data?.status_tendik == 1 ? 'Aktif' : ''}
+          </p>
+        </div>
+        <div>
+          <h1 className="font-medium text-second-blue">Role</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded capitalize">
+            {data?.nama_role}
           </p>
         </div>
       </div>
@@ -101,4 +107,4 @@ const FormDetailGuru = (props) => {
   );
 };
 
-export default FormDetailGuru;
+export default FormDetailTendik;

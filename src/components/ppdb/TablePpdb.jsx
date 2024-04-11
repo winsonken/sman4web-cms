@@ -13,6 +13,7 @@ const TablePpdb = (props) => {
     isSuccess,
     isError,
     error,
+    modules,
     isOpenPopUpTerimaPpdb,
     setIsOpenPopUpTerimaPpdb,
     isOpenPopUpTolakPpdb,
@@ -63,12 +64,16 @@ const TablePpdb = (props) => {
                 <th scope="col" className="px-6 py-4">
                   Status
                 </th>
-                <th scope="col" className="px-6 py-4">
-                  Status Penerimaan
-                </th>
-                <th scope="col" className="text-center px-6 py-4">
-                  Aksi
-                </th>
+                {modules?.ubah && (
+                  <th scope="col" className="px-6 py-4">
+                    Status Penerimaan
+                  </th>
+                )}
+                {(modules?.ubah || modules?.hapus) && (
+                  <th scope="col" className="text-center px-6 py-4">
+                    Aksi
+                  </th>
+                )}
               </tr>
             </thead>
 
@@ -106,53 +111,62 @@ const TablePpdb = (props) => {
                         ? 'Ditolak'
                         : ''}
                     </td>
-                    <td className="px-6 py-2">
-                      <div className="flex flex-row gap-2">
-                        {allPpdbData?.status_ppdb == 0 && (
-                          <>
-                            <ButtonAction
+                    {modules?.ubah && (
+                      <td className="px-6 py-2">
+                        <div className="flex flex-row gap-2">
+                          {allPpdbData?.status_ppdb == 0 && (
+                            <>
+                              <ButtonAction
+                                data={allPpdbData}
+                                title="Diterima"
+                                isOpenPopUp={isOpenPopUpTerimaPpdb}
+                                setIsOpenPopUp={setIsOpenPopUpTerimaPpdb}
+                                setGetData={setGetData}
+                              />
+
+                              <ButtonAction
+                                data={allPpdbData}
+                                title="Ditolak"
+                                isOpenPopUp={isOpenPopUpTolakPpdb}
+                                setIsOpenPopUp={setIsOpenPopUpTolakPpdb}
+                                setGetData={setGetData}
+                              />
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    )}
+
+                    {(modules?.ubah || modules?.hapus) && (
+                      <td className="px-6 py-1">
+                        <div className="flex flex-row justify-center items-center gap-2">
+                          <ButtonDetail
+                            data={allPpdbData}
+                            isOpenPopUpDetail={isOpenPopUpDetail}
+                            setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+                            setGetData={setGetData}
+                          />
+
+                          {modules?.ubah && (
+                            <ButtonEdit
                               data={allPpdbData}
-                              title="Diterima"
-                              isOpenPopUp={isOpenPopUpTerimaPpdb}
-                              setIsOpenPopUp={setIsOpenPopUpTerimaPpdb}
+                              isOpenPopUpEdit={isOpenPopUpEdit}
+                              setIsOpenPopUpEdit={setIsOpenPopUpEdit}
                               setGetData={setGetData}
                             />
+                          )}
 
-                            <ButtonAction
+                          {modules?.hapus && (
+                            <ButtonDelete
                               data={allPpdbData}
-                              title="Ditolak"
-                              isOpenPopUp={isOpenPopUpTolakPpdb}
-                              setIsOpenPopUp={setIsOpenPopUpTolakPpdb}
+                              isOpenPopUpDelete={isOpenPopUpDelete}
+                              setIsOpenPopUpDelete={setIsOpenPopUpDelete}
                               setGetData={setGetData}
                             />
-                          </>
-                        )}
-                      </div>
-                    </td>
-                    <td className=" px-6 py-1">
-                      <div className="flex flex-row justify-center items-center gap-2">
-                        <ButtonDetail
-                          data={allPpdbData}
-                          isOpenPopUpDetail={isOpenPopUpDetail}
-                          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
-                          setGetData={setGetData}
-                        />
-
-                        <ButtonEdit
-                          data={allPpdbData}
-                          isOpenPopUpEdit={isOpenPopUpEdit}
-                          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                          setGetData={setGetData}
-                        />
-
-                        <ButtonDelete
-                          data={allPpdbData}
-                          isOpenPopUpDelete={isOpenPopUpDelete}
-                          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                          setGetData={setGetData}
-                        />
-                      </div>
-                    </td>
+                          )}
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (

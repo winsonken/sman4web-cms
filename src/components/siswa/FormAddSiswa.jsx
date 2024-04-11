@@ -12,6 +12,7 @@ import { useGetAngkatanDimulaiOptionQuery } from '../../services/api/angkatanApi
 
 import { formatDate } from '../../helpers/FormatDate';
 import { useCreateSiswaMutation } from '../../services/api/siswaApiSlice';
+import Loading from '../Loading';
 
 const validationSchema = yup
   .object({
@@ -95,7 +96,7 @@ const FormAddSiswa = (props) => {
     no_telepon_ortu: '',
     image: '',
     angkatan: '',
-    jurusan: '',
+    // jurusan: '',
   };
   const [formInput, setFormInput] = useState(initialFormInput);
 
@@ -119,7 +120,8 @@ const FormAddSiswa = (props) => {
     }
   };
 
-  const [createSiswa] = useCreateSiswaMutation();
+  const [createSiswa, { isLoading, isSuccess, isError, error }] =
+    useCreateSiswaMutation();
 
   const handleSubmitForm = async () => {
     const formData = new FormData();
@@ -138,7 +140,7 @@ const FormAddSiswa = (props) => {
     formData.append('no_telepon_ortu', formInput?.no_telepon_ortu);
     formData.append('image', selectedImage);
     formData.append('angkatan', selectedAngkatanValue);
-    formData.append('jurusan', formInput?.jurusan);
+    // formData.append('jurusan', formInput?.jurusan);
 
     try {
       const response = await createSiswa(formData).unwrap();
@@ -380,7 +382,7 @@ const FormAddSiswa = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpAdd}
           />
-          <Button title="Simpan" type="submit" />
+          <Button title={isLoading ? <Loading /> : 'Simpan'} type="submit" />
         </div>
       </div>
     </form>

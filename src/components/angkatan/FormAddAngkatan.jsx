@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import { useCreateAngkatanMutation } from '../../services/api/angkatanApiSlice';
+import Loading from '../Loading';
 
 const validationSchema = yup
   .object({
@@ -102,7 +103,7 @@ const FormAddAngkatan = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpAdd}
           />
-          <Button title="Tambah" type="submit" />
+          <Button title={isLoading ? <Loading /> : 'Tambah'} type="submit" />
         </div>
       </div>
     </form>

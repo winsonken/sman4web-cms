@@ -8,36 +8,32 @@ import { toast } from 'react-toastify';
 import SelectInput from '../SelectInput';
 import InputImage from '../InputImage';
 import InputDate from '../InputDate';
-import { useGetAngkatanDimulaiOptionQuery } from '../../services/api/angkatanApiSlice';
 
 import { formatDate } from '../../helpers/FormatDate';
-import {
-  useCreateSiswaMutation,
-  useUpdateSiswaMutation,
-} from '../../services/api/siswaApiSlice';
-import { useGetJurusanOptionQuery } from '../../services/api/jurusanApiSlice';
 import Loading from '../Loading';
+
+import { useUpdateTendikMutation } from '../../services/api/tendikApiSlice';
 
 const validationSchema = yup
   .object({
-    no_pendaftaran: yup
-      .string()
-      .max(15, 'No pendaftaran must be at most 15 characters')
-      .required('No Pendaftaran is required'),
-    nama: yup.string().required('Nama siswa is required'),
+    nama: yup.string().required('Nama tendik is required'),
     jenis_kelamin: yup.string().required('Jenis kelamin is required'),
-    nipd: yup
-      .string()
-      .max(10, 'NIPD must be at most 10 characters')
-      .required('NIPD is required'),
     nik: yup
       .string()
       .max(16, 'NIK must be at most 16 characters')
       .required('NIK is required'),
-    no_telepon_siswa: yup
+    jenis_ptk: yup
       .string()
-      .max(13, 'No telepon siswa must be at most 13 characters')
-      .required('No Telepon siswa is required'),
+      .max(30, 'Jenis PTK must be at most 30 characters')
+      .required('Jenis PTK is required'),
+    no_tendik: yup
+      .string()
+      .max(20, 'NIP/NRPTK/NIG must be at most 20 characters')
+      .required('NIP/NRPTK/NIG is required'),
+    no_telepon_tendik: yup
+      .string()
+      .max(13, 'No telepon tendik must be at most 13 characters')
+      .required('No Telepon tendik is required'),
     alamat: yup.string().required('Alamat is required'),
     email: yup
       .string()
@@ -52,17 +48,15 @@ const validationSchema = yup
       .string()
       .max(20, 'Agama must be at most 20 characters')
       .required('Agama is required'),
-    nama_ortu: yup.string().required('Nama ortu is required'),
-    no_telepon_ortu: yup
-      .string()
-      .max(13, 'No telepon ortu must be at most 13 characters')
-      .required('No telepon ortu is required'),
-    angkatan: yup.string().required('Angkatan is required'),
+    status_kawin: yup.string().required('Status kawin is required'),
+    status_kepegawaian: yup.string().required('Status kepegawaian is required'),
+    role: yup.string().required('Role is required'),
   })
   .required();
 
-const FormEditSiswa = (props) => {
-  const { data, setIsOpenPopUpEdit } = props;
+const FormEditTendik = (props) => {
+  const { data, selectRole, setIsOpenPopUpEdit } = props;
+
   const {
     control,
     register,
@@ -75,43 +69,28 @@ const FormEditSiswa = (props) => {
   });
 
   const [jenisKelaminValue, setJenisKelaminValue] = useState('');
-  const [selectedAngkatanValue, setSelectedAngkatanValue] = useState('');
-  const [selectedJurusanValue, setSelectedJurusanValue] = useState('');
+  const [selectedRoleValue, setSelectedRoleValue] = useState('');
   const [selectedStatusValue, setSelectedStatusValue] = useState('');
   const [selectedImage, setSelectedImage] = useState('');
   const [imageValue, setImageValue] = useState('');
 
-  const { data: angkatanOption } = useGetAngkatanDimulaiOptionQuery();
-  const selectAngkatan = angkatanOption?.data?.map((e) => ({
-    value: e?.id_angkatan,
-    label: e?.no_angkatan,
-  }));
-
-  const { data: jurusanOption } = useGetJurusanOptionQuery();
-  const selectJurusan = jurusanOption?.data?.map((e) => ({
-    value: e?.id_jurusan,
-    label: e?.nama_jurusan,
-  }));
-
   const initialFormInput = {
-    id_siswa: '',
-    no_pendaftaran: '',
+    id_tendik: '',
     nama: '',
     jenis_kelamin: '',
-    nipd: '',
     nik: '',
-    no_telepon_siswa: '',
+    no_tendik: '',
+    jenis_ptk: '',
+    no_telepon_tendik: '',
     alamat: '',
     email: '',
     tempat_lahir: '',
     tanggal_lahir: '',
     agama: '',
-    nama_ortu: '',
-    no_telepon_ortu: '',
     image: '',
-    angkatan: '',
-    jurusan: '',
-    status_siswa: '',
+    status_kawin: '',
+    status_tendik: '',
+    status_kepegawaian: '',
     username: '',
     password: '',
     role: '',
@@ -138,44 +117,41 @@ const FormEditSiswa = (props) => {
     }
   };
 
-  const [updateSiswa, { isLoading, isSuccess, isError, error }] =
-    useUpdateSiswaMutation();
+  const [updateTendik, { isLoading, isSuccess, isError, error }] =
+    useUpdateTendikMutation();
 
   const handleSubmitForm = async () => {
     const formData = new FormData();
-    formData.append('id_siswa', formInput?.id_siswa);
-    formData.append('no_pendaftaran', formInput?.no_pendaftaran);
+    formData.append('id_tendik', formInput?.id_tendik);
     formData.append('nama', formInput?.nama);
     formData.append('jenis_kelamin', jenisKelaminValue);
-    formData.append('nipd', formInput?.nipd);
     formData.append('nik', formInput?.nik);
-    formData.append('no_telepon_siswa', formInput?.no_telepon_siswa);
+    formData.append('jenis_ptk', formInput?.jenis_ptk);
+    formData.append('no_tendik', formInput?.no_tendik);
+    formData.append('no_telepon_tendik', formInput?.no_telepon_tendik);
     formData.append('alamat', formInput?.alamat);
     formData.append('email', formInput?.email);
     formData.append('tempat_lahir', formInput?.tempat_lahir);
     formData.append('tanggal_lahir', formatDate(formInput?.tanggal_lahir));
     formData.append('agama', formInput?.agama);
-    formData.append('nama_ortu', formInput?.nama_ortu);
-    formData.append('no_telepon_ortu', formInput?.no_telepon_ortu);
     formData.append('image', selectedImage);
-    formData.append('angkatan', selectedAngkatanValue);
-    formData.append('jurusan', selectedJurusanValue || '');
-    formData.append('status_siswa', selectedStatusValue);
+    formData.append('status_kawin', formInput?.status_kawin);
+    formData.append('status_tendik', selectedStatusValue);
+    formData.append('status_kepegawaian', formInput?.status_kepegawaian);
     formData.append('username', formInput?.username);
     formData.append('password', formInput?.password);
-    formData.append('role', formInput?.role);
+    formData.append('role', selectedRoleValue);
 
     try {
-      const response = await updateSiswa(formData).unwrap();
+      const response = await updateTendik(formData).unwrap();
       if (!response.error) {
-        toast.success('Siswa berhasil diubah!', {
+        toast.success('Tendik berhasil diubah!', {
           position: 'top-right',
           theme: 'light',
         });
         setIsOpenPopUpEdit(false);
       }
     } catch (error) {
-      console.log(error);
       const errorMessage = error?.data?.message;
       toast.error(`${errorMessage}`, {
         position: 'top-right',
@@ -195,50 +171,46 @@ const FormEditSiswa = (props) => {
   useEffect(() => {
     if (data) {
       setFormInput({
-        id_siswa: data?.id_siswa,
-        no_pendaftaran: data?.no_pendaftaran,
+        id_tendik: data?.id_tendik,
         nama: data?.nama,
         jenis_kelamin: data?.jenis_kelamin,
-        nipd: data?.nipd,
         nik: data?.nik,
-        no_telepon_siswa: data?.no_telepon_siswa,
+        no_tendik: data?.no_tendik,
+        jenis_ptk: data?.jenis_ptk,
+        no_telepon_tendik: data?.no_telepon_tendik,
         alamat: data?.alamat,
         email: data?.email,
         tempat_lahir: data?.tempat_lahir,
         tanggal_lahir: data?.tanggal_lahir,
         agama: data?.agama,
-        nama_ortu: data?.nama_ortu,
-        no_telepon_ortu: data?.no_telepon_ortu,
         image: data?.foto,
-        angkatan: data?.angkatan,
-        jurusan: data?.jurusan,
-        status_siswa: data?.status_siswa,
+        status_kawin: data?.status_kawin,
+        status_tendik: data?.status_tendik,
+        status_kepegawaian: data?.status_kepegawaian,
         username: data?.username,
         password: '',
         role: data?.role,
       });
     }
     setJenisKelaminValue(data?.jenis_kelamin);
-    setSelectedAngkatanValue(data?.angkatan);
-    setSelectedJurusanValue(data?.jurusan);
-    setSelectedStatusValue(data?.status_siswa);
+    setSelectedStatusValue(data?.status_tendik);
+    setSelectedRoleValue(data?.role);
     setImageValue(data?.foto);
   }, [data, setFormInput]);
 
   useEffect(() => {
     const fieldsToCheck = [
-      'no_pendaftaran',
       'nama',
-      'nipd',
       'nik',
-      'no_telepon_siswa',
+      'jenis_ptk',
+      'no_tendik',
+      'no_telepon_tendik',
       'alamat',
       'email',
       'tempat_lahir',
       'agama',
-      'nama_ortu',
-      'no_telepon_ortu',
-      'foto',
+      'status_kawim',
+      'status_kepegawaian',
     ];
 
     fieldsToCheck.forEach((field) => {
@@ -252,23 +224,21 @@ const FormEditSiswa = (props) => {
 
   useEffect(() => {
     if (data) {
-      setValue('no_pendaftaran', data?.no_pendaftaran);
       setValue('nama', data?.nama);
       setValue('jenis_kelamin', data?.jenis_kelamin);
-      setValue('nipd', data?.nipd);
       setValue('nik', data?.nik);
-      setValue('no_telepon_siswa', data?.no_telepon_siswa);
+      setValue('no_tendik', data?.no_tendik);
+      setValue('jenis_ptk', data?.jenis_ptk);
+      setValue('no_telepon_tendik', data?.no_telepon_tendik);
       setValue('alamat', data?.alamat);
       setValue('email', data?.email);
       setValue('tempat_lahir', data?.tempat_lahir);
       setValue('tanggal_lahir', data?.tanggal_lahir);
       setValue('agama', data?.agama);
-      setValue('nama_ortu', data?.nama_ortu);
-      setValue('no_telepon_ortu', data?.no_telepon_ortu);
       setValue('image', data?.foto);
-      setValue('angkatan', data?.angkatan);
-      setValue('jurusan', data?.jurusan);
-      setValue('status_siswa', data?.status_siswa);
+      setValue('status_kawin', data?.status_kawin);
+      setValue('status_tendik', data?.status_tendik);
+      setValue('status_kepegawaian', data?.status_kepegawaian);
       setValue('username', data?.username);
       // setValue('password', data?.password);
       setValue('role', data?.role);
@@ -281,21 +251,19 @@ const FormEditSiswa = (props) => {
   }, [jenisKelaminValue, setValue]);
 
   useEffect(() => {
-    setValue('angkatan', selectedAngkatanValue);
-    clearErrors('angkatan');
-  }, [selectedAngkatanValue, setValue]);
+    setValue('role', selectedRoleValue);
+    clearErrors('role');
+  }, [selectedRoleValue, setValue]);
 
   const jenisKelamin = [
     { value: 'Laki-laki', label: 'Laki-laki' },
     { value: 'Perempuan', label: 'Perempuan' },
   ];
 
-  const statusSiswa = [
+  const statusTendik = [
     // { value: 0, label: 'Baru' },
     { value: 1, label: 'Aktif' },
-    { value: 2, label: 'Lulus' },
-    { value: 3, label: 'Alumni' },
-    { value: 4, label: 'Dropout' },
+    { value: 2, label: 'Tidak aktif' },
   ];
 
   return (
@@ -314,16 +282,7 @@ const FormEditSiswa = (props) => {
 
           <Input
             type="text"
-            label="No pendaftaran"
-            name="no_pendaftaran"
-            onChange={handleChange}
-            register={register}
-            errors={errors}
-          />
-
-          <Input
-            type="text"
-            label="Nama siswa"
+            label="Nama tendik"
             name="nama"
             onChange={handleChange}
             register={register}
@@ -349,15 +308,6 @@ const FormEditSiswa = (props) => {
           />
 
           <Input
-            type="text"
-            label="NIPD"
-            name="nipd"
-            onChange={handleChange}
-            register={register}
-            errors={errors}
-          />
-
-          <Input
             type="number"
             label="NIK"
             name="nik"
@@ -368,9 +318,27 @@ const FormEditSiswa = (props) => {
           />
 
           <Input
+            type="text"
+            label="Jenis PTK"
+            name="jenis_ptk"
+            onChange={handleChange}
+            register={register}
+            errors={errors}
+          />
+
+          <Input
+            type="text"
+            label="NIP/NRPTK/NIG"
+            name="no_tendik"
+            onChange={handleChange}
+            register={register}
+            errors={errors}
+          />
+
+          <Input
             type="number"
-            label="No Telp siswa"
-            name="no_telepon_siswa"
+            label="No Telp tendik"
+            name="no_telepon_tendik"
             onChange={handleChange}
             register={register}
             errors={errors}
@@ -429,74 +397,40 @@ const FormEditSiswa = (props) => {
 
           <Input
             type="text"
-            label="Nama Ortu"
-            name="nama_ortu"
+            label="Status kawin"
+            name="status_kawin"
             onChange={handleChange}
             register={register}
             errors={errors}
           />
 
           <Input
-            type="number"
-            label="No Telp ortu"
-            name="no_telepon_ortu"
+            type="text"
+            label="Status kepegawaian"
+            name="status_kepegawaian"
             onChange={handleChange}
             register={register}
             errors={errors}
           />
 
           <Controller
-            name="angkatan"
+            name="status_tendik"
             control={control}
             render={({ field }) => (
               <SelectInput
                 field={field}
-                data={selectAngkatan}
-                label="Angkatan"
-                name="angkatan"
-                selectedValue={selectedAngkatanValue}
-                setSelectedValue={setSelectedAngkatanValue}
-                placeholder="Select angkatan"
-                isSearchable
-                isClearable
-                disabled
-                errors={errors}
-              />
-            )}
-          />
-
-          <Controller
-            name="jurusan"
-            control={control}
-            render={({ field }) => (
-              <SelectInput
-                field={field}
-                data={selectJurusan}
-                label="Jurusan"
-                name="jurusan"
-                selectedValue={selectedJurusanValue}
-                setSelectedValue={setSelectedJurusanValue}
-                placeholder="Select jurusan"
-                isSearchable
-                isClearable
-                errors={errors}
-              />
-            )}
-          />
-
-          <Controller
-            name="status_siswa"
-            control={control}
-            render={({ field }) => (
-              <SelectInput
-                field={field}
-                data={statusSiswa}
+                data={statusTendik}
                 label="Status"
-                name="status_siswa"
+                name="status_tendik"
                 selectedValue={selectedStatusValue}
                 setSelectedValue={setSelectedStatusValue}
-                placeholder="Select status siswa"
+                placeholder="Select status tendik"
                 errors={errors}
+                disabled={
+                  data?.id_tendik == 'a8c8fe0b97996298eb084322c9d525f3'
+                    ? true
+                    : false
+                }
               />
             )}
           />
@@ -518,6 +452,30 @@ const FormEditSiswa = (props) => {
             register={register}
             errors={errors}
           />
+
+          <Controller
+            name="role"
+            control={control}
+            render={({ field }) => (
+              <SelectInput
+                field={field}
+                data={selectRole}
+                label="Role"
+                name="role"
+                selectedValue={selectedRoleValue}
+                setSelectedValue={setSelectedRoleValue}
+                placeholder="Select role"
+                errors={errors}
+                isSearchable
+                isClearable
+                disabled={
+                  data?.id_tendik == 'a8c8fe0b97996298eb084322c9d525f3'
+                    ? true
+                    : false
+                }
+              />
+            )}
+          />
         </div>
 
         <div className="flex justify-end gap-2">
@@ -532,4 +490,4 @@ const FormEditSiswa = (props) => {
     </form>
   );
 };
-export default FormEditSiswa;
+export default FormEditTendik;

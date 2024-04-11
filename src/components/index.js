@@ -24,6 +24,7 @@ import InputFile from './InputFile';
 import InputImage from './InputImage';
 import ButtonCustom from './ButtonCustom';
 import PopUpCustom from './PopUpCustom';
+import Loading from './Loading';
 
 export {
   Button,
@@ -52,4 +53,5 @@ export {
   InputImage,
   ButtonCustom,
   PopUpCustom,
+  Loading,
 };

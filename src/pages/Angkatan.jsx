@@ -13,6 +13,7 @@ import {
   PopUpDelete,
   SelectFilter,
   SearchFilter,
+  Loading,
 } from '../components';
 
 import {
@@ -83,7 +84,7 @@ const Angkatan = () => {
     limit: limitPerPageAngkatanLulus,
   });
 
-  const [deleteAngkatan, { isLoadingDelete, isErrorDelete, errorDelete }] =
+  const [deleteAngkatan, { isLoading: isLoadingDelete }] =
     useDeleteAngkatanMutation();
 
   const handleDelete = async () => {
@@ -114,7 +115,8 @@ const Angkatan = () => {
     label: e?.no_angkatan,
   }));
 
-  const [updateMulaiAngkatan] = useUpdateMulaiAngkatanMutation();
+  const [updateMulaiAngkatan, { isLoading: isLoadingMulai }] =
+    useUpdateMulaiAngkatanMutation();
 
   const handleMulaiAngkatan = async () => {
     const payload = {
@@ -140,7 +142,8 @@ const Angkatan = () => {
     }
   };
 
-  const [updateLulusAngkatan] = useUpdateLulusAngkatanMutation();
+  const [updateLulusAngkatan, { isLoading: isLoadingLulus }] =
+    useUpdateLulusAngkatanMutation();
 
   const handleLulusAngkatan = async () => {
     const payload = {
@@ -294,7 +297,9 @@ const Angkatan = () => {
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
         >
           <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin menghapus data angkatan ini?</h1>
+            <h1>
+              Apakah anda yakin menghapus angkatan ke-{getData?.no_angkatan}?
+            </h1>
 
             <div className="flex justify-end gap-2">
               <Button
@@ -302,7 +307,10 @@ const Angkatan = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpDelete}
               />
-              <Button title="Hapus" onClick={handleDelete} />
+              <Button
+                title={isLoadingDelete ? <Loading /> : 'Hapus'}
+                onClick={handleDelete}
+              />
             </div>
           </div>
         </PopUpDelete>
@@ -323,7 +331,10 @@ const Angkatan = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpLulus}
               />
-              <Button title="Simpan" onClick={handleLulusAngkatan} />
+              <Button
+                title={isLoadingLulus ? <Loading /> : 'Simpan'}
+                onClick={handleLulusAngkatan}
+              />
             </div>
           </div>
         </PopUpAction>
@@ -344,7 +355,10 @@ const Angkatan = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpMulai}
               />
-              <Button title="Simpan" onClick={handleMulaiAngkatan} />
+              <Button
+                title={isLoadingMulai ? <Loading /> : 'Simpan'}
+                onClick={handleMulaiAngkatan}
+              />
             </div>
           </div>
         </PopUpAction>

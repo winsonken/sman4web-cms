@@ -60,7 +60,7 @@ export const ppdbApiSlice = sman4webApi.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['Ppdb'],
+      invalidatesTags: ['Ppdb', 'Siswa'],
     }),
   }),
 });

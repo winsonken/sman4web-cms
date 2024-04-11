@@ -33,6 +33,7 @@ import ProfileSiswa from './pages/ProfileSiswa';
 import ProfileGuru from './pages/ProfileGuru';
 import ProfileTendik from './pages/ProfileTendik';
 import DetailPelanggaran from './pages/DetailPelanggaran';
+import Tendik from './pages/Tendik';
 
 function App() {
   const modules = useSelector(selectCurrentModules);
@@ -90,6 +91,8 @@ function App() {
           {modulesSiswa?.akses && <Route path="/siswa" element={<Siswa />} />}
 
           {modulesGuru?.akses && <Route path="/guru" element={<Guru />} />}
+
+          {modulesGuru?.akses && <Route path="/tendik" element={<Tendik />} />}
 
           {modulesAlumni?.akses && (
             <Route path="/alumni" element={<Alumni />} />

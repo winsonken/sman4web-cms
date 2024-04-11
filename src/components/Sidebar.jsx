@@ -21,6 +21,7 @@ import { logOut, selectCurrentModules } from '../services/features/authSlice';
 import { FiActivity } from 'react-icons/fi';
 import { GiGraduateCap } from 'react-icons/gi';
 import { SiGoogleclassroom } from 'react-icons/si';
+import { GrUserAdmin } from 'react-icons/gr';
 
 const Sidebar = (props) => {
   const { openSidebar } = props;
@@ -98,6 +99,12 @@ const Sidebar = (props) => {
       link: '/guru',
       icon: <FaChalkboardTeacher />,
       access: modulesGuru?.akses,
+    },
+    {
+      name: 'Tendik',
+      link: '/tendik',
+      icon: <GrUserAdmin />,
+      access: true,
     },
     {
       name: 'Alumni',

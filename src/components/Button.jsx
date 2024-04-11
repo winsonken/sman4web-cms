@@ -9,7 +9,7 @@ const Button = (props) => {
         setIsOpenPopUp && setIsOpenPopUp(false);
         onClick && onClick();
       }}
-      className={`text-md font-medium flex justify-center text-main-cream px-3 py-2 rounded-md overflow-x-clip md:px-5 ${
+      className={`text-md font-medium flex justify-center items-center text-main-cream px-3 py-2 rounded-md overflow-x-clip md:px-5 ${
         type == 'submit'
           ? 'bg-second-blue'
           : type == 'cancel'

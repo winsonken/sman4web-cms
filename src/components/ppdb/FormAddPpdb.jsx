@@ -12,6 +12,7 @@ import { useGetAngkatanBelumMulaiOptionQuery } from '../../services/api/angkatan
 import { useGetTahunAjaranBelumMulaiOptionQuery } from '../../services/api/tahunAjaranApiSlice';
 import { useCreatePPDBMutation } from '../../services/api/ppdbApiSlice';
 import { formatDate } from '../../helpers/FormatDate';
+import Loading from '../Loading';
 
 const validationSchema = yup
   .object({
@@ -127,7 +128,8 @@ const FormAddPpdb = (props) => {
     }
   };
 
-  const [createPpdb] = useCreatePPDBMutation();
+  const [createPpdb, { isLoading, isSuccess, isError, error }] =
+    useCreatePPDBMutation();
 
   const handleSubmitForm = async () => {
     const formData = new FormData();
@@ -412,7 +414,7 @@ const FormAddPpdb = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpAdd}
           />
-          <Button title="Simpan" type="submit" />
+          <Button title={isLoading ? <Loading /> : 'Simpan'} type="submit" />
         </div>
       </div>
     </form>

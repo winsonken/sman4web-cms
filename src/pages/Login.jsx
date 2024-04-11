@@ -12,7 +12,7 @@ import {
   selectCurrentToken,
   setCredentials,
 } from '../services/features/authSlice';
-import BeatLoader from 'react-spinners/BeatLoader';
+import { Loading } from '../components';
 
 const validationSchema = yup
   .object({
@@ -173,7 +173,7 @@ const Login = () => {
                 type="submit"
                 className="w-full text-base font-medium text-white bg-second-blue py-3 rounded"
               >
-                {isLoading ? <BeatLoader size={5} color="#36d7b7" /> : 'Login'}
+                {isLoading ? <Loading /> : 'Login'}
               </button>
             </div>
           </form>

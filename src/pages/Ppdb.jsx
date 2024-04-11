@@ -14,6 +14,7 @@ import {
   PopUpCustom,
   SelectFilter,
   SearchFilter,
+  Loading,
 } from '../components';
 
 import {
@@ -32,6 +33,8 @@ import {
   useUpdateTolakPpdbMutation,
 } from '../services/api/ppdbApiSlice';
 import useDebounce from '../helpers/useDebounce';
+import { useSelector } from 'react-redux';
+import { selectCurrentModules } from '../services/features/authSlice';
 
 const Ppdb = () => {
   const [searchFilterPpdb, setSearchFilterPpdb] = useState('');
@@ -62,7 +65,7 @@ const Ppdb = () => {
   const [isOpenPopUpTerimaSemua, setIsOpenPopUpTerimaSemua] = useState(false);
   const [isOpenPopUpPindahPpdb, setIsOpenPopUpPindahPpdb] = useState(false);
 
-  const [deletePpdb] = useDeletePPDBMutation();
+  const [deletePpdb, { isLoading: isLoadingDelete }] = useDeletePPDBMutation();
 
   const handleDelete = async () => {
     try {
@@ -83,7 +86,8 @@ const Ppdb = () => {
     }
   };
 
-  const [updateTerimaPpdb] = useUpdateTerimaPpdbMutation();
+  const [updateTerimaPpdb, { isLoading: isLoadingTerimaPpdb }] =
+    useUpdateTerimaPpdbMutation();
 
   const handleTerimaPpdb = async () => {
     const payload = {
@@ -109,7 +113,8 @@ const Ppdb = () => {
     }
   };
 
-  const [updateTolakPpdb] = useUpdateTolakPpdbMutation();
+  const [updateTolakPpdb, { isLoading: isLoadingTolakPpdb }] =
+    useUpdateTolakPpdbMutation();
 
   const handleTolakPpdb = async () => {
     const payload = {
@@ -135,7 +140,8 @@ const Ppdb = () => {
     }
   };
 
-  const [updateTerimaSemua] = useUpdateTerimaSemuaPpdbMutation();
+  const [updateTerimaSemua, { isLoading: isLoadingTerimaSemua }] =
+    useUpdateTerimaSemuaPpdbMutation();
 
   const handleTerimaSemua = async () => {
     try {
@@ -157,7 +163,8 @@ const Ppdb = () => {
     }
   };
 
-  const [updatePindahPpdb] = useUpdatePindahPpdbMutation();
+  const [updatePindahPpdb, { isLoading: isLoadingPindahPpdb }] =
+    useUpdatePindahPpdbMutation();
 
   const handlePindahPpdb = async () => {
     try {
@@ -179,6 +186,16 @@ const Ppdb = () => {
     }
   };
 
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+
+  const modulesPpdb = filterModule('data_ppdb');
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -188,12 +205,18 @@ const Ppdb = () => {
           </h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-          <ButtonAdd
-            title="Tambah ppdb"
-            isOpenPopUpAdd={isOpenPopUpAdd}
-            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          />
+        <div
+          className={`flex flex-col sm:flex-row sm:justify-between gap-3 ${
+            modulesPpdb?.tambah ? 'sm:justify-between' : 'sm:justify-end'
+          }`}
+        >
+          {modulesPpdb?.tambah && (
+            <ButtonAdd
+              title="Tambah ppdb"
+              isOpenPopUpAdd={isOpenPopUpAdd}
+              setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+            />
+          )}
 
           <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3 justify-end ">
             <div className="sm:w-1/2">
@@ -204,17 +227,18 @@ const Ppdb = () => {
             </div>
           </div>
         </div>
-
-        <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-          <ButtonCustom
-            title="Terima semua"
-            setIsOpenPopUp={setIsOpenPopUpTerimaSemua}
-          />
-          <ButtonCustom
-            title="Pindahkan ppdb"
-            setIsOpenPopUp={setIsOpenPopUpPindahPpdb}
-          />
-        </div>
+        {modulesPpdb?.ubah && (
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+            <ButtonCustom
+              title="Terima semua"
+              setIsOpenPopUp={setIsOpenPopUpTerimaSemua}
+            />
+            <ButtonCustom
+              title="Pindahkan ppdb"
+              setIsOpenPopUp={setIsOpenPopUpPindahPpdb}
+            />
+          </div>
+        )}
 
         <TablePpdb
           data={ppdb}
@@ -222,6 +246,7 @@ const Ppdb = () => {
           isSuccess={isSuccess}
           isError={isError}
           error={error}
+          modules={modulesPpdb}
           isOpenPopUpTerimaPpdb={isOpenPopUpTerimaPpdb}
           setIsOpenPopUpTerimaPpdb={setIsOpenPopUpTerimaPpdb}
           isOpenPopUpTolakPpdb={isOpenPopUpTolakPpdb}
@@ -276,7 +301,10 @@ const Ppdb = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpDelete}
               />
-              <Button title="Hapus" onClick={handleDelete} />
+              <Button
+                title={isLoadingDelete ? <Loading /> : 'Hapus'}
+                onClick={handleDelete}
+              />
             </div>
           </div>
         </PopUpDelete>
@@ -309,7 +337,10 @@ const Ppdb = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpTerimaPpdb}
               />
-              <Button title="Simpan" onClick={handleTerimaPpdb} />
+              <Button
+                title={isLoadingTerimaPpdb ? <Loading /> : 'Simpan'}
+                onClick={handleTerimaPpdb}
+              />
             </div>
           </div>
         </PopUpAction>
@@ -330,7 +361,10 @@ const Ppdb = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpTolakPpdb}
               />
-              <Button title="Simpan" onClick={handleTolakPpdb} />
+              <Button
+                title={isLoadingTolakPpdb ? <Loading /> : 'Simpan'}
+                onClick={handleTolakPpdb}
+              />
             </div>
           </div>
         </PopUpAction>
@@ -351,7 +385,10 @@ const Ppdb = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpTerimaSemua}
               />
-              <Button title="Simpan" onClick={handleTerimaSemua} />
+              <Button
+                title={isLoadingTerimaSemua ? <Loading /> : 'Simpan'}
+                onClick={handleTerimaSemua}
+              />
             </div>
           </div>
         </PopUpCustom>
@@ -365,7 +402,7 @@ const Ppdb = () => {
         >
           <div className="flex flex-col gap-3">
             <h1>
-              Apakah anda yakin memindahkan semua ppdb ini sebagai siswa aktif?
+              Apakah anda yakin memindahkan semua ppdb ini sebagai siswa baru?
             </h1>
 
             <div className="flex justify-end gap-2">
@@ -374,7 +411,10 @@ const Ppdb = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpPindahPpdb}
               />
-              <Button title="Simpan" onClick={handlePindahPpdb} />
+              <Button
+                title={isLoadingPindahPpdb ? <Loading /> : 'Simpan'}
+                onClick={handlePindahPpdb}
+              />
             </div>
           </div>
         </PopUpCustom>

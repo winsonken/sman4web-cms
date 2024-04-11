@@ -20,8 +20,12 @@ import Pagination from '../components/Pagination';
 import FormAddSiswa from '../components/siswa/FormAddSiswa';
 import FormEditSiswa from '../components/siswa/FormEditSiswa';
 import FormDetailSiswa from '../components/siswa/FormDetailSiswa';
-import { TableSiswa, TableSiswaBaru } from '../components/siswa';
-import { ButtonCustom, PopUpCustom } from '../components';
+import {
+  FormDetailSiswaBaru,
+  TableSiswa,
+  TableSiswaBaru,
+} from '../components/siswa';
+import { ButtonCustom, Loading, PopUpCustom } from '../components';
 
 import {
   useGetSiswaBaruQuery,
@@ -31,6 +35,8 @@ import {
 } from '../services/api/siswaApiSlice';
 import useDebounce from '../helpers/useDebounce';
 import { useGetAngkatanDimulaiOptionQuery } from '../services/api/angkatanApiSlice';
+import { useSelector } from 'react-redux';
+import { selectCurrentModules } from '../services/features/authSlice';
 
 const Siswa = () => {
   const [searchFilterSiswa, setSearchFilterSiswa] = useState('');
@@ -46,6 +52,8 @@ const Siswa = () => {
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
   const [isOpenPopUpAktifSiswa, setIsOpenPopUpAktifSiswa] = useState(false);
+  const [isOpenPopUpDetailSiswaBaru, setIsOpenPopUpDetailSiswaBaru] =
+    useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const limitPerPage = 10;
   const [getData, setGetData] = useState([]);
@@ -84,7 +92,12 @@ const Siswa = () => {
     label: e?.no_angkatan,
   }));
 
-  const [deleteSiswa] = useDeleteSiswaMutation();
+  if (Array.isArray(selectAngkatan)) {
+    selectAngkatan.unshift({ value: '', label: 'Select angkatan' });
+  }
+
+  const [deleteSiswa, { isLoading: isLoadingDelete }] =
+    useDeleteSiswaMutation();
 
   const handleDelete = async () => {
     try {
@@ -107,7 +120,8 @@ const Siswa = () => {
     }
   };
 
-  const [aktifSiwa] = useUpdateAktifSiswaMutation();
+  const [aktifSiwa, { isLoading: isLoadingAktifSiswa }] =
+    useUpdateAktifSiswaMutation();
 
   const handleAktifSiswa = async () => {
     try {
@@ -128,6 +142,17 @@ const Siswa = () => {
     }
   };
 
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+
+  const modulesSiswa = filterModule('data_siswa');
+
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -135,23 +160,28 @@ const Siswa = () => {
           <h1 className="text-xl font-semibold md:text-2xl">Siswa</h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-          <ButtonAdd
-            title="Tambah Siswa"
-            isOpenPopUpAdd={isOpenPopUpAdd}
-            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          />
+        <div
+          className={`flex flex-col sm:flex-row gap-3 ${
+            modulesSiswa?.tambah ? 'sm:justify-between' : 'sm:justify-end'
+          } `}
+        >
+          {modulesSiswa?.tambah && (
+            <ButtonAdd
+              title="Tambah siswa"
+              isOpenPopUpAdd={isOpenPopUpAdd}
+              setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+            />
+          )}
 
-          <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/2  ">
+          <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3  ">
             <div className="sm:w-1/2">
               <SelectFilter
+                placeholder="Select angkatan"
                 data={selectAngkatan}
                 selectedValue={selectedAngkatanValue}
                 setSelectedValue={setSelectedAngkatanValue}
-                placeholder="Pilih Angkatan"
               />
             </div>
-
             <div className="sm:w-1/2">
               <SearchFilter
                 searchValue={searchFilterSiswa}
@@ -167,6 +197,7 @@ const Siswa = () => {
           isSuccess={isSuccess}
           isError={isError}
           error={error}
+          modules={modulesSiswa}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
           isOpenPopUpEdit={isOpenPopUpEdit}
@@ -184,11 +215,17 @@ const Siswa = () => {
             <h1 className="text-xl font-semibold md:text-2xl">Siswa baru</h1>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:justify-between">
-            <ButtonCustom
-              title="Aktifkan semua"
-              setIsOpenPopUp={setIsOpenPopUpAktifSiswa}
-            />
+          <div
+            className={`flex flex-col gap-3 sm:flex-row ${
+              modulesSiswa?.tambah ? 'sm:justify-between' : 'sm:justify-end'
+            }`}
+          >
+            {modulesSiswa?.tambah && (
+              <ButtonCustom
+                title="Aktifkan semua"
+                setIsOpenPopUp={setIsOpenPopUpAktifSiswa}
+              />
+            )}
 
             <div className="w-full sm:w-1/2 duration-100 md:w-1/3 2xl:w-1/5">
               <SearchFilter
@@ -204,6 +241,9 @@ const Siswa = () => {
             isSuccess={isSuccessSiswaBaru}
             isError={isErrorSiswaBaru}
             error={errorSiswaBaru}
+            isOpenPopUpDetailSiswaBaru={isOpenPopUpDetailSiswaBaru}
+            setIsOpenPopUpDetailSiswaBaru={setIsOpenPopUpDetailSiswaBaru}
+            setGetData={setGetData}
             currentPage={currentPageSiswaBaru}
             setCurrentPage={setCurrentPageSiswaBaru}
             limitPerPage={limitPerPageSiswaBaru}
@@ -240,7 +280,7 @@ const Siswa = () => {
           <div className="flex flex-col gap-3">
             <h1>
               Apakah anda yakin menghapus siswa bernama{' '}
-              <span className="font-bold">{getData?.nama}?</span>
+              <span className="font-bold">{getData?.nama}</span>?
             </h1>
 
             <div className="flex justify-end gap-2">
@@ -249,7 +289,10 @@ const Siswa = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpDelete}
               />
-              <Button title="Hapus" onClick={handleDelete} />
+              <Button
+                title={isLoadingDelete ? <Loading /> : 'Hapus'}
+                onClick={handleDelete}
+              />
             </div>
           </div>
         </PopUpDelete>
@@ -282,10 +325,25 @@ const Siswa = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpAktifSiswa}
               />
-              <Button title="Simpan" onClick={handleAktifSiswa} />
+              <Button
+                title={isLoadingAktifSiswa ? <Loading /> : 'Simpan'}
+                onClick={handleAktifSiswa}
+              />
             </div>
           </div>
         </PopUpCustom>
+
+        <PopUpDetail
+          title="Detail siswa baru"
+          icon={<PiUsersThreeFill />}
+          isOpenPopUpDetail={isOpenPopUpDetailSiswaBaru}
+          setIsOpenPopUpDetail={setIsOpenPopUpDetailSiswaBaru}
+        >
+          <FormDetailSiswaBaru
+            data={getData}
+            setIsOpenPopUpDetail={setIsOpenPopUpDetailSiswaBaru}
+          />
+        </PopUpDetail>
       </div>
     </Layout>
   );

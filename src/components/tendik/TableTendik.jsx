@@ -6,22 +6,27 @@ import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
 
-const TableSiswaBaru = (props) => {
+const TableTendik = (props) => {
   const {
     data,
     isLoading,
     isSuccess,
     isError,
     error,
-    isOpenPopUpDetailSiswaBaru,
-    setIsOpenPopUpDetailSiswaBaru,
+    modules,
+    isOpenPopUpDetail,
+    setIsOpenPopUpDetail,
+    isOpenPopUpEdit,
+    setIsOpenPopUpEdit,
+    isOpenPopUpDelete,
+    setIsOpenPopUpDelete,
     setGetData,
     currentPage,
     setCurrentPage,
     limitPerPage,
   } = props;
 
-  const siswaBaruData = data?.data;
+  const tendikData = data?.data;
   const pagination = data?.pagination;
 
   const totalPage = pagination?.total_page;
@@ -44,29 +49,30 @@ const TableSiswaBaru = (props) => {
                   Foto
                 </th>
                 <th scope="col" className="px-6 py-4">
-                  No pendaftaran
+                  Nama Tendik
                 </th>
                 <th scope="col" className="px-6 py-4">
-                  Nama siswa
+                  NIP/NRPTK/NIG
                 </th>
                 <th scope="col" className="px-6 py-4">
-                  NIPD
+                  Status kepegawaian
                 </th>
                 <th scope="col" className="px-6 py-4">
-                  Angkatan
+                  Jenis PTK
                 </th>
                 <th scope="col" className="px-6 py-4">
                   Status
                 </th>
-                <th scope="col" className="px-6 py-4 text-center">
-                  Aksi
-                </th>
+                {(modules?.ubah || modules?.hapus) && (
+                  <th scope="col" className="text-center px-6 py-4">
+                    Aksi
+                  </th>
+                )}
               </tr>
             </thead>
-
             <tbody>
-              {siswaBaruData.length > 0 ? (
-                siswaBaruData.map((allSiswaBaruData, index) => (
+              {tendikData.length > 0 ? (
+                tendikData?.map((allTendikData, index) => (
                   <tr className="bg-second-orange border-b">
                     <th
                       scope="row"
@@ -77,42 +83,61 @@ const TableSiswaBaru = (props) => {
                     <td className="px-6 py-2">
                       <img
                         src={
-                          allSiswaBaruData?.foto
-                            ? `http://localhost:5500/${allSiswaBaruData?.foto}`
+                          allTendikData?.foto
+                            ? `http://localhost:5500/${allTendikData?.foto}`
                             : './default-user.jpeg'
                         }
-                        alt="Siswa"
+                        alt="Tendik"
                         className="w-20 max-h-12 object-cover rounded-md"
                         loading="lazy"
                       />
                     </td>
+                    <td className="px-6 py-2">{allTendikData?.nama}</td>
+                    <td className="px-6 py-2">{allTendikData?.no_tendik}</td>
                     <td className="px-6 py-2">
-                      {allSiswaBaruData?.no_pendaftaran}
+                      {allTendikData?.status_kepegawaian}
                     </td>
-                    <td className="px-6 py-2">{allSiswaBaruData?.nama}</td>
-                    <td className="px-6 py-2">{allSiswaBaruData?.nipd}</td>
+                    <td className="px-6 py-2">{allTendikData?.jenis_ptk}</td>
                     <td className="px-6 py-2">
-                      {allSiswaBaruData?.no_angkatan}
+                      {allTendikData?.status_tendik == 1 ? 'Aktif' : ''}
                     </td>
-                    <td className="px-6 py-2">
-                      {allSiswaBaruData?.status_siswa == 0 ? 'Baru' : ''}
-                    </td>
-                    <td className="px-6 py-1">
-                      <div className="flex flex-row justify-center items-center gap-2">
-                        <ButtonDetail
-                          data={allSiswaBaruData}
-                          isOpenPopUpDetail={isOpenPopUpDetailSiswaBaru}
-                          setIsOpenPopUpDetail={setIsOpenPopUpDetailSiswaBaru}
-                          setGetData={setGetData}
-                        />
-                      </div>
-                    </td>
+
+                    {(modules?.ubah || modules?.hapus) && (
+                      <td className="px-6 py-2">
+                        <div className="flex flex-row justify-center items-center gap-2">
+                          <ButtonDetail
+                            data={allTendikData}
+                            isOpenPopUpDetail={isOpenPopUpDetail}
+                            setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+                            setGetData={setGetData}
+                          />
+
+                          {modules?.ubah && (
+                            <ButtonEdit
+                              data={allTendikData}
+                              isOpenPopUpEdit={isOpenPopUpEdit}
+                              setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                              setGetData={setGetData}
+                            />
+                          )}
+
+                          {modules?.hapus && (
+                            <ButtonDelete
+                              data={allTendikData}
+                              isOpenPopUpDelete={isOpenPopUpDelete}
+                              setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                              setGetData={setGetData}
+                            />
+                          )}
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan="9"
+                    colSpan="8"
                     class="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
                     <div className="text-sm  text-gray-500 text-center">
@@ -137,4 +162,4 @@ const TableSiswaBaru = (props) => {
   );
 };
 
-export default TableSiswaBaru;
+export default TableTendik;

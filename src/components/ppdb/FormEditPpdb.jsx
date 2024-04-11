@@ -13,6 +13,8 @@ import { useGetTahunAjaranBelumMulaiOptionQuery } from '../../services/api/tahun
 
 import { formatDate } from '../../helpers/FormatDate';
 import { useUpdatePPDBMutation } from '../../services/api/ppdbApiSlice';
+import Loading from '../Loading';
+import { selectCurrentModules } from '../../services/features/authSlice';
 
 const validationSchema = yup
   .object({
@@ -71,6 +73,8 @@ const FormEditPpdb = (props) => {
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
+
+  const currentUser = useSelector(selectCurrentModules);
 
   const [selectedStatusValue, setSelectedStatusValue] = useState('');
   const [jenisKelaminValue, setJenisKelaminValue] = useState('');
@@ -133,7 +137,8 @@ const FormEditPpdb = (props) => {
     }
   };
 
-  const [updatePpdb] = useUpdatePPDBMutation();
+  const [updatePpdb, { isLoading, isSuccess, isError, error }] =
+    useUpdatePPDBMutation();
 
   const handleSubmitForm = async () => {
     const formData = new FormData();
@@ -509,7 +514,7 @@ const FormEditPpdb = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpEdit}
           />
-          <Button title="Ubah" type="submit" />
+          <Button title={isLoading ? <Loading /> : 'Ubah'} type="submit" />
         </div>
       </div>
     </form>
