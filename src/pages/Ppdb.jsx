@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaUserPlus } from 'react-icons/fa6';
+import { FaUserClock } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import {
   Button,
@@ -265,7 +266,7 @@ const Ppdb = () => {
 
         <PopUpAdd
           title="Tambah ppdb"
-          icon={<FaUserPlus />}
+          icon={<FaUserClock />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
           className="xl:w-2/3"
@@ -275,7 +276,7 @@ const Ppdb = () => {
 
         <PopUpEdit
           title="Ubah ppdb"
-          icon={<FaUserPlus />}
+          icon={<FaUserClock />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           className="xl:w-2/3"
@@ -288,7 +289,7 @@ const Ppdb = () => {
 
         <PopUpDelete
           title="Hapus ppdb"
-          icon={<FaUserPlus />}
+          icon={<FaUserClock />}
           isOpenPopUpDelete={isOpenPopUpDelete}
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
         >
@@ -311,7 +312,7 @@ const Ppdb = () => {
 
         <PopUpDetail
           title="Detail PPDB"
-          icon={<FaUserPlus />}
+          icon={<FaUserClock />}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
           className="xl:w-2/3"
@@ -323,7 +324,7 @@ const Ppdb = () => {
 
         <PopUpAction
           title="Terima ppdb"
-          icon={<FaUserPlus />}
+          icon={<FaUserClock />}
           isOpenPopUp={isOpenPopUpTerimaPpdb}
           setIsOpenPopUp={setIsOpenPopUpTerimaPpdb}
           className="md:max-w-xl"
@@ -347,7 +348,7 @@ const Ppdb = () => {
 
         <PopUpAction
           title="Tolak ppdb"
-          icon={<FaUserPlus />}
+          icon={<FaUserClock />}
           isOpenPopUp={isOpenPopUpTolakPpdb}
           setIsOpenPopUp={setIsOpenPopUpTolakPpdb}
           className="md:max-w-xl"
@@ -371,7 +372,7 @@ const Ppdb = () => {
 
         <PopUpCustom
           title="Terima semua ppdb"
-          icon={<FaUserPlus />}
+          icon={<FaUserClock />}
           isOpenPopUp={isOpenPopUpTerimaSemua}
           setIsOpenPopUp={setIsOpenPopUpTerimaSemua}
           className="md:max-w-xl"
@@ -395,7 +396,7 @@ const Ppdb = () => {
 
         <PopUpCustom
           title="Pindah semua ppdb"
-          icon={<FaUserPlus />}
+          icon={<FaUserClock />}
           isOpenPopUp={isOpenPopUpPindahPpdb}
           setIsOpenPopUp={setIsOpenPopUpPindahPpdb}
           className="md:max-w-xl"

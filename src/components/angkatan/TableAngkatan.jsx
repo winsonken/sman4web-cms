@@ -90,13 +90,15 @@ const TableAngkatan = (props) => {
                       {allAngkatanData?.jumlah_siswa || '-'}
                     </td>
                     <td className="px-6 py-2">
-                      {allAngkatanData?.status_angkatan == 0
-                        ? 'Belum dimulai'
-                        : allAngkatanData?.status_angkatan == 1
-                        ? 'Aktif'
-                        : allAngkatanData?.status_angkatan == 2
-                        ? 'Lulus'
-                        : '-'}
+                      {allAngkatanData?.status_angkatan == 0 ? (
+                        <p className="text-[#0b0303]">Belum Dimulai</p>
+                      ) : allAngkatanData?.status_angkatan == 1 ? (
+                        <p className="text-[#45db6a]">Aktif</p>
+                      ) : allAngkatanData?.status_angkatan == 2 ? (
+                        <p className="text-[#4ef887]">Lulus</p>
+                      ) : (
+                        '-'
+                      )}
                     </td>
                     {modules?.ubah && (
                       <td className="px-6 py-2">

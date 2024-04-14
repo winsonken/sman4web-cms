@@ -73,15 +73,24 @@ const TableAktivitas = (props) => {
                     <td className="px-6 py-2">{allSiswaData?.nipd}</td>
                     <td className="px-6 py-2 text-center">
                       <div className="flex gap-3 justify-center">
-                        <Link to="/aktivitas/prestasi" state={allSiswaData}>
-                          Lihat prestasi
-                        </Link>
-                        <Link to="/aktivitas/pelanggaran" state={allSiswaData}>
-                          Lihat pelanggaran
-                        </Link>
-                        <Link to="/aktivitas/rapot" state={allSiswaData}>
-                          Lihat rapot
-                        </Link>
+                        <div className="bg-[#598392] text-base text-white px-5 py-0.5 rounded-md">
+                          <Link to="/aktivitas/prestasi" state={allSiswaData}>
+                            Lihat prestasi
+                          </Link>
+                        </div>
+                        <div className="bg-[#598392] text-base text-white px-5 py-0.5 rounded-md">
+                          <Link
+                            to="/aktivitas/pelanggaran"
+                            state={allSiswaData}
+                          >
+                            Lihat pelanggaran
+                          </Link>
+                        </div>
+                        <div className="bg-[#598392] text-base text-white px-5 py-0.5 rounded-md">
+                          <Link to="/aktivitas/rapot" state={allSiswaData}>
+                            Lihat rapot
+                          </Link>
+                        </div>
                       </div>
                     </td>
                   </tr>

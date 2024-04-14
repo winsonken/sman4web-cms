@@ -99,7 +99,11 @@ const TableTendik = (props) => {
                     </td>
                     <td className="px-6 py-2">{allTendikData?.jenis_ptk}</td>
                     <td className="px-6 py-2">
-                      {allTendikData?.status_tendik == 1 ? 'Aktif' : ''}
+                      {allTendikData?.status_tendik == 1 ? (
+                        <p className="text-[#45db6a]">Aktif</p>
+                      ) : (
+                        ''
+                      )}
                     </td>
 
                     {(modules?.ubah || modules?.hapus) && (

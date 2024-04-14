@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { RiDoorOpenFill } from 'react-icons/ri';
 import { toast } from 'react-toastify';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 import {
   Button,
@@ -149,9 +150,9 @@ const DetailKelas = () => {
             onClick={() => {
               navigate(-1);
             }}
-            className="cursor-pointer"
+            className="cursor-pointer w-fit h-fit text-2xl"
           >
-            Back
+            <IoMdArrowRoundBack />
           </div>
         </div>
 

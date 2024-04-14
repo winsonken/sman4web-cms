@@ -76,9 +76,11 @@ const TableAngkatanLulus = (props) => {
                       {allAngkatanLulusData?.siswa_lulus || '-'}
                     </td>
                     <td className="px-6 py-2">
-                      {allAngkatanLulusData?.status_angkatan == 2
-                        ? 'Lulus'
-                        : '-'}
+                      {allAngkatanLulusData?.status_angkatan == 2 ? (
+                        <p className="text-[#4ef887]">Lulus</p>
+                      ) : (
+                        '-'
+                      )}
                     </td>
                   </tr>
                 ))

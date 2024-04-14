@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MdDoNotDisturb } from 'react-icons/md';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import {
   Button,
@@ -103,9 +104,9 @@ const DetailPelanggaran = () => {
             onClick={() => {
               navigate(-1);
             }}
-            className="cursor-pointer"
+            className="cursor-pointer w-fit h-fit text-2xl"
           >
-            Back
+            <IoMdArrowRoundBack />
           </div>
         </div>
 

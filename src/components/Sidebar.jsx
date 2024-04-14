@@ -22,6 +22,7 @@ import { FiActivity } from 'react-icons/fi';
 import { GiGraduateCap } from 'react-icons/gi';
 import { SiGoogleclassroom } from 'react-icons/si';
 import { GrUserAdmin } from 'react-icons/gr';
+import { FaUserClock } from 'react-icons/fa';
 
 const Sidebar = (props) => {
   const { openSidebar } = props;
@@ -128,7 +129,7 @@ const Sidebar = (props) => {
     {
       name: 'PPDB',
       link: '/ppdb',
-      icon: <FaUserPlus />,
+      icon: <FaUserClock />,
       access: modulesPpdb?.akses,
     },
     {
