@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaMedal } from 'react-icons/fa6';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 import { toast } from 'react-toastify';
 import {
   Button,
@@ -100,9 +101,9 @@ const DetailPrestasi = () => {
             onClick={() => {
               navigate(-1);
             }}
-            className="cursor-pointer"
+            className="cursor-pointer w-fit h-fit text-2xl"
           >
-            Back
+            <IoMdArrowRoundBack />
           </div>
         </div>
 

@@ -8,6 +8,7 @@ import ButtonDelete from '../ButtonDelete';
 import ButtonDetailKelas from '../ButtonDetailKelas';
 import ButtonPage from '../ButtonPage';
 import { Link } from 'react-router-dom';
+import { IoEyeSharp } from 'react-icons/io5';
 
 const TableKelas = (props) => {
   const {
@@ -88,10 +89,11 @@ const TableKelas = (props) => {
                     </td>
                     <td className="px-6 py-2">
                       <div className="flex flex-row justify-center items-center gap-2">
-                        {/* <ButtonDetailKelas /> */}
-                        <Link to="/kelas/detail" state={allKelasData}>
-                          Lihat kelas
-                        </Link>
+                        <div className="w-fit h-fit text-2xl text-black bg-white px-1.5 py-1 flex justify-center items-center rounded-md cursor-pointer">
+                          <Link to="/kelas/detail" state={allKelasData}>
+                            <IoEyeSharp />
+                          </Link>
+                        </div>
 
                         <ButtonEdit
                           data={allKelasData}

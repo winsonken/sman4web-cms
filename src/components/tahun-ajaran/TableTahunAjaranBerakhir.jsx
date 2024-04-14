@@ -70,9 +70,11 @@ const TableTahunAjaranBerakhir = (props) => {
                       {allTahunAjaran?.akhir_periode_genap}
                     </td>
                     <td className="px-6 py-2">
-                      {allTahunAjaran?.status_tahun_ajaran == 2
-                        ? 'Berakhir'
-                        : ''}
+                      {allTahunAjaran?.status_tahun_ajaran == 2 ? (
+                        <p className="text-[#d14242]">Berakhir</p>
+                      ) : (
+                        ''
+                      )}
                     </td>
                   </tr>
                 ))

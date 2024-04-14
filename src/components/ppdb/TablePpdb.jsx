@@ -103,13 +103,15 @@ const TablePpdb = (props) => {
                     <td className="px-6 py-2">{allPpdbData?.nama}</td>
                     <td className="px-6 py-2">{allPpdbData?.nipd}</td>
                     <td className="px-6 py-2">
-                      {allPpdbData?.status_ppdb == 0
-                        ? 'Menunggu penerimaan'
-                        : allPpdbData?.status_ppdb == 1
-                        ? 'Diterima'
-                        : allPpdbData?.status_ppdb == 2
-                        ? 'Ditolak'
-                        : ''}
+                      {allPpdbData?.status_ppdb == 0 ? (
+                        <p className="text-[#ecbb49]"> Menunggu penerimaan </p>
+                      ) : allPpdbData?.status_ppdb == 1 ? (
+                        <p className="">Diterima</p>
+                      ) : allPpdbData?.status_ppdb == 2 ? (
+                        'Ditolak'
+                      ) : (
+                        ''
+                      )}
                     </td>
                     {modules?.ubah && (
                       <td className="px-6 py-2">

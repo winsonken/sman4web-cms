@@ -100,7 +100,11 @@ const TableSiswa = (props) => {
                     <td className="px-6 py-2">{allSiswaData?.nipd}</td>
                     <td className="px-6 py-2">{allSiswaData?.no_angkatan}</td>
                     <td className="px-6 py-2">
-                      {allSiswaData?.status_siswa == 1 ? 'Aktif' : ''}
+                      {allSiswaData?.status_siswa == 1 ? (
+                        <p className="text-[#45db6a]">Aktif</p>
+                      ) : (
+                        ''
+                      )}
                     </td>
                     {(modules?.ubah || modules?.hapus) && (
                       <td className="px-6 py-1">

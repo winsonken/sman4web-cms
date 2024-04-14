@@ -95,7 +95,11 @@ const TableSiswaBaru = (props) => {
                       {allSiswaBaruData?.no_angkatan}
                     </td>
                     <td className="px-6 py-2">
-                      {allSiswaBaruData?.status_siswa == 0 ? 'Baru' : ''}
+                      {allSiswaBaruData?.status_siswa == 0 ? (
+                        <p className="text-[#f9ab58]">Baru</p>
+                      ) : (
+                        ''
+                      )}
                     </td>
                     <td className="px-6 py-1">
                       <div className="flex flex-row justify-center items-center gap-2">

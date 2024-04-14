@@ -99,7 +99,11 @@ const TableGuru = (props) => {
                     </td>
                     <td className="px-6 py-2">{allGuruData?.jenis_ptk}</td>
                     <td className="px-6 py-2">
-                      {allGuruData?.status_guru == 1 ? 'Aktif' : ''}
+                      {allGuruData?.status_guru == 1 ? (
+                        <p className="text-[#45db6a]">Aktif</p>
+                      ) : (
+                        ''
+                      )}
                     </td>
 
                     {(modules?.ubah || modules?.hapus) && (
