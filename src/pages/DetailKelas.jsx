@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { RiDoorOpenFill } from 'react-icons/ri';
+import { toast } from 'react-toastify';
 
 import {
   Button,
@@ -15,37 +16,148 @@ import {
   SelectFilter,
   SearchFilter,
   Input,
+  Loading,
 } from '../components';
 
 import {
   FormAddDetailKelas,
+  FormEditDetailKelas,
+  FormNaikKelas,
+  FormTinggalKelas,
   TableDetailKelas,
 } from '../components/detailkelas';
-import { useGetAngkatanQuery } from '../services/api/angkatanApiSlice';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  useDeleteKelasSiswaMutation,
+  useGetKelasSiswaQuery,
+} from '../services/api/kelasSiswaApiSlice';
+import useDebounce from '../helpers/useDebounce';
+import { useGetSiswaBelumAdaKelasOptionQuery } from '../services/api/siswaApiSlice';
+import { useGetKelasOptionQuery } from '../services/api/kelasApiSlice';
+import FormLulus from '../components/detailkelas/FormLulus';
+import FormTidakLulus from '../components/detailkelas/FormTidakLulus';
+
 const DetailKelas = () => {
+  const [searchFilterKelasSiswa, setSearchFilterKelasSiswa] = useState('');
+  const debouncedSearchKelasSiswa = useDebounce(searchFilterKelasSiswa, 500);
+
+  const location = useLocation();
+  const state = location.state;
+  const {
+    id_kelas,
+    nama_kelas,
+    kelas,
+    tahun_ajaran,
+    tahun_mulai_ajaran,
+    tahun_akhir_ajaran,
+    jurusan,
+    walikelas,
+  } = state;
+
+  const navigate = useNavigate();
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
-  const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
-  const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
-  const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
-  const [isOpenPopUpTinggal, setIsOpenPopUpTinggal] = useState(false);
+
   const [isOpenPopUpGanjilAwal, setIsOpenPopUpGanjilAwal] = useState(false);
   const [isOpenPopUpGanjilAkhir, setIsOpenPopUpGanjilAkhir] = useState(false);
   const [isOpenPopUpGenapAwal, setIsOpenPopUpGenapAwal] = useState(false);
+  const [isOpenPopUpGenapAkhir, setIsOpenPopUpGenapAkhir] = useState(false);
 
-  const dummyData = [];
+  const [isOpenPopUpNaikKelas, setIsOpenPopUpNaikKelas] = useState(false);
+  const [isOpenPopUpTinggalKelas, setIsOpenPopUpTinggalKelas] = useState(false);
+  const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
+  const [isOpenPopUpTidakLulus, setIsOpenPopUpTidakLulus] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const limitPerPage = 10;
+  const [getData, setGetData] = useState([]);
+
+  const {
+    data: kelasSiswa,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetKelasSiswaQuery({
+    kelas: id_kelas,
+    q: debouncedSearchKelasSiswa,
+    page: currentPage,
+    limit: limitPerPage,
+  });
+
+  const { data: siswaBelumAdaKelasOption } =
+    useGetSiswaBelumAdaKelasOptionQuery();
+
+  const selectSiswaBelumAdaKelas = siswaBelumAdaKelasOption?.data?.map((e) => ({
+    value: e?.id_siswa,
+    label: e?.nama,
+  }));
+
+  const { data: kelasOption } = useGetKelasOptionQuery({
+    tahunAjaran: tahun_ajaran,
+    kelas: kelas,
+  });
+
+  const selectKelas = kelasOption?.data?.map((e) => ({
+    value: e?.id_kelas,
+    label: e?.nama_kelas,
+  }));
+
+  const [deleteKelasSiswa, { isLoadingDelete, isErrorDelete, errorDelete }] =
+    useDeleteKelasSiswaMutation();
+
+  const handleDelete = async () => {
+    try {
+      const response = await deleteKelasSiswa({
+        id: getData?.id_kelas_siswa,
+      }).unwrap();
+      if (!response.error) {
+        toast.success(
+          `${getData?.nama_siswa} berhasil berhasil dihapus dari kelas ${getData?.nama_kelas}!`,
+          {
+            position: 'top-right',
+            theme: 'light',
+          }
+        );
+        setIsOpenPopUpDelete(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
 
   return (
     <Layout>
       <div className="flex flex-col gap-5">
-        <div>
-          <h1 className="text-xl font-semibold md:text-2xl">Detail kelas</h1>
+        <div className="flex justify-between">
+          <div>
+            <h1 className="text-xl font-semibold md:text-2xl">
+              Kelas {nama_kelas}
+            </h1>
+            <p>
+              Tahun ajaran {tahun_mulai_ajaran}-{tahun_akhir_ajaran}
+            </p>
+            <p>Walikelas: {walikelas}</p>
+          </div>
+
+          <div
+            onClick={() => {
+              navigate(-1);
+            }}
+            className="cursor-pointer"
+          >
+            Back
+          </div>
         </div>
 
-        {/* <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
           <ButtonAdd
-            title="Tambah kelas"
+            title="Tambah siswa"
             isOpenPopUpAdd={isOpenPopUpAdd}
             setIsOpenPopUpAdd={setIsOpenPopUpAdd}
           />
@@ -55,53 +167,78 @@ const DetailKelas = () => {
               <SelectFilter placeholder="Pilih angkatan" />
             </div>
             <div className="sm:w-1/2">
-              <SearchFilter />
+              <SearchFilter
+                searchValue={searchFilterKelasSiswa}
+                setSearchValue={setSearchFilterKelasSiswa}
+              />
             </div>
           </div>
-        </div> */}
+        </div>
 
         <TableDetailKelas
-          data={dummyData}
-          // isLoading={isLoading}
-          // isSuccess={isSuccess}
-          // isError={isError}
-          // error={error}
-          isOpenPopUpMulai={isOpenPopUpMulai}
-          setIsOpenPopUpMulai={setIsOpenPopUpMulai}
-          isOpenPopUpLulus={isOpenPopUpLulus}
-          setIsOpenPopUpLulus={setIsOpenPopUpLulus}
-          isOpenPopUpDetail={isOpenPopUpDetail}
-          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+          data={kelasSiswa}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
+          error={error}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           isOpenPopUpDelete={isOpenPopUpDelete}
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-          isOpenPopUpTinggal={isOpenPopUpTinggal}
-          setIsOpenPopUpTinggal={setIsOpenPopUpTinggal}
           isOpenPopUpGanjilAwal={isOpenPopUpGanjilAwal}
           setIsOpenPopUpGanjilAwal={setIsOpenPopUpGanjilAwal}
           isOpenPopUpGanjilAkhir={isOpenPopUpGanjilAkhir}
           setIsOpenPopUpGanjilAkhir={setIsOpenPopUpGanjilAkhir}
           isOpenPopUpGenapAwal={isOpenPopUpGenapAwal}
           setIsOpenPopUpGenapAwal={setIsOpenPopUpGenapAwal}
+          isOpenPopUpGenapAkhir={isOpenPopUpGenapAkhir}
+          setIsOpenPopUpGenapAkhir={setIsOpenPopUpGenapAkhir}
+          isOpenPopUpNaikKelas={isOpenPopUpNaikKelas}
+          setIsOpenPopUpNaikKelas={setIsOpenPopUpNaikKelas}
+          isOpenPopUpTinggalKelas={isOpenPopUpTinggalKelas}
+          setIsOpenPopUpTinggalKelas={setIsOpenPopUpTinggalKelas}
+          isOpenPopUpLulus={isOpenPopUpLulus}
+          setIsOpenPopUpLulus={setIsOpenPopUpLulus}
+          isOpenPopUpTidakLulus={isOpenPopUpTidakLulus}
+          setIsOpenPopUpTidakLulus={setIsOpenPopUpTidakLulus}
+          setGetData={setGetData}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          limitPerPage={limitPerPage}
         />
 
         <PopUpAdd
-          title="Tambah kelas"
+          title="Tambah kelas siswa"
           icon={<RiDoorOpenFill />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          className="md:max-w-2xl"
         >
-          <FormAddDetailKelas setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
+          <FormAddDetailKelas
+            id_kelas={id_kelas}
+            namaKelas={nama_kelas}
+            selectSiswaBelumAdaKelas={selectSiswaBelumAdaKelas}
+            selectKelas={selectKelas}
+            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          />
         </PopUpAdd>
 
-        <PopUpDetail
-          title="Detail Kelas"
+        <PopUpEdit
+          title="Ubah kelas siswa"
           icon={<RiDoorOpenFill />}
-          isOpenPopUpDetail={isOpenPopUpDetail}
-          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+          isOpenPopUpEdit={isOpenPopUpEdit}
+          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          className="md:max-w-2xl"
         >
-        </PopUpDetail>
+          <FormEditDetailKelas
+            id_kelas={id_kelas}
+            namaKelas={nama_kelas}
+            selectSiswaBelumAdaKelas={selectSiswaBelumAdaKelas}
+            selectKelas={selectKelas}
+            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+            data={getData}
+          />
+        </PopUpEdit>
 
         <PopUpDelete
           title="Hapus Siswa Dari Kelas"
@@ -110,7 +247,10 @@ const DetailKelas = () => {
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
         >
           <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin menghapus (nama-siswa) dari kelas XA?</h1>
+            <h1>
+              Apakah anda yakin menghapus {getData?.nama_siswa} dari kelas{' '}
+              {getData?.nama_kelas}?
+            </h1>
 
             <div className="flex justify-end gap-2">
               <Button
@@ -118,7 +258,10 @@ const DetailKelas = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpDelete}
               />
-              <Button title="Hapus" type="submit" />
+              <Button
+                title={isLoadingDelete ? <Loading /> : 'Hapus'}
+                onClick={handleDelete}
+              />
             </div>
           </div>
         </PopUpDelete>
@@ -126,147 +269,84 @@ const DetailKelas = () => {
         <PopUpAction
           title="Form kenaikan kelas"
           icon={<RiDoorOpenFill />}
+          isOpenPopUp={isOpenPopUpNaikKelas}
+          setIsOpenPopUp={setIsOpenPopUpNaikKelas}
+          className="md:max-w-2xl"
+        >
+          <div className="flex flex-col gap-3">
+            <h1>
+              Apakah anda yakin menaikkan{' '}
+              <span className="font-bold">{getData?.nama_siswa}</span> ke kelas{' '}
+              <span className="font-bold">{kelas == 10 ? 11 : 12}</span>?
+            </h1>
+            <FormNaikKelas
+              data={getData}
+              kelas={kelas}
+              tahunAjaran={tahun_ajaran}
+              setIsOpenPopUpNaikKelas={setIsOpenPopUpNaikKelas}
+            />
+          </div>
+        </PopUpAction>
+
+        <PopUpAction
+          title="Form Tinggal kelas"
+          icon={<RiDoorOpenFill />}
+          isOpenPopUp={isOpenPopUpTinggalKelas}
+          setIsOpenPopUp={setIsOpenPopUpTinggalKelas}
+          className="md:max-w-2xl"
+        >
+          <div className="flex flex-col gap-3">
+            <h1>
+              Apakah anda yakin tidak menaikkan{' '}
+              <span className="font-bold">{getData?.nama_siswa}</span> ke kelas{' '}
+              <span className="font-bold">{kelas == 10 ? 11 : 12}</span>?
+            </h1>
+            <FormTinggalKelas
+              data={getData}
+              kelas={kelas}
+              tahunAjaran={tahun_ajaran}
+              setIsOpenPopUpTinggalKelas={setIsOpenPopUpTinggalKelas}
+            />
+          </div>
+        </PopUpAction>
+
+        <PopUpAction
+          title="Form kelulusan"
+          icon={<RiDoorOpenFill />}
           isOpenPopUp={isOpenPopUpLulus}
           setIsOpenPopUp={setIsOpenPopUpLulus}
+          className="md:max-w-2xl"
         >
           <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin menaikan (nama-siswa) ke kelas 11?</h1>
-
-          <div className="flex flex-col gap-3">
-            <Input
-              type="file"
-              label="Upload Rapot"
-              name="upload_rapot"
+            <h1>
+              Apakah anda yakin meluluskan{' '}
+              <span className="font-bold">{getData?.nama_siswa}</span>?
+            </h1>
+            <FormLulus
+              data={getData}
+              setIsOpenPopUpLulus={setIsOpenPopUpLulus}
             />
-            <Input
-              type="text"
-              label="Kelas"
-              name="kelas"
-            />
-          </div>
-
-            <div className="flex justify-end gap-2">
-              <Button
-                title="Batal"
-                type="cancel"
-                setIsOpenPopUp={setIsOpenPopUpLulus}
-              />
-              <Button title="Simpan"/>
-            </div>
           </div>
         </PopUpAction>
 
         <PopUpAction
-          title="Form kenaikan kelas"
+          title="Form kelulusan"
           icon={<RiDoorOpenFill />}
-          isOpenPopUp={isOpenPopUpTinggal}
-          setIsOpenPopUp={setIsOpenPopUpTinggal}
+          isOpenPopUp={isOpenPopUpTidakLulus}
+          setIsOpenPopUp={setIsOpenPopUpTidakLulus}
+          className="md:max-w-2xl"
         >
           <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin tidak menaikan (nama-siswa) ke kelas 11?</h1>
-
-          <div className="flex flex-col gap-3">
-            <Input
-              type="file"
-              label="Upload Rapot"
-              name="upload_rapot"
+            <h1>
+              Apakah anda yakin tidak meluluskan{' '}
+              <span className="font-bold">{getData?.nama_siswa}</span>?
+            </h1>
+            <FormTidakLulus
+              data={getData}
+              kelas={kelas}
+              tahunAjaran={tahun_ajaran}
+              setIsOpenPopUpTidakLulus={setIsOpenPopUpTidakLulus}
             />
-            <Input
-              type="text"
-              label="Kelas"
-              name="kelas"
-            />
-          </div>
-
-            <div className="flex justify-end gap-2">
-              <Button
-                title="Batal"
-                type="cancel"
-                setIsOpenPopUp={setIsOpenPopUpTinggal}
-              />
-              <Button title="Simpan"/>
-            </div>
-          </div>
-        </PopUpAction>
-
-        <PopUpAction
-          title="Apakah anda yakin meluluskan siswa ini?"
-          icon={<RiDoorOpenFill />}
-          isOpenPopUp={isOpenPopUpGanjilAwal}
-          setIsOpenPopUp={setIsOpenPopUpGanjilAwal}
-        >
-          <div className="flex flex-col gap-3">
-
-          <div className="flex flex-col gap-3">
-            <Input
-              type="file"
-              label="Upload rapot awal semester ganjil"
-              name="upload_rapot"
-            />
-          </div>
-
-            <div className="flex justify-end gap-2">
-              <Button
-                title="Batal"
-                type="cancel"
-                setIsOpenPopUp={setIsOpenPopUpGanjilAwal}
-              />
-              <Button title="Simpan"/>
-            </div>
-          </div>
-        </PopUpAction>
-
-        <PopUpAction
-          title="Apakah anda yakin meluluskan siswa ini?"
-          icon={<RiDoorOpenFill />}
-          isOpenPopUp={isOpenPopUpGanjilAkhir}
-          setIsOpenPopUp={setIsOpenPopUpGanjilAkhir}
-        >
-          <div className="flex flex-col gap-3">
-
-          <div className="flex flex-col gap-3">
-            <Input
-              type="file"
-              label="Upload rapot akhir semester ganjil"
-              name="upload_rapot"
-            />
-          </div>
-
-            <div className="flex justify-end gap-2">
-              <Button
-                title="Batal"
-                type="cancel"
-                setIsOpenPopUp={setIsOpenPopUpGanjilAkhir}
-              />
-              <Button title="Simpan"/>
-            </div>
-          </div>
-        </PopUpAction>
-
-        <PopUpAction
-          title="Apakah anda yakin meluluskan siswa ini?"
-          icon={<RiDoorOpenFill />}
-          isOpenPopUp={isOpenPopUpGenapAwal}
-          setIsOpenPopUp={setIsOpenPopUpGenapAwal}
-        >
-          <div className="flex flex-col gap-3">
-
-          <div className="flex flex-col gap-3">
-            <Input
-              type="file"
-              label="Upload rapot awal semester genap"
-              name="upload_rapot"
-            />
-          </div>
-
-            <div className="flex justify-end gap-2">
-              <Button
-                title="Batal"
-                type="cancel"
-                setIsOpenPopUp={setIsOpenPopUpGenapAwal}
-              />
-              <Button title="Simpan"/>
-            </div>
           </div>
         </PopUpAction>
       </div>

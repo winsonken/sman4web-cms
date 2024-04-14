@@ -15,23 +15,66 @@ import {
   SearchFilter,
 } from '../components';
 
-
 import {
   FormAddAlumni,
   FormEditAlumni,
   FormDetailAlumni,
   TableAlumni,
 } from '../components/alumni';
+import { useGetAlumniQuery } from '../services/api/siswaApiSlice';
+import useDebounce from '../helpers/useDebounce';
+
+import { useSelector } from 'react-redux';
+import { selectCurrentModules } from '../services/features/authSlice';
+import {
+  useGetAngkatanLulusOptionQuery,
+  useGetAngkatanOptionQuery,
+} from '../services/api/angkatanApiSlice';
 
 const Alumni = () => {
-  const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
-  const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
-  const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
-  const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
-  const [isOpenPopUpMulai, setIsOpenPopUpMulai] = useState(false);
-  const [isOpenPopUpLulus, setIsOpenPopUpLulus] = useState(false);
+  const [searchFilterAlumni, setSearchFilterAlumni] = useState('');
+  const debouncedSearchAlumni = useDebounce(searchFilterAlumni, 500);
 
-  const dummyData = [];
+  const [selectedAngkatanValue, setSelectedAngkatanValue] = useState('');
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const limitPerPage = 10;
+  const [getData, setGetData] = useState([]);
+
+  const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
+
+  const {
+    data: alumni,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetAlumniQuery({
+    q: debouncedSearchAlumni,
+    page: currentPage,
+    limit: limitPerPage,
+  });
+
+  const { data: angkatanOption } = useGetAngkatanLulusOptionQuery();
+  const selectAngkatan = angkatanOption?.data?.map((e) => ({
+    value: e?.id_angkatan,
+    label: e?.no_angkatan,
+  }));
+
+  if (Array.isArray(selectAngkatan)) {
+    selectAngkatan.unshift({ value: '', label: 'Select angkatan' });
+  }
+
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+
+  const modulesAlumni = filterModule('data_alumni');
 
   return (
     <Layout>
@@ -40,86 +83,49 @@ const Alumni = () => {
           <h1 className="text-xl font-semibold md:text-2xl">Alumni</h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-            <ButtonAdd
-              title="Tambah Alumni"
-              isOpenPopUpAdd={isOpenPopUpAdd}
-              setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-            />
-
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-          <div></div>
-            <div className="flex flex-reverse">
-              <div className="sm:w-48">
-                <SearchFilter />
-              </div>
+        <div className="flex flex-col sm:flex-row sm:justify-end">
+          <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3">
+            <div className="sm:w-1/2">
+              <SelectFilter
+                placeholder="Select angkatan"
+                data={selectAngkatan}
+                selectedValue={selectedAngkatanValue}
+                setSelectedValue={setSelectedAngkatanValue}
+              />
+            </div>
+            <div className="sm:w-1/2">
+              <SearchFilter
+                searchValue={searchFilterAlumni}
+                setSearchValue={setSearchFilterAlumni}
+              />
             </div>
           </div>
         </div>
 
         <TableAlumni
-          data={dummyData}
-          // isLoading={isLoading}
-          // isSuccess={isSuccess}
-          // isError={isError}
-          // error={error}
-          isOpenPopUpMulai={isOpenPopUpMulai}
-          setIsOpenPopUpMulai={setIsOpenPopUpMulai}
-          isOpenPopUpLulus={isOpenPopUpLulus}
-          setIsOpenPopUpLulus={setIsOpenPopUpLulus}
+          data={alumni}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
+          error={error}
+          setGetData={setGetData}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
-          isOpenPopUpEdit={isOpenPopUpEdit}
-          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-          isOpenPopUpDelete={isOpenPopUpDelete}
-          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          limitPerPage={limitPerPage}
         />
 
-        <PopUpAdd
-          title="Tambah alumni"
-          icon={<FaUserGraduate />}
-          isOpenPopUpAdd={isOpenPopUpAdd}
-          setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-        >
-          <FormAddAlumni setIsOpenPopUpEdit={setIsOpenPopUpEdit} />
-        </PopUpAdd>
-
-        <PopUpEdit
-          title="Ubah alumni"
-          icon={<FaUserGraduate />}
-          isOpenPopUpEdit={isOpenPopUpEdit}
-          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-        >
-          <FormEditAlumni setIsOpenPopUpEdit={setIsOpenPopUpEdit} />
-        </PopUpEdit>
-
-        <PopUpDelete
-          title="Hapus alumni"
-          icon={<FaUserGraduate />}
-          isOpenPopUpDelete={isOpenPopUpDelete}
-          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-        >
-          <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin menghapus (nama-alumni)?</h1>
-
-            <div className="flex justify-end gap-2">
-              <Button
-                title="Batal"
-                type="cancel"
-                setIsOpenPopUp={setIsOpenPopUpDelete}
-              />
-              <Button title="Hapus" type="submit" />
-            </div>
-          </div>
-        </PopUpDelete>
-
         <PopUpDetail
-          title="Detail Alumni"
+          title="Detail alumni"
           icon={<FaUserGraduate />}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
         >
-          <FormDetailAlumni setIsOpenPopUpDetail={setIsOpenPopUpDetail} />
+          <FormDetailAlumni
+            data={getData}
+            setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+          />
         </PopUpDetail>
       </div>
     </Layout>

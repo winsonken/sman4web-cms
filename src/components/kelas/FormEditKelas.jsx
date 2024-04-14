@@ -6,14 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import SelectInput from '../SelectInput';
-import { useGetJurusanOptionQuery } from '../../services/api/jurusanApiSlice';
-import {
-  useGetAngkatanDimulaiOptionQuery,
-  useGetAngkatanBelumMulaiOptionQuery,
-} from '../../services/api/angkatanApiSlice';
-import { useGetTahunAjaranBelumMulaiOptionQuery } from '../../services/api/tahunAjaranApiSlice';
-import { useGetGuruOptionQuery } from '../../services/api/guruApiSlice';
-import { useCreateKelasMutation } from '../../services/api/kelasApiSlice';
+import { useUpdateKelasMutation } from '../../services/api/kelasApiSlice';
 import Loading from '../Loading';
 
 const validationSchema = yup
@@ -41,15 +34,16 @@ const validationSchema = yup
   })
   .required();
 
-const FormAddKelas = (props) => {
+const FormEditKelas = (props) => {
   const {
+    data,
     selectTahunAjaranBelumDimulai,
     selectAngkatanBelumDimulai,
     selectAngkatanDimulai,
     selectGuru,
     selectJurusan,
     jurusanOption,
-    setIsOpenPopUpAdd,
+    setIsOpenPopUpEdit,
   } = props;
   const {
     control,
@@ -68,54 +62,6 @@ const FormAddKelas = (props) => {
   const [selectedTahunAjaran, setSelectedTahunAjaran] = useState('');
   const [selectedGuru, setSelectedGuru] = useState('');
 
-  // const { data: jurusanOption } = useGetJurusanOptionQuery();
-  // const selectJurusan = jurusanOption?.data?.map((e) => ({
-  //   value: e?.id_jurusan,
-  //   label: e?.nama_jurusan,
-  // }));
-
-  // if (Array.isArray(selectJurusan)) {
-  //   selectJurusan.unshift({ value: '', label: 'Select jurusan' });
-  // }
-
-  // const { data: tahunAjaranOption } = useGetTahunAjaranBelumMulaiOptionQuery();
-  // const selectTahunAjaran = tahunAjaranOption?.data?.map((e) => ({
-  //   value: e?.id_tahun_ajaran,
-  //   label: `${e?.tahun_mulai_ajaran}-${e?.tahun_akhir_ajaran}`,
-  // }));
-
-  // const { data: angkatanBelumDimulaiOption } =
-  //   useGetAngkatanBelumMulaiOptionQuery();
-
-  // const selectAngkatanBelumDimulai = angkatanBelumDimulaiOption?.data?.map(
-  //   (e) => ({
-  //     value: e?.id_angkatan,
-  //     label: e?.no_angkatan,
-  //   })
-  // );
-
-  // if (Array.isArray(selectAngkatanBelumDimulai)) {
-  //   selectAngkatanBelumDimulai.unshift({ value: '', label: 'Select angkatan' });
-  // }
-
-  // const { data: angkatanDimulaiOption } = useGetAngkatanDimulaiOptionQuery();
-
-  // const selectAngkatanDimulai = angkatanDimulaiOption?.data?.map((e) => ({
-  //   value: e?.id_angkatan,
-  //   label: e?.no_angkatan,
-  // }));
-
-  // if (Array.isArray(selectAngkatanDimulai)) {
-  //   selectAngkatanDimulai.unshift({ value: '', label: 'Select angkatan' });
-  // }
-
-  // const { data: guruOption } = useGetGuruOptionQuery();
-
-  // const selectGuru = guruOption?.data?.map((e) => ({
-  //   value: e?.id_guru,
-  //   label: e?.nama,
-  // }));
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormInput((prev) => ({
@@ -125,6 +71,7 @@ const FormAddKelas = (props) => {
   };
 
   const initialFormInput = {
+    id_kelas: '',
     kelas: '',
     nama_kelas: '',
     no_kelas: '',
@@ -137,11 +84,12 @@ const FormAddKelas = (props) => {
 
   const [formInput, setFormInput] = useState(initialFormInput);
 
-  const [createKelas, { isLoading, isSuccess, isError, error }] =
-    useCreateKelasMutation();
+  const [updateKelas, { isLoading, isSuccess, isError, error }] =
+    useUpdateKelasMutation();
 
   const handleSubmitForm = async () => {
     const payload = {
+      id_kelas: formInput?.id_kelas,
       kelas: selectedKelas,
       nama_kelas: `${
         selectedKelas == 10
@@ -167,13 +115,13 @@ const FormAddKelas = (props) => {
     };
 
     try {
-      const response = await createKelas(payload).unwrap();
+      const response = await updateKelas(payload).unwrap();
       if (!response.error) {
-        toast.success('Kelas berhasil ditambahkan!', {
+        toast.success('Kelas berhasil diubah!', {
           position: 'top-right',
           theme: 'light',
         });
-        setIsOpenPopUpAdd(false);
+        setIsOpenPopUpEdit(false);
       }
     } catch (error) {
       const errorMessage = error?.data?.message;
@@ -183,6 +131,29 @@ const FormAddKelas = (props) => {
       });
     }
   };
+
+  useEffect(() => {
+    if (data) {
+      setFormInput({
+        id_kelas: data?.id_kelas,
+        nama_kelas: data?.nama_kelas,
+        no_kelas:
+          data?.kelas == 11 || data?.kelas == 12
+            ? data?.nama_kelas?.split(' ')[2]
+            : '',
+        alphabet_kelas: data?.kelas == 10 ? data?.nama_kelas?.substring(1) : '',
+        walikelas: data?.id_guru,
+        jurusan: data?.jurusan,
+        angkatan: data?.angkatan,
+        tahun_ajaran: data?.tahun_ajaran,
+      });
+    }
+    setSelectedKelas(data?.kelas);
+    setSelectedGuru(data?.id_guru);
+    setSelectedJurusan(data?.jurusan);
+    setSelectedAngkatan(data?.angkatan);
+    setSelectedTahunAjaran(data?.tahun_ajaran);
+  }, [data, setFormInput]);
 
   useEffect(() => {
     const fieldsToCheck = ['no_kelas', 'alphabet_kelas'];
@@ -196,10 +167,25 @@ const FormAddKelas = (props) => {
     });
   }, [formInput, clearErrors, errors]);
 
+  // useEffect(() => {
+  //   setSelectedAngkatan('');
+  //   setSelectedJurusan('');
+  // }, [selectedKelas]);
+
   useEffect(() => {
-    setSelectedAngkatan('');
-    setSelectedJurusan('');
-  }, [selectedKelas]);
+    if (data) {
+      setValue(
+        'no_kelas',
+        data?.kelas == 11 || data?.kelas == 12
+          ? data?.nama_kelas?.split(' ')[2]
+          : ''
+      );
+      setValue(
+        'alphabet_kelas',
+        data?.kelas == 10 ? data?.nama_kelas?.substring(1) : ''
+      );
+    }
+  }, [data, setFormInput, setValue]);
 
   useEffect(() => {
     setValue('kelas', selectedKelas);
@@ -249,6 +235,7 @@ const FormAddKelas = (props) => {
                 setSelectedValue={setSelectedKelas}
                 placeholder="Select kelas"
                 errors={errors}
+                disabled
               />
             )}
           />
@@ -360,13 +347,13 @@ const FormAddKelas = (props) => {
           <Button
             title="Batal"
             type="cancel"
-            setIsOpenPopUp={setIsOpenPopUpAdd}
+            setIsOpenPopUp={setIsOpenPopUpEdit}
           />
-          <Button title={isLoading ? <Loading /> : 'Tambah'} type="submit" />
+          <Button title={isLoading ? <Loading /> : 'Ubah'} type="submit" />
         </div>
       </div>
     </form>
   );
 };
 
-export default FormAddKelas;
+export default FormEditKelas;

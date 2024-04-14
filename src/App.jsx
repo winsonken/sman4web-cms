@@ -51,6 +51,7 @@ function App() {
   const moduleKelas = filterModule('data_kelas');
   const modulesSiswa = filterModule('data_siswa');
   const modulesGuru = filterModule('data_guru');
+  const modulesTendik = filterModule('data_tendik');
   const modulesAlumni = filterModule('data_alumni');
   const modulesKelulusan = filterModule('data_kelulusan');
   const modulesKelasSiswa = filterModule('data_kelas_siswa');
@@ -86,13 +87,20 @@ function App() {
             <Route path="/tahun-ajaran" element={<TahunAjaran />} />
           )}
 
-          {moduleKelas?.akses && <Route path="/kelas" element={<Kelas />} />}
+          {moduleKelas?.akses && (
+            <>
+              <Route path="/kelas" element={<Kelas />} />
+              <Route path="/kelas/detail" element={<DetailKelas />} />
+            </>
+          )}
 
           {modulesSiswa?.akses && <Route path="/siswa" element={<Siswa />} />}
 
           {modulesGuru?.akses && <Route path="/guru" element={<Guru />} />}
 
-          {modulesGuru?.akses && <Route path="/tendik" element={<Tendik />} />}
+          {modulesTendik?.akses && (
+            <Route path="/tendik" element={<Tendik />} />
+          )}
 
           {modulesAlumni?.akses && (
             <Route path="/alumni" element={<Alumni />} />

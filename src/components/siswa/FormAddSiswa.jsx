@@ -196,13 +196,11 @@ const FormAddSiswa = (props) => {
 
   useEffect(() => {
     setValue('jenis_kelamin', jenisKelaminValue);
-
     clearErrors('jenis_kelamin');
   }, [jenisKelaminValue, setValue]);
 
   useEffect(() => {
     setValue('angkatan', selectedAngkatanValue);
-
     clearErrors('angkatan');
   }, [selectedAngkatanValue, setValue]);
 

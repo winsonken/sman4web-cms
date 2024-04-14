@@ -46,6 +46,7 @@ const Sidebar = (props) => {
   const moduleKelas = filterModule('data_kelas');
   const modulesSiswa = filterModule('data_siswa');
   const modulesGuru = filterModule('data_guru');
+  const modulesTendik = filterModule('data_tendik');
   const modulesAlumni = filterModule('data_alumni');
   const modulesKelulusan = filterModule('data_kelulusan');
   const modulesKelasSiswa = filterModule('data_kelas_siswa');
@@ -104,7 +105,7 @@ const Sidebar = (props) => {
       name: 'Tendik',
       link: '/tendik',
       icon: <GrUserAdmin />,
-      access: true,
+      access: modulesTendik?.akses,
     },
     {
       name: 'Alumni',

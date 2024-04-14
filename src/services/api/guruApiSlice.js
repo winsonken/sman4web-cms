@@ -7,6 +7,10 @@ export const guruApiSlice = sman4webApi.injectEndpoints({
         `/api/v1/guru?q=${q}&page=${page}&limit=${limit}`,
       providesTags: ['Guru'],
     }),
+    getGuruOption: builder.query({
+      query: () => `/api/v1/guru?limit=1000`,
+      providesTags: ['Guru'],
+    }),
     createGuru: builder.mutation({
       query: (body) => ({
         url: '/api/v1/guru',
@@ -35,6 +39,7 @@ export const guruApiSlice = sman4webApi.injectEndpoints({
 
 export const {
   useGetGuruQuery,
+  useGetGuruOptionQuery,
   useCreateGuruMutation,
   useUpdateGuruMutation,
   useDeleteGuruMutation,

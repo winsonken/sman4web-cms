@@ -55,7 +55,6 @@ const Rapot = () => {
     limit: limitPerPage,
   });
 
-  console.log(getData?.rapot_ganjil_awal);
   return (
     <Layout>
       <div className="flex flex-col gap-5">

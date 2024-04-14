@@ -52,6 +52,20 @@ export const siswaApiSlice = sman4webApi.injectEndpoints({
       }),
       invalidatesTags: ['Siswa'],
     }),
+    getSiswaLulus: builder.query({
+      query: ({ q, page, limit }) =>
+        `/api/v1/siswa/lulus?q=${q}&page=${page}&limit=${limit}`,
+      providesTags: ['Siswa'],
+    }),
+    getAlumni: builder.query({
+      query: ({ q, page, limit }) =>
+        `/api/v1/siswa/alumni?q=${q}&page=${page}&limit=${limit}`,
+      providesTags: ['Siswa'],
+    }),
+    getSiswaBelumAdaKelasOption: builder.query({
+      query: () => `/api/v1/siswa/belum-ada-kelas?limit=3000`,
+      providesTags: ['Siswa'],
+    }),
   }),
 });
 
@@ -64,4 +78,7 @@ export const {
   useUpdateSiswaMutation,
   useDeleteSiswaMutation,
   useUpdateAktifSiswaMutation,
+  useGetSiswaLulusQuery,
+  useGetAlumniQuery,
+  useGetSiswaBelumAdaKelasOptionQuery,
 } = siswaApiSlice;

@@ -1,31 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import React, { useEffect } from 'react';
 import Input from '../Input';
 import Button from '../Button';
+import { toast } from 'react-toastify';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useState } from 'react';
 import SelectInput from '../SelectInput';
-import { useGetSiswaBelumAdaKelasOptionQuery } from '../../services/api/siswaApiSlice';
-import { useGetKelasOptionQuery } from '../../services/api/kelasApiSlice';
-import { useCreateKelasSiswaMutation } from '../../services/api/kelasSiswaApiSlice';
+import { useGetNaikKelasOptionQuery } from '../../services/api/kelasApiSlice';
+import { tahunAjaran } from '../../services/api/tahunAjaranApiSlice';
+import {
+  useCreateKelasSiswaMutation,
+  useUpdateLulusMutation,
+  useUpdateNaikKelasMutation,
+  useUpdateTidakLulusMutation,
+} from '../../services/api/kelasSiswaApiSlice';
 import Loading from '../Loading';
 
 const validationSchema = yup
   .object({
     kelas: yup.string().required('Kelas is required'),
-    siswa: yup.string().required('Siswa is required'),
   })
   .required();
 
-const FormAddDetailKelas = (props) => {
-  const {
-    id_kelas,
-    namaKelas,
-    selectSiswaBelumAdaKelas,
-    selectKelas,
-    setIsOpenPopUpAdd,
-  } = props;
+const FormTidakLulus = (props) => {
+  const { data, kelas, tahunAjaran, setIsOpenPopUpTidakLulus } = props;
   const {
     control,
     register,
@@ -37,33 +36,30 @@ const FormAddDetailKelas = (props) => {
     resolver: yupResolver(validationSchema),
   });
 
-  const [selectedSiswa, setSelectedSiswa] = useState('');
   const [selectedKelas, setSelectedKelas] = useState('');
+  const [createKelasSiswa] = useCreateKelasSiswaMutation();
 
-  const initialFormInput = {
-    kelas: '',
-    siswa: '',
-  };
-
-  const [formInput, setFormInput] = useState(initialFormInput);
-
-  const [createKelasSiswa, { isLoading, isSuccess, isError, error }] =
-    useCreateKelasSiswaMutation();
+  const [updateTidakLulus, { isLoading, isSuccess, isError, error }] =
+    useUpdateTidakLulusMutation();
 
   const handleSubmitForm = async () => {
     const payload = {
       kelas: selectedKelas,
-      siswa: selectedSiswa,
+      siswa: data?.siswa,
     };
 
     try {
-      const response = await createKelasSiswa(payload).unwrap();
-      if (!response.error) {
-        toast.success(`Siswa berhasil ditambahkan ke kelas ${namaKelas}`, {
+      const response = await updateTidakLulus({
+        id_kelas_siswa: data?.id_kelas_siswa,
+      }).unwrap();
+      const response2 =
+        !response.error && (await createKelasSiswa(payload).unwrap());
+      if (!response2.error) {
+        toast.success(`Siswa berhasil tidak diluluskan`, {
           position: 'top-right',
           theme: 'light',
         });
-        setIsOpenPopUpAdd(false);
+        setIsOpenPopUpTidakLulus(false);
       }
     } catch (error) {
       const errorMessage = error?.data?.message;
@@ -74,54 +70,43 @@ const FormAddDetailKelas = (props) => {
     }
   };
 
-  useEffect(() => {
-    setSelectedKelas(id_kelas);
-  }, []);
+  const { data: tinggalKelasOption } = useGetNaikKelasOptionQuery({
+    tahunAjaran: '',
+    kelas: kelas == 12 ? 12 : '',
+    jurusan: data?.jurusan || '',
+  });
+
+  const filterKelas = tinggalKelasOption?.data?.filter(
+    (e) => e.tahun_ajaran != tahunAjaran
+  );
+
+  const selectTinggalKelas = filterKelas?.map((e) => ({
+    value: e?.id_kelas,
+    label: e?.nama_kelas,
+  }));
 
   useEffect(() => {
     setValue('kelas', selectedKelas);
     clearErrors('kelas');
   }, [selectedKelas, setValue]);
 
-  useEffect(() => {
-    setValue('siswa', selectedSiswa);
-    clearErrors('siswa');
-  }, [selectedSiswa, setValue]);
-
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-3">
+          <Input type="file" label="Upload Rapot" name="upload_rapot" />
           <Controller
             name="kelas"
             control={control}
             render={({ field }) => (
               <SelectInput
                 field={field}
-                data={selectKelas}
+                data={selectTinggalKelas}
                 label="Kelas"
                 name="kelas"
                 selectedValue={selectedKelas}
                 setSelectedValue={setSelectedKelas}
                 placeholder="Select kelas"
-                errors={errors}
-                disabled
-              />
-            )}
-          />
-
-          <Controller
-            name="siswa"
-            control={control}
-            render={({ field }) => (
-              <SelectInput
-                field={field}
-                data={selectSiswaBelumAdaKelas}
-                label="Siswa"
-                name="siswa"
-                selectedValue={selectedSiswa}
-                setSelectedValue={setSelectedSiswa}
-                placeholder="Select siswa"
                 errors={errors}
               />
             )}
@@ -132,7 +117,7 @@ const FormAddDetailKelas = (props) => {
           <Button
             title="Batal"
             type="cancel"
-            setIsOpenPopUp={setIsOpenPopUpAdd}
+            setIsOpenPopUp={setIsOpenPopUpTidakLulus}
           />
           <Button title={isLoading ? <Loading /> : 'Simpan'} type="submit" />
         </div>
@@ -141,4 +126,4 @@ const FormAddDetailKelas = (props) => {
   );
 };
 
-export default FormAddDetailKelas;
+export default FormTidakLulus;

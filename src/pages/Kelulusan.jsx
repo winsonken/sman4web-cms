@@ -13,8 +13,27 @@ import {
   SearchFilter,
 } from '../components';
 import { TableKelulusan } from '../components/kelulusan';
+import { useGetSiswaLulusQuery } from '../services/api/siswaApiSlice';
+import { useState } from 'react';
+import useDebounce from '../helpers/useDebounce';
 
 const Kelulusan = () => {
+  const [searchFilterSiswaLulus, setSearchFilterSiswaLulus] = useState('');
+  const debouncedSearchSiswaLulus = useDebounce(searchFilterSiswaLulus, 500);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const limitPerPage = 10;
+  const {
+    data: siswaLulus,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetSiswaLulusQuery({
+    q: debouncedSearchSiswaLulus,
+    page: currentPage,
+    limit: limitPerPage,
+  });
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -27,7 +46,17 @@ const Kelulusan = () => {
             <SearchFilter />
           </div>
         </div>
-        <TableKelulusan />
+
+        <TableKelulusan
+          data={siswaLulus}
+          isLoading={isLoading}
+          isSuccess={isSuccess}
+          isError={isError}
+          error={error}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          limitPerPage={limitPerPage}
+        />
       </div>
     </Layout>
   );
