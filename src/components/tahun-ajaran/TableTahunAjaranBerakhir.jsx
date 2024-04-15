@@ -1,6 +1,7 @@
 import React from 'react';
 import LoadingTable from '../Loading/LoadingTable';
 import Pagination from '../Pagination';
+import Error from '../Error';
 
 const TableTahunAjaranBerakhir = (props) => {
   const {
@@ -22,7 +23,7 @@ const TableTahunAjaranBerakhir = (props) => {
   return (
     <div className="flex flex-col gap-3">
       {isError ? (
-        ''
+        <Error error={error} />
       ) : isLoading ? (
         <LoadingTable />
       ) : isSuccess ? (

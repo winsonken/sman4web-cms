@@ -68,54 +68,6 @@ const FormAddKelas = (props) => {
   const [selectedTahunAjaran, setSelectedTahunAjaran] = useState('');
   const [selectedGuru, setSelectedGuru] = useState('');
 
-  // const { data: jurusanOption } = useGetJurusanOptionQuery();
-  // const selectJurusan = jurusanOption?.data?.map((e) => ({
-  //   value: e?.id_jurusan,
-  //   label: e?.nama_jurusan,
-  // }));
-
-  // if (Array.isArray(selectJurusan)) {
-  //   selectJurusan.unshift({ value: '', label: 'Select jurusan' });
-  // }
-
-  // const { data: tahunAjaranOption } = useGetTahunAjaranBelumMulaiOptionQuery();
-  // const selectTahunAjaran = tahunAjaranOption?.data?.map((e) => ({
-  //   value: e?.id_tahun_ajaran,
-  //   label: `${e?.tahun_mulai_ajaran}-${e?.tahun_akhir_ajaran}`,
-  // }));
-
-  // const { data: angkatanBelumDimulaiOption } =
-  //   useGetAngkatanBelumMulaiOptionQuery();
-
-  // const selectAngkatanBelumDimulai = angkatanBelumDimulaiOption?.data?.map(
-  //   (e) => ({
-  //     value: e?.id_angkatan,
-  //     label: e?.no_angkatan,
-  //   })
-  // );
-
-  // if (Array.isArray(selectAngkatanBelumDimulai)) {
-  //   selectAngkatanBelumDimulai.unshift({ value: '', label: 'Select angkatan' });
-  // }
-
-  // const { data: angkatanDimulaiOption } = useGetAngkatanDimulaiOptionQuery();
-
-  // const selectAngkatanDimulai = angkatanDimulaiOption?.data?.map((e) => ({
-  //   value: e?.id_angkatan,
-  //   label: e?.no_angkatan,
-  // }));
-
-  // if (Array.isArray(selectAngkatanDimulai)) {
-  //   selectAngkatanDimulai.unshift({ value: '', label: 'Select angkatan' });
-  // }
-
-  // const { data: guruOption } = useGetGuruOptionQuery();
-
-  // const selectGuru = guruOption?.data?.map((e) => ({
-  //   value: e?.id_guru,
-  //   label: e?.nama,
-  // }));
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormInput((prev) => ({

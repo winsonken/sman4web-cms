@@ -9,19 +9,35 @@ import SelectInput from '../SelectInput';
 import { useUpdateKelasSiswaMutation } from '../../services/api/kelasSiswaApiSlice';
 import Loading from '../Loading';
 
-const validationSchema = yup
-  .object({
-    no_absen: yup
-      .number()
-      .min(1, 'No absen min is 1')
-      .max(100, 'No absen max is 100')
-      .required('Status kelas siswa is required'),
-    status_kelas_siswa: yup.string().required('Status kelas siswa is required'),
-  })
-  .required();
+const validationSchema = (originalKelas) =>
+  yup
+    .object({
+      kelas: yup.string().required('Kelas is required'),
+      no_absen: yup.number().when(['kelas'], (kelas, schema) => {
+        return kelas != originalKelas
+          ? schema.nullable()
+          : schema
+              .required('No kelas is required')
+              .max(100, 'No absen max is 100')
+              .min(1, 'No absen min is 1');
+      }),
+      status_kelas_siswa: yup
+        .string()
+        .required('Status kelas siswa is required'),
+    })
+    .required();
 
 const FormEditDetailKelas = (props) => {
   const { data, id_kelas, namaKelas, selectKelas, setIsOpenPopUpEdit } = props;
+
+  const [originalKelas, setOriginalKelas] = useState('');
+
+  useEffect(() => {
+    if (data) {
+      setOriginalKelas(data?.kelas);
+    }
+  }, [data]);
+
   const {
     control,
     register,
@@ -30,7 +46,7 @@ const FormEditDetailKelas = (props) => {
     clearErrors,
     setValue,
   } = useForm({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema(originalKelas)),
   });
 
   const [selectedKelas, setSelectedKelas] = useState('');
@@ -38,6 +54,7 @@ const FormEditDetailKelas = (props) => {
 
   const initialFormInput = {
     id_kelas_siswa: '',
+    kelas: '',
     no_absen: '',
     status_kelas_siswa: '',
   };
@@ -58,7 +75,8 @@ const FormEditDetailKelas = (props) => {
   const handleSubmitForm = async () => {
     const payload = {
       id_kelas_siswa: formInput?.id_kelas_siswa,
-      no_absen: formInput?.no_absen,
+      kelas: selectedKelas,
+      no_absen: selectedKelas != data?.kelas ? null : formInput?.no_absen,
       status_kelas_siswa: selectedStatus,
     };
 
@@ -84,19 +102,25 @@ const FormEditDetailKelas = (props) => {
     if (data) {
       setFormInput({
         id_kelas_siswa: data?.id_kelas_siswa,
+        kelas: data?.kelas,
         no_absen: data?.no_absen,
         status_kelas_siswa: data?.status_kelas_siswa,
       });
+      setSelectedKelas(data?.kelas);
       setSelectedStatus(data?.status_kelas_siswa);
     }
   }, [data, setFormInput]);
 
   useEffect(() => {
     if (data) {
-      setValue('no_absen', data?.no_absen);
+      setValue('kelas', data?.kelas);
+      setValue(
+        'no_absen',
+        selectedKelas != data?.kelas ? null : data?.no_absen
+      );
       setValue('status_kelas_siswa', data?.status_kelas_siswa);
     }
-  }, [data, setFormInput, setValue]);
+  }, [data, selectedKelas, setFormInput, setValue]);
 
   useEffect(() => {
     setSelectedKelas(id_kelas);
@@ -104,14 +128,35 @@ const FormEditDetailKelas = (props) => {
 
   useEffect(() => {
     setValue('status_kelas_Siswa', selectedStatus);
-    clearErrors('siswa');
+    clearErrors('status_kelas_siswa');
   }, [selectedStatus, setValue]);
+
+  useEffect(() => {
+    setValue('kelas', selectedKelas);
+    clearErrors('kelas');
+  }, [selectedKelas, setValue]);
 
   const selectStatusKelasSiswa = [
     { value: 1, label: 'Aktif' },
     { value: 2, label: 'Naik kelas' },
     { value: 3, label: 'Tinggal kelas' },
   ];
+
+  useEffect(() => {
+    if (selectedKelas != data?.kelas) {
+      setFormInput((prev) => ({
+        ...prev,
+        no_absen: null,
+      }));
+    } else {
+      setFormInput((prev) => ({
+        ...prev,
+        no_absen: data?.no_absen,
+      }));
+    }
+  }, [data, selectedKelas]);
+  console.log(formInput);
+
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col gap-6">
@@ -129,7 +174,6 @@ const FormEditDetailKelas = (props) => {
                 setSelectedValue={setSelectedKelas}
                 placeholder="Select kelas"
                 errors={errors}
-                disabled
               />
             )}
           />
@@ -151,7 +195,7 @@ const FormEditDetailKelas = (props) => {
             onChange={handleChange}
             register={register}
             errors={errors}
-            // disabled
+            disabled={selectedKelas != data?.kelas}
           />
 
           <Controller

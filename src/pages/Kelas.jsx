@@ -315,17 +315,6 @@ const Kelas = () => {
             </div>
           </div>
         </PopUpDelete>
-
-        <PopUpDetail
-          title="Detail Kelas"
-          icon={<RiDoorOpenFill />}
-          isOpenPopUpDetail={isOpenPopUpDetail}
-          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
-        >
-          <div>
-            <DetailKelas />
-          </div>
-        </PopUpDetail>
       </div>
     </Layout>
   );

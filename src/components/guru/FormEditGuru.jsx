@@ -54,7 +54,7 @@ const validationSchema = yup
 
 const FormEditGuru = (props) => {
   const { data, setIsOpenPopUpEdit } = props;
-  console.log(data);
+
   const {
     control,
     register,

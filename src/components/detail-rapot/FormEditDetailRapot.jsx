@@ -11,6 +11,7 @@ import {
   useUpdateRapotGenapAkhirMutation,
   useUpdateRapotGenapAwalMutation,
 } from '../../services/api/rapotApiSlice';
+import Loading from '../Loading';
 
 const validationSchema = yup
   .object({
@@ -234,7 +235,19 @@ const FormEditDetailRapot = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpEdit}
           />
-          <Button title="Simpan" type="submit" />
+          <Button
+            title={
+              isLoadingGanjilAwal ||
+              isLoadingGanjilAkhir ||
+              isLoadingGenapAwal ||
+              isLoadingGenapAkhir ? (
+                <Loading />
+              ) : (
+                'Simpan'
+              )
+            }
+            type="submit"
+          />
         </div>
       </div>
     </form>

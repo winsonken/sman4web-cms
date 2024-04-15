@@ -10,6 +10,7 @@ import { formatDateToYear } from '../../helpers/FormatDateToYear';
 import { formatDate } from '../../helpers/FormatDate';
 import { useCreateTahunAjaranMutation } from '../../services/api/tahunAjaranApiSlice';
 import SelectInput from '../SelectInput';
+import Loading from '../Loading';
 
 const validationSchema = yup
   .object({
@@ -251,7 +252,7 @@ const FormAddTahunajaran = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpAdd}
           />
-          <Button title="Tambah" type="submit" />
+          <Button title={isLoading ? <Loading /> : 'Tambah'} type="submit" />
         </div>
       </div>
     </form>

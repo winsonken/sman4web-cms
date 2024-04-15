@@ -9,6 +9,7 @@ import ButtonDetailKelas from '../ButtonDetailKelas';
 import ButtonPage from '../ButtonPage';
 import { Link } from 'react-router-dom';
 import { IoEyeSharp } from 'react-icons/io5';
+import Error from '../Error';
 
 const TableKelas = (props) => {
   const {
@@ -37,7 +38,7 @@ const TableKelas = (props) => {
   return (
     <div className="flex flex-col gap-3">
       {isError ? (
-        ''
+        <Error error={error} />
       ) : isLoading ? (
         <LoadingTable />
       ) : isSuccess ? (

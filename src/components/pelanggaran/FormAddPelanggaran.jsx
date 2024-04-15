@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { useGetSiswaOptionQuery } from '../../services/api/siswaApiSlice';
 import { formatDate } from '../../helpers/FormatDate';
 import { useCreatePelanggaranMutation } from '../../services/api/pelanggaranApiSlice';
+import Loading from '../Loading';
 
 const validationSchema = yup
   .object({
@@ -60,7 +61,7 @@ const FormAddPelanggaran = (props) => {
     }));
   };
 
-  const [createPelanggaran] = useCreatePelanggaranMutation();
+  const [createPelanggaran, { isLoading }] = useCreatePelanggaranMutation();
 
   const handleSubmitForm = async () => {
     let payload = {
@@ -166,7 +167,7 @@ const FormAddPelanggaran = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpAdd}
           />
-          <Button title="Simpan" type="submit" />
+          <Button title={isLoading ? <Loading /> : 'Simpan'} type="submit" />
         </div>
       </div>
     </form>

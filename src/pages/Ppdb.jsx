@@ -294,7 +294,10 @@ const Ppdb = () => {
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
         >
           <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin menghapus nama-ppdb ini?</h1>
+            <h1>
+              Apakah anda yakin menghapus{' '}
+              <span className="font-bold">{getData?.nama}</span>?
+            </h1>
 
             <div className="flex justify-end gap-2">
               <Button
@@ -330,7 +333,10 @@ const Ppdb = () => {
           className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin menerima ppdb ini?</h1>
+            <h1>
+              Apakah anda yakin menerima{' '}
+              <span className="font-bold">{getData?.nama}</span>?
+            </h1>
 
             <div className="flex justify-end gap-2">
               <Button
@@ -354,7 +360,10 @@ const Ppdb = () => {
           className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin menolak ppdb ini?</h1>
+            <h1>
+              Apakah anda yakin menolak{' '}
+              <span className="font-bold">{getData?.nama}</span>?
+            </h1>
 
             <div className="flex justify-end gap-2">
               <Button

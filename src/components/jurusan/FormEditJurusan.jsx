@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
 import { useUpdateJurusanMutation } from '../../services/api/jurusanApiSlice';
+import Loading from '../Loading';
 
 const validationSchema = yup
   .object({
@@ -43,7 +44,7 @@ const FormEditJurusan = (props) => {
     }));
   };
 
-  const [updateJurusan] = useUpdateJurusanMutation();
+  const [updateJurusan, { isLoading }] = useUpdateJurusanMutation();
 
   const handleSubmitForm = async () => {
     try {
@@ -111,7 +112,7 @@ const FormEditJurusan = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpEdit}
           />
-          <Button title="Ubah" type="submit" />
+          <Button title={isLoading ? <Loading /> : 'Ubah'} type="submit" />
         </div>
       </div>
     </form>

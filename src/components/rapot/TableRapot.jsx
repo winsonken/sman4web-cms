@@ -6,6 +6,7 @@ import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
 import ButtonPage from '../ButtonPage';
+import Error from '../Error';
 
 const TableRapot = (props) => {
   const {
@@ -37,7 +38,7 @@ const TableRapot = (props) => {
   return (
     <div className="flex flex-col gap-3">
       {isError ? (
-        ''
+        <Error error={error} />
       ) : isLoading ? (
         <LoadingTable />
       ) : isSuccess ? (

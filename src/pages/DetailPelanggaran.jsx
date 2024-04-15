@@ -12,6 +12,7 @@ import {
   PopUpDelete,
   SelectFilter,
   SearchFilter,
+  Loading,
 } from '../components';
 
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -54,7 +55,8 @@ const DetailPelanggaran = () => {
     limit: limitPerPage,
   });
 
-  const [deletePelanggaran] = useDeletePelanggaranMutation();
+  const [deletePelanggaran, { isLoading: isLoadingDelete }] =
+    useDeletePelanggaranMutation();
 
   const handleDelete = async () => {
     try {
@@ -179,7 +181,10 @@ const DetailPelanggaran = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpDelete}
               />
-              <Button title="Hapus" onClick={handleDelete} />
+              <Button
+                title={isLoadingDelete ? <Loading /> : 'Hapus'}
+                onClick={handleDelete}
+              />
             </div>
           </div>
         </PopUpDelete>

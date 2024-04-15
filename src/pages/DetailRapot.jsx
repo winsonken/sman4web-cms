@@ -91,6 +91,7 @@ const DetailRapot = () => {
           isSuccess={isSuccess}
           isError={isError}
           error={error}
+          modules={modulesAktivitas}
           setGetData={setGetData}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}

@@ -47,7 +47,23 @@ export const siswaApiSlice = sman4webApi.injectEndpoints({
     updateAktifSiswa: builder.mutation({
       query: (body) => ({
         url: `/api/v1/siswa/set-aktif`,
-        method: 'POST',
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: ['Siswa'],
+    }),
+    updateSetJurusan: builder.mutation({
+      query: (body) => ({
+        url: `/api/v1/siswa/set-jurusan`,
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: ['Siswa'],
+    }),
+    updateSetAlumni: builder.mutation({
+      query: (body) => ({
+        url: `/api/v1/siswa/set-alumni`,
+        method: 'PATCH',
         body,
       }),
       invalidatesTags: ['Siswa'],
@@ -78,6 +94,8 @@ export const {
   useUpdateSiswaMutation,
   useDeleteSiswaMutation,
   useUpdateAktifSiswaMutation,
+  useUpdateSetJurusanMutation,
+  useUpdateSetAlumniMutation,
   useGetSiswaLulusQuery,
   useGetAlumniQuery,
   useGetSiswaBelumAdaKelasOptionQuery,

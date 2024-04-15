@@ -13,6 +13,7 @@ import {
   PopUpDelete,
   SelectFilter,
   SearchFilter,
+  Loading,
 } from '../components';
 import {
   useDeleteJurusanMutation,
@@ -52,7 +53,7 @@ const Jurusan = () => {
     limit: limitPerPage,
   });
 
-  const [deleteJurusan, { isLoadingDelete, isErrorDelete, errorDelete }] =
+  const [deleteJurusan, { isLoading: isLoadingDelete }] =
     useDeleteJurusanMutation();
 
   const handleDelete = async () => {
@@ -162,7 +163,10 @@ const Jurusan = () => {
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
         >
           <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin menghapus jurusan ini?</h1>
+            <h1>
+              Apakah anda yakin menghapus jurusan{' '}
+              <span className="font-bold">{getData?.nama_jurusan}</span>?
+            </h1>
 
             <div className="flex justify-end gap-2">
               <Button
@@ -170,7 +174,10 @@ const Jurusan = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpDelete}
               />
-              <Button title="Hapus" onClick={handleDelete} />
+              <Button
+                title={isLoadingDelete ? <Loading /> : 'Hapus'}
+                onClick={handleDelete}
+              />
             </div>
           </div>
         </PopUpDelete>

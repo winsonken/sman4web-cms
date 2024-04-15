@@ -13,6 +13,7 @@ import {
   PopUpDelete,
   SelectFilter,
   SearchFilter,
+  Loading,
 } from '../components';
 import {
   FormAddTahunajaran,
@@ -76,7 +77,8 @@ const Tahunajaran = () => {
     limit: limitPerPageTABerakhir,
   });
 
-  const [deleteTahunAjaran] = useDeleteTahunAjaranMutation();
+  const [deleteTahunAjaran, { isLoading: isLoadingDelete }] =
+    useDeleteTahunAjaranMutation();
 
   const handleDelete = async () => {
     try {
@@ -99,7 +101,8 @@ const Tahunajaran = () => {
     }
   };
 
-  const [updateMulaiAjaran] = useUpdateMulaiAjaranMutation();
+  const [updateMulaiAjaran, { isLoading: isLoadingMulaiAjaran }] =
+    useUpdateMulaiAjaranMutation();
 
   const handleMulaiTahunAjaran = async () => {
     const payload = {
@@ -125,7 +128,8 @@ const Tahunajaran = () => {
     }
   };
 
-  const [updateSelesaiAjaran] = useUpdateSelesaiAjaranMutation();
+  const [updateSelesaiAjaran, { isLoading: isLoadingSelesaiAjaran }] =
+    useUpdateSelesaiAjaranMutation();
 
   const handleSelesaiTahunAjaran = async () => {
     const payload = {
@@ -267,7 +271,13 @@ const Tahunajaran = () => {
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
         >
           <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin menghapus Tahun ajaran 2022/2023?</h1>
+            <h1>
+              Apakah anda yakin menghapus tahun ajaran{' '}
+              <span className="font-bold">
+                {getData?.tahun_mulai_ajaran}-{getData?.tahun_akhir_ajaran}
+              </span>
+              ?
+            </h1>
 
             <div className="flex justify-end gap-2">
               <Button
@@ -275,7 +285,10 @@ const Tahunajaran = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpDelete}
               />
-              <Button title="Hapus" onClick={handleDelete} />
+              <Button
+                title={isLoadingDelete ? <Loading /> : 'Hapus'}
+                onClick={handleDelete}
+              />
             </div>
           </div>
         </PopUpDelete>
@@ -288,7 +301,13 @@ const Tahunajaran = () => {
           className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin memulai tahun ajaran ini?</h1>
+            <h1>
+              Apakah anda yakin memulai tahun ajaran{' '}
+              <span className="font-bold">
+                {getData?.tahun_mulai_ajaran}-{getData?.tahun_akhir_ajaran}
+              </span>
+              ?
+            </h1>
 
             <div className="flex justify-end gap-2">
               <Button
@@ -296,7 +315,10 @@ const Tahunajaran = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpMulai}
               />
-              <Button title="Simpan" onClick={handleMulaiTahunAjaran} />
+              <Button
+                title={isLoadingMulaiAjaran ? <Loading /> : 'Simpan'}
+                onClick={handleMulaiTahunAjaran}
+              />
             </div>
           </div>
         </PopUpAction>
@@ -309,7 +331,13 @@ const Tahunajaran = () => {
           className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin mengakhiri tahun ajaran ini?</h1>
+            <h1>
+              Apakah anda yakin mengakhiri tahun ajaran{' '}
+              <span className="font-bold">
+                {getData?.tahun_mulai_ajaran}-{getData?.tahun_akhir_ajaran}
+              </span>
+              ?
+            </h1>
 
             <div className="flex justify-end gap-2">
               <Button
@@ -317,7 +345,10 @@ const Tahunajaran = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpSelesai}
               />
-              <Button title="Simpan" onClick={handleSelesaiTahunAjaran} />
+              <Button
+                title={isLoadingSelesaiAjaran ? <Loading /> : 'Simpan'}
+                onClick={handleSelesaiTahunAjaran}
+              />
             </div>
           </div>
         </PopUpAction>

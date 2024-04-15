@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { useGetSiswaOptionQuery } from '../../services/api/siswaApiSlice';
 import { formatDate } from '../../helpers/FormatDate';
 import { useCreatePrestasiMutation } from '../../services/api/prestasiApiSlice';
+import Loading from '../Loading';
 
 const validationSchema = yup
   .object({
@@ -59,7 +60,7 @@ const FormDetailAddPrestasi = (props) => {
     }));
   };
 
-  const [createPrestasi] = useCreatePrestasiMutation();
+  const [createPrestasi, { isLoading }] = useCreatePrestasiMutation();
 
   const handleSubmitForm = async () => {
     let payload = {
@@ -164,7 +165,7 @@ const FormDetailAddPrestasi = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpAdd}
           />
-          <Button title="Simpan" type="submit" />
+          <Button title={isLoading ? <Loading /> : 'Simpan'} type="submit" />
         </div>
       </div>
     </form>

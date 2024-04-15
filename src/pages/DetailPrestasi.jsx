@@ -53,7 +53,8 @@ const DetailPrestasi = () => {
     limit: limitPerPage,
   });
 
-  const [deletePrestasi] = useDeletePrestasiMutation();
+  const [deletePrestasi, { isLoading: isLoadingDelete }] =
+    useDeletePrestasiMutation();
 
   const handleDelete = async () => {
     try {
@@ -177,7 +178,10 @@ const DetailPrestasi = () => {
               type="cancel"
               setIsOpenPopUp={setIsOpenPopUpDelete}
             />
-            <Button title="Hapus" onClick={handleDelete} />
+            <Button
+              title={isLoadingDelete ? <Loading /> : 'Hapus'}
+              onClick={handleDelete}
+            />
           </div>
         </div>
       </PopUpDelete>

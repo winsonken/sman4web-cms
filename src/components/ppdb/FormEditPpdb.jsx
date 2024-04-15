@@ -171,7 +171,6 @@ const FormEditPpdb = (props) => {
         setIsOpenPopUpEdit(false);
       }
     } catch (error) {
-      console.log(error);
       const errorMessage = error?.data?.message;
       toast.error(`${errorMessage}`, {
         position: 'top-right',

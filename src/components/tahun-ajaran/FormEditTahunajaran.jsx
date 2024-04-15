@@ -9,6 +9,7 @@ import InputDate from '../InputDate';
 import { formatDateToYear } from '../../helpers/FormatDateToYear';
 import { formatDate } from '../../helpers/FormatDate';
 import { useUpdateTahunAjaranMutation } from '../../services/api/tahunAjaranApiSlice';
+import Loading from '../Loading';
 
 const validationSchema = yup
   .object({
@@ -58,7 +59,8 @@ const FormEditTahunajaran = (props) => {
 
   const [selectedStatusValue, setSelectedStatusValue] = useState('');
 
-  const [updateTahunAjaran] = useUpdateTahunAjaranMutation();
+  const [updateTahunAjaran, { isLoading, isSuccess, isError, error }] =
+    useUpdateTahunAjaranMutation();
 
   const handleSubmitForm = async () => {
     const formatIfChanged = (value, originalValue) => {
@@ -334,7 +336,7 @@ const FormEditTahunajaran = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpEdit}
           />
-          <Button title="Ubah" type="submit" />
+          <Button title={isLoading ? <Loading /> : 'Ubah'} type="submit" />
         </div>
       </div>
     </form>

@@ -25,7 +25,7 @@ import InputImage from './InputImage';
 import ButtonCustom from './ButtonCustom';
 import PopUpCustom from './PopUpCustom';
 import Loading from './Loading';
-
+import Error from './Error';
 export {
   Button,
   ButtonAction,
@@ -54,4 +54,5 @@ export {
   ButtonCustom,
   PopUpCustom,
   Loading,
+  Error,
 };

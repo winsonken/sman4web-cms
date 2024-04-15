@@ -6,6 +6,7 @@ import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
 import Loading from '../Loading';
+import Error from '../Error';
 
 const TablePrestasi = (props) => {
   const {
@@ -30,7 +31,7 @@ const TablePrestasi = (props) => {
   return (
     <div className="flex flex-col gap-3">
       {isError ? (
-        ''
+        <Error error={error} />
       ) : isLoading ? (
         <Loading />
       ) : isSuccess ? (

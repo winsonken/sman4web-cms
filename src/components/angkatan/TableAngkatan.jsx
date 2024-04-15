@@ -5,6 +5,7 @@ import ButtonAction from '../ButtonAction';
 import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
+import Error from '../Error';
 
 const TableAngkatan = (props) => {
   const {
@@ -37,7 +38,7 @@ const TableAngkatan = (props) => {
   return (
     <div className="flex flex-col gap-3">
       {isError ? (
-        ''
+        <Error error={error} />
       ) : isLoading ? (
         <LoadingTable />
       ) : isSuccess ? (
@@ -153,7 +154,7 @@ const TableAngkatan = (props) => {
               ) : (
                 <tr>
                   <td
-                    colSpan="8"
+                    colSpan="7"
                     className="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
                     <div className="text-sm  text-gray-500 text-center">

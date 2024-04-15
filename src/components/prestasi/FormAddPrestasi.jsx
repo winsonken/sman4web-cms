@@ -41,7 +41,7 @@ const FormAddPrestasi = (props) => {
   };
 
   const [formInput, setFormInput] = useState(initialFormInput);
-  console.log(formInput);
+
   const [selectedSiswaValue, setSelectedSiswaValue] = useState('');
 
   const handleChange = (e) => {
@@ -60,7 +60,7 @@ const FormAddPrestasi = (props) => {
     }));
   };
 
-  const [createPrestasi] = useCreatePrestasiMutation();
+  const [createPrestasi, { isLoading }] = useCreatePrestasiMutation();
 
   const handleSubmitForm = async () => {
     let payload = {
@@ -179,7 +179,7 @@ const FormAddPrestasi = (props) => {
             type="cancel"
             setIsOpenPopUp={setIsOpenPopUpAdd}
           />
-          <Button title="Simpan" type="submit" />
+          <Button title={isLoading ? <Loading /> : 'Simpan'} type="submit" />
         </div>
       </div>
     </form>

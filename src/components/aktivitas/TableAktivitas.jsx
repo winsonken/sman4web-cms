@@ -6,6 +6,7 @@ import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
 import { Link } from 'react-router-dom';
+import Error from '../Error';
 
 const TableAktivitas = (props) => {
   const {
@@ -14,16 +15,6 @@ const TableAktivitas = (props) => {
     isSuccess,
     isError,
     error,
-    isOpenPopUpMulai,
-    setIsOpenPopUpMulai,
-    isOpenPopUpLulus,
-    setIsOpenPopUpLulus,
-    isOpenPopUpDetail,
-    setIsOpenPopUpDetail,
-    isOpenPopUpEdit,
-    setIsOpenPopUpEdit,
-    isOpenPopUpDelete,
-    setIsOpenPopUpDelete,
     currentPage,
     setCurrentPage,
     limitPerPage,
@@ -37,7 +28,7 @@ const TableAktivitas = (props) => {
   return (
     <div className="flex flex-col gap-3">
       {isError ? (
-        ''
+        <Error error={error} />
       ) : isLoading ? (
         <LoadingTable />
       ) : isSuccess ? (

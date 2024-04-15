@@ -14,6 +14,7 @@ import {
   PopUpDetail,
   SelectFilter,
   SearchFilter,
+  Loading,
 } from '../components';
 
 import useDebounce from '../helpers/useDebounce';
@@ -192,7 +193,10 @@ const Tendik = () => {
                 type="cancel"
                 setIsOpenPopUp={setIsOpenPopUpDelete}
               />
-              <Button title="Hapus" onClick={handleDelete} />
+              <Button
+                title={isLoadingDelete ? <Loading /> : 'Hapus'}
+                onClick={handleDelete}
+              />
             </div>
           </div>
         </PopUpDelete>

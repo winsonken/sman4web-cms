@@ -13,6 +13,7 @@ const TableDetailRapot = (props) => {
     isSuccess,
     isError,
     error,
+    modules,
     setGetData,
     isOpenPopUpEdit,
     setIsOpenPopUpEdit,
@@ -70,9 +71,11 @@ const TableDetailRapot = (props) => {
                 <th scope="col" className="px-6 py-4">
                   Rapot genap akhir
                 </th>
-                <th scope="col" className="text-center px-6 py-4">
-                  Aksi
-                </th>
+                {modules?.ubah && (
+                  <th scope="col" className="text-center px-6 py-4">
+                    Aksi
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -143,14 +146,16 @@ const TableDetailRapot = (props) => {
                         'Belum ada'
                       )}
                     </td>
-                    <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
-                      <ButtonEdit
-                        data={allRapotData}
-                        isOpenPopUpEdit={isOpenPopUpEdit}
-                        setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                        setGetData={setGetData}
-                      />
-                    </td>
+                    {modules?.ubah && (
+                      <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
+                        <ButtonEdit
+                          data={allRapotData}
+                          isOpenPopUpEdit={isOpenPopUpEdit}
+                          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                          setGetData={setGetData}
+                        />
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (
