@@ -1,25 +1,6 @@
-// import React, { useState } from 'react';
-
-// const InputCheckbox = (props) => {
-//   const { checked, name, onChange } = props;
-
-//   return (
-//     <input
-//       type="checkbox"
-//       id={name}
-//       name={name}
-//       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded cursor-pointer"
-//       checked={checked}
-//       onChange={onChange}
-//     />
-//   );
-// };
-
-// export default InputCheckbox;
-
 import React, { useState } from 'react';
 
-const InputCheckbox = ({ checked: initialChecked, onChange }) => {
+const InputCheckbox = ({ checked: initialChecked, onChange, disabled }) => {
   const [checked, setChecked] = useState(initialChecked);
 
   const handleChange = (e) => {
@@ -33,6 +14,7 @@ const InputCheckbox = ({ checked: initialChecked, onChange }) => {
       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded cursor-pointer"
       checked={checked}
       onChange={handleChange}
+      disabled={disabled}
     />
   );
 };

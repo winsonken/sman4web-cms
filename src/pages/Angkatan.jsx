@@ -115,6 +115,10 @@ const Angkatan = () => {
     label: e?.no_angkatan,
   }));
 
+  if (Array.isArray(selectAngkatan)) {
+    selectAngkatan.unshift({ value: '', label: 'Select angkatan' });
+  }
+
   const [updateMulaiAngkatan, { isLoading: isLoadingMulai }] =
     useUpdateMulaiAngkatanMutation();
 

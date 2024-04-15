@@ -28,7 +28,6 @@ import DetailPrestasi from './pages/DetailPrestasi';
 import Aktivitas from './pages/Aktivitas';
 import Kelulusan from './pages/Kelulusan';
 import KelasSiswa from './pages/KelasSiswa';
-import Error from './pages/Error';
 import ProfileSiswa from './pages/ProfileSiswa';
 import ProfileGuru from './pages/ProfileGuru';
 import ProfileTendik from './pages/ProfileTendik';
@@ -131,21 +130,18 @@ function App() {
           {modulesPrestasi?.akses && (
             <>
               <Route path="/prestasi" element={<Prestasi />} />
-              <Route path="/prestasi/detail" element={<DetailPrestasi />} />
             </>
           )}
 
           {modulesRapot?.akses && (
             <>
               <Route path="/rapot" element={<Rapot />} />
-              <Route path="/detailrapot" element={<DetailRapot />} />
             </>
           )}
 
           {modulesRapot?.akses && (
             <>
               <Route path="/kelas" element={<Kelas />} />
-              <Route path="/detailkelas" element={<DetailKelas />} />
             </>
           )}
 
@@ -161,10 +157,9 @@ function App() {
 
           <Route path="/*" element={<Error404 />} />
 
-          <Route path="/error" element={<Error />} />
-          <Route path="/profilesiswa" element={<ProfileSiswa />} />
-          <Route path="/profileguru" element={<ProfileGuru />} />
-          <Route path="/profiletendik" element={<ProfileTendik />} />
+          <Route path="/profile-siswa" element={<ProfileSiswa />} />
+          <Route path="/profile-guru" element={<ProfileGuru />} />
+          <Route path="/profile-tendik" element={<ProfileTendik />} />
         </Route>
       </Routes>
       <ToastContainer />

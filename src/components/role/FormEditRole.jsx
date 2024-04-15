@@ -242,6 +242,10 @@ const FormEditRole = (props) => {
                       onChange={(checked) =>
                         handleChange(index, 'akses', checked ? 1 : 0)
                       }
+                      disabled={
+                        allDataModules?.id_modul_user ==
+                        '233c0b6a18d7c66cc13ab5e8203edc09'
+                      }
                     />
                   </td>
                   <td className="px-6 py-1 font-medium">
@@ -253,6 +257,10 @@ const FormEditRole = (props) => {
                       // }
                       onChange={(checked) =>
                         handleChange(index, 'tambah', checked ? 1 : 0)
+                      }
+                      disabled={
+                        allDataModules?.id_modul_user ==
+                        '233c0b6a18d7c66cc13ab5e8203edc09'
                       }
                     />
                   </td>
@@ -266,6 +274,10 @@ const FormEditRole = (props) => {
                       onChange={(checked) =>
                         handleChange(index, 'ubah', checked ? 1 : 0)
                       }
+                      disabled={
+                        allDataModules?.id_modul_user ==
+                        '233c0b6a18d7c66cc13ab5e8203edc09'
+                      }
                     />
                   </td>
                   <td className="px-6 py-1 font-medium">
@@ -277,6 +289,10 @@ const FormEditRole = (props) => {
                       // }
                       onChange={(checked) =>
                         handleChange(index, 'hapus', checked ? 1 : 0)
+                      }
+                      disabled={
+                        allDataModules?.id_modul_user ==
+                        '233c0b6a18d7c66cc13ab5e8203edc09'
                       }
                     />
                   </td>
