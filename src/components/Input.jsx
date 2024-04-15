@@ -11,6 +11,7 @@ const Input = (props) => {
     register,
     onChange,
     className,
+    min,
     max,
     disabled,
     errors,
@@ -29,7 +30,7 @@ const Input = (props) => {
         {...(register && register(name))}
         placeholder={label || placeholder}
         value={value}
-        min="0"
+        min={min || '0'}
         max={max}
         className={`w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded placeholder:text-main-cream focus:outline-0 caret-second-blue ${className}`}
         onChange={onChange}

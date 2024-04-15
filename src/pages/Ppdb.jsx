@@ -207,7 +207,7 @@ const Ppdb = () => {
         </div>
 
         <div
-          className={`flex flex-col sm:flex-row sm:justify-between gap-3 ${
+          className={`flex flex-col sm:flex-row gap-3 ${
             modulesPpdb?.tambah ? 'sm:justify-between' : 'sm:justify-end'
           }`}
         >

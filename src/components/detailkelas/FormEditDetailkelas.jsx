@@ -11,6 +11,11 @@ import Loading from '../Loading';
 
 const validationSchema = yup
   .object({
+    no_absen: yup
+      .number()
+      .min(1, 'No absen min is 1')
+      .max(100, 'No absen max is 100')
+      .required('Status kelas siswa is required'),
     status_kelas_siswa: yup.string().required('Status kelas siswa is required'),
   })
   .required();
@@ -33,10 +38,19 @@ const FormEditDetailKelas = (props) => {
 
   const initialFormInput = {
     id_kelas_siswa: '',
+    no_absen: '',
     status_kelas_siswa: '',
   };
 
   const [formInput, setFormInput] = useState(initialFormInput);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormInput((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const [updateKelasSiswa, { isLoading, isSuccess, isError, error }] =
     useUpdateKelasSiswaMutation();
@@ -44,6 +58,7 @@ const FormEditDetailKelas = (props) => {
   const handleSubmitForm = async () => {
     const payload = {
       id_kelas_siswa: formInput?.id_kelas_siswa,
+      no_absen: formInput?.no_absen,
       status_kelas_siswa: selectedStatus,
     };
 
@@ -69,6 +84,7 @@ const FormEditDetailKelas = (props) => {
     if (data) {
       setFormInput({
         id_kelas_siswa: data?.id_kelas_siswa,
+        no_absen: data?.no_absen,
         status_kelas_siswa: data?.status_kelas_siswa,
       });
       setSelectedStatus(data?.status_kelas_siswa);
@@ -77,6 +93,7 @@ const FormEditDetailKelas = (props) => {
 
   useEffect(() => {
     if (data) {
+      setValue('no_absen', data?.no_absen);
       setValue('status_kelas_siswa', data?.status_kelas_siswa);
     }
   }, [data, setFormInput, setValue]);
@@ -127,15 +144,15 @@ const FormEditDetailKelas = (props) => {
             disabled
           />
 
-          {/* <Input
+          <Input
             type="number"
             label="No absen"
             name="no_absen"
-            // onChange={handleChange}
+            onChange={handleChange}
             register={register}
             errors={errors}
             // disabled
-          /> */}
+          />
 
           <Controller
             name="status_kelas_soswa"

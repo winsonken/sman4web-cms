@@ -32,6 +32,7 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
+    clearErrors,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
@@ -74,6 +75,18 @@ const Login = () => {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    const fieldsToCheck = ['username', 'password'];
+
+    fieldsToCheck.forEach((field) => {
+      if (errors[field] && formInput[field] !== '') {
+        if (errors[field].type === 'required') {
+          clearErrors(field);
+        }
+      }
+    });
+  }, [formInput, clearErrors, errors]);
 
   useEffect(() => {
     if (token) {

@@ -40,6 +40,8 @@ import {
 import useDebounce from '../helpers/useDebounce';
 import { useGetJurusanOptionQuery } from '../services/api/jurusanApiSlice';
 import { useGetGuruOptionQuery } from '../services/api/guruApiSlice';
+import { useSelector } from 'react-redux';
+import { selectCurrentModules } from '../services/features/authSlice';
 
 const Kelas = () => {
   const [selectFilterTahunAjaran, setSelectFilterTahunAjaran] = useState('');
@@ -82,10 +84,6 @@ const Kelas = () => {
     page: currentPage,
     limit: limitPerPage,
   });
-
-  useEffect(() => {
-    setSelectFilterTahunAjaran(selectTahunAjaranAktif?.id_tahun_ajaran);
-  }, [selectTahunAjaranAktif]);
 
   const { data: jurusanOption } = useGetJurusanOptionQuery();
   const selectJurusan = jurusanOption?.data?.map((e) => ({
@@ -171,6 +169,25 @@ const Kelas = () => {
     }
   };
 
+  useEffect(() => {
+    if (selectTahunAjaranAktif) {
+      setSelectFilterTahunAjaran(selectTahunAjaranAktif?.id_tahun_ajaran);
+    } else {
+      setSelectFilterTahunAjaran(tahunAjaranOption?.data[0]?.id_tahun_ajaran);
+    }
+  }, [selectTahunAjaranAktif, tahunAjaranOption]);
+
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+
+  const modulesKelas = filterModule('data_kelas');
+
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -178,12 +195,18 @@ const Kelas = () => {
           <h1 className="text-xl font-semibold md:text-2xl">Kelas</h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-          <ButtonAdd
-            title="Tambah kelas"
-            isOpenPopUpAdd={isOpenPopUpAdd}
-            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          />
+        <div
+          className={`flex flex-col sm:flex-row gap-3 ${
+            modulesKelas?.tambah ? 'sm:justify-between' : 'sm:justify-end'
+          }`}
+        >
+          {modulesKelas?.tambah && (
+            <ButtonAdd
+              title="Tambah kelas"
+              isOpenPopUpAdd={isOpenPopUpAdd}
+              setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+            />
+          )}
 
           <div className="flex flex-col gap-3 md:w-3/4 md:flex-row 2xl:w-1/2">
             <div className="md:w-1/3">
@@ -217,6 +240,7 @@ const Kelas = () => {
           isSuccess={isSuccess}
           isError={isError}
           error={error}
+          modules={modulesKelas}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
           isOpenPopUpEdit={isOpenPopUpEdit}

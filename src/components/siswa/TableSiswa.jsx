@@ -63,11 +63,10 @@ const TableSiswa = (props) => {
                 <th scope="col" className="px-6 py-4">
                   Status
                 </th>
-                {(modules?.ubah || modules?.hapus) && (
-                  <th scope="col" className="text-center px-6 py-4">
-                    Aksi
-                  </th>
-                )}
+
+                <th scope="col" className="text-center px-6 py-4">
+                  Aksi
+                </th>
               </tr>
             </thead>
 
@@ -106,36 +105,35 @@ const TableSiswa = (props) => {
                         ''
                       )}
                     </td>
-                    {(modules?.ubah || modules?.hapus) && (
-                      <td className="px-6 py-1">
-                        <div className="flex flex-row justify-center items-center gap-2">
-                          <ButtonDetail
+
+                    <td className="px-6 py-1">
+                      <div className="flex flex-row justify-center items-center gap-2">
+                        <ButtonDetail
+                          data={allSiswaData}
+                          isOpenPopUpDetail={isOpenPopUpDetail}
+                          setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+                          setGetData={setGetData}
+                        />
+
+                        {modules?.ubah && (
+                          <ButtonEdit
                             data={allSiswaData}
-                            isOpenPopUpDetail={isOpenPopUpDetail}
-                            setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+                            isOpenPopUpEdit={isOpenPopUpEdit}
+                            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
                             setGetData={setGetData}
                           />
+                        )}
 
-                          {modules?.ubah && (
-                            <ButtonEdit
-                              data={allSiswaData}
-                              isOpenPopUpEdit={isOpenPopUpEdit}
-                              setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                              setGetData={setGetData}
-                            />
-                          )}
-
-                          {modules?.hapus && (
-                            <ButtonDelete
-                              data={allSiswaData}
-                              isOpenPopUpDelete={isOpenPopUpDelete}
-                              setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                              setGetData={setGetData}
-                            />
-                          )}
-                        </div>
-                      </td>
-                    )}
+                        {modules?.hapus && (
+                          <ButtonDelete
+                            data={allSiswaData}
+                            isOpenPopUpDelete={isOpenPopUpDelete}
+                            setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                            setGetData={setGetData}
+                          />
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 ))
               ) : (

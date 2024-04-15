@@ -24,6 +24,10 @@ import {
   FormAddDetailKelas,
   FormEditDetailKelas,
   FormNaikKelas,
+  FormRapotGanjilAkhir,
+  FormRapotGanjilAwal,
+  FormRapotGenapAkhir,
+  FormRapotGenapAwal,
   FormTinggalKelas,
   TableDetailKelas,
 } from '../components/detailkelas';
@@ -37,6 +41,8 @@ import { useGetSiswaBelumAdaKelasOptionQuery } from '../services/api/siswaApiSli
 import { useGetKelasOptionQuery } from '../services/api/kelasApiSlice';
 import FormLulus from '../components/detailkelas/FormLulus';
 import FormTidakLulus from '../components/detailkelas/FormTidakLulus';
+import { useSelector } from 'react-redux';
+import { selectCurrentModules } from '../services/features/authSlice';
 
 const DetailKelas = () => {
   const [searchFilterKelasSiswa, setSearchFilterKelasSiswa] = useState('');
@@ -132,6 +138,17 @@ const DetailKelas = () => {
     }
   };
 
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+
+  const modulesDetailKelas = filterModule('data_detail_kelas');
+
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -156,23 +173,24 @@ const DetailKelas = () => {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-          <ButtonAdd
-            title="Tambah siswa"
-            isOpenPopUpAdd={isOpenPopUpAdd}
-            setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          />
+        <div
+          className={`flex flex-col sm:flex-row gap-3 ${
+            modulesDetailKelas?.tambah ? 'sm:justify-between' : 'sm:justify-end'
+          }`}
+        >
+          {modulesDetailKelas?.tambah && (
+            <ButtonAdd
+              title="Tambah siswa"
+              isOpenPopUpAdd={isOpenPopUpAdd}
+              setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+            />
+          )}
 
-          <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3  ">
-            <div className="sm:w-1/2">
-              <SelectFilter placeholder="Pilih angkatan" />
-            </div>
-            <div className="sm:w-1/2">
-              <SearchFilter
-                searchValue={searchFilterKelasSiswa}
-                setSearchValue={setSearchFilterKelasSiswa}
-              />
-            </div>
+          <div className="w-full duration-100 sm:w-1/2 md:w-1/5">
+            <SearchFilter
+              searchValue={searchFilterKelasSiswa}
+              setSearchValue={setSearchFilterKelasSiswa}
+            />
           </div>
         </div>
 
@@ -182,6 +200,7 @@ const DetailKelas = () => {
           isSuccess={isSuccess}
           isError={isError}
           error={error}
+          modules={modulesDetailKelas}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           isOpenPopUpDelete={isOpenPopUpDelete}
@@ -349,6 +368,57 @@ const DetailKelas = () => {
               setIsOpenPopUpTidakLulus={setIsOpenPopUpTidakLulus}
             />
           </div>
+        </PopUpAction>
+
+        <PopUpAction
+          title="Form rapot ganjil awal"
+          icon={<RiDoorOpenFill />}
+          isOpenPopUp={isOpenPopUpGanjilAwal}
+          setIsOpenPopUp={setIsOpenPopUpGanjilAwal}
+          className="md:max-w-2xl"
+        >
+          <FormRapotGanjilAwal
+            data={getData}
+            setIsOpenPopUpGanjilAwal={setIsOpenPopUpGanjilAwal}
+          />
+        </PopUpAction>
+
+        <PopUpAction
+          title="Form rapot ganjil akhir"
+          icon={<RiDoorOpenFill />}
+          isOpenPopUp={isOpenPopUpGanjilAkhir}
+          setIsOpenPopUp={setIsOpenPopUpGanjilAkhir}
+          className="md:max-w-2xl"
+        >
+          <FormRapotGanjilAkhir
+            data={getData}
+            setIsOpenPopUpGanjilAkhir={setIsOpenPopUpGanjilAkhir}
+          />
+        </PopUpAction>
+
+        <PopUpAction
+          title="Form rapot genap awal"
+          icon={<RiDoorOpenFill />}
+          isOpenPopUp={isOpenPopUpGenapAwal}
+          setIsOpenPopUp={setIsOpenPopUpGenapAwal}
+          className="md:max-w-2xl"
+        >
+          <FormRapotGenapAwal
+            data={getData}
+            setIsOpenPopUpGenapAwal={setIsOpenPopUpGenapAwal}
+          />
+        </PopUpAction>
+        <PopUpAction
+          title="Form rapot genap akhir"
+          icon={<RiDoorOpenFill />}
+          isOpenPopUp={isOpenPopUpGenapAkhir}
+          setIsOpenPopUp={setIsOpenPopUpGenapAkhir}
+          className="md:max-w-2xl"
+        >
+          <FormRapotGenapAkhir
+            data={getData}
+            setIsOpenPopUpGenapAkhir={setIsOpenPopUpGenapAkhir}
+          />
         </PopUpAction>
       </div>
     </Layout>

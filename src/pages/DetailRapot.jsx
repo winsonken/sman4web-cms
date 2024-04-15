@@ -17,7 +17,10 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useGetRapotBySiswaQuery } from '../services/api/rapotApiSlice';
-import { TableDetailRapot } from '../components/detail-rapot';
+import {
+  FormEditDetailRapot,
+  TableDetailRapot,
+} from '../components/detail-rapot';
 import { useSelector } from 'react-redux';
 import { selectCurrentModules } from '../services/features/authSlice';
 
@@ -25,6 +28,8 @@ const DetailRapot = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const limitPerPage = 10;
   const [getData, setGetData] = useState([]);
+
+  const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
 
   const [isOpenPopUpGanjilAwal, setIsOpenPopUpGanjilAwal] = useState(false);
   const [isOpenPopUpGanjilAkhir, setIsOpenPopUpGanjilAkhir] = useState(false);
@@ -87,6 +92,8 @@ const DetailRapot = () => {
           isError={isError}
           error={error}
           setGetData={setGetData}
+          isOpenPopUpEdit={isOpenPopUpEdit}
+          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           isOpenPopUpGanjilAwal={isOpenPopUpGanjilAwal}
           setIsOpenPopUpGanjilAwal={setIsOpenPopUpGanjilAwal}
           isOpenPopUpGanjilAkhir={isOpenPopUpGanjilAkhir}
@@ -99,6 +106,19 @@ const DetailRapot = () => {
           setCurrentPage={setCurrentPage}
           limitPerPage={limitPerPage}
         />
+
+        <PopUpEdit
+          title="Ubah rapot"
+          icon={<PiBookBookmarkFill />}
+          isOpenPopUpEdit={isOpenPopUpEdit}
+          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          className="md:max-w-2xl"
+        >
+          <FormEditDetailRapot
+            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+            data={getData}
+          />
+        </PopUpEdit>
 
         <PopUpAction
           title="Rapot ganjil awal"

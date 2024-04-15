@@ -71,35 +71,6 @@ const Prestasi = () => {
           setCurrentPage={setCurrentPage}
           limitPerPage={limitPerPage}
         />
-
-        {/* <PopUpEdit
-          title="Ubah prestasi"
-          icon={<FaMedal />}
-          isOpenPopUpEdit={isOpenPopUpEdit}
-          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-        >
-          <FormEditPrestasi setIsOpenPopUpEdit={setIsOpenPopUpEdit} />
-        </PopUpEdit>
-
-        <PopUpDelete
-          title="Hapus prestasi"
-          icon={<FaMedal />}
-          isOpenPopUpDelete={isOpenPopUpDelete}
-          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-        >
-          <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin menghapus prestasi nama-siswaini?</h1>
-
-            <div className="flex justify-end gap-2">
-              <Button
-                title="Batal"
-                type="cancel"
-                setIsOpenPopUp={setIsOpenPopUpDelete}
-              />
-              <Button title="Hapus" type="submit" />
-            </div>
-          </div>
-        </PopUpDelete> */}
       </div>
     </Layout>
   );

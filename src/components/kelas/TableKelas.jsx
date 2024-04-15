@@ -17,8 +17,7 @@ const TableKelas = (props) => {
     isSuccess,
     isError,
     error,
-    isOpenPopUpDetail,
-    setIsOpenPopUpDetail,
+    modules,
     isOpenPopUpEdit,
     setIsOpenPopUpEdit,
     isOpenPopUpDelete,
@@ -95,19 +94,23 @@ const TableKelas = (props) => {
                           </Link>
                         </div>
 
-                        <ButtonEdit
-                          data={allKelasData}
-                          isOpenPopUpEdit={isOpenPopUpEdit}
-                          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                          setGetData={setGetData}
-                        />
+                        {modules?.ubah && (
+                          <ButtonEdit
+                            data={allKelasData}
+                            isOpenPopUpEdit={isOpenPopUpEdit}
+                            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                            setGetData={setGetData}
+                          />
+                        )}
 
-                        <ButtonDelete
-                          data={allKelasData}
-                          isOpenPopUpDelete={isOpenPopUpDelete}
-                          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                          setGetData={setGetData}
-                        />
+                        {modules?.hapus && (
+                          <ButtonDelete
+                            data={allKelasData}
+                            isOpenPopUpDelete={isOpenPopUpDelete}
+                            setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                            setGetData={setGetData}
+                          />
+                        )}
                       </div>
                     </td>
                   </tr>

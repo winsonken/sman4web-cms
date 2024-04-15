@@ -96,7 +96,6 @@ const FormTinggalKelas = (props) => {
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-3">
-          <Input type="file" label="Upload Rapot" name="upload_rapot" />
           <Controller
             name="kelas"
             control={control}

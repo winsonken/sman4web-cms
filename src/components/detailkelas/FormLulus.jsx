@@ -58,10 +58,6 @@ const FormLulus = (props) => {
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-3">
-          <Input type="file" label="Upload Rapot" name="upload_rapot" />
-        </div>
-
         <div className="flex justify-end gap-2">
           <Button
             title="Batal"

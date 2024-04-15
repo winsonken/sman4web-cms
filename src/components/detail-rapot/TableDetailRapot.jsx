@@ -14,6 +14,8 @@ const TableDetailRapot = (props) => {
     isError,
     error,
     setGetData,
+    isOpenPopUpEdit,
+    setIsOpenPopUpEdit,
     isOpenPopUpGanjilAwal,
     setIsOpenPopUpGanjilAwal,
     isOpenPopUpGanjilAkhir,
@@ -144,15 +146,8 @@ const TableDetailRapot = (props) => {
                     <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
                       <ButtonEdit
                         data={allRapotData}
-                        // isOpenPopUpEdit={isOpenPopUpEdit}
-                        // setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                        setGetData={setGetData}
-                      />
-
-                      <ButtonDelete
-                        data={allRapotData}
-                        // isOpenPopUpDelete={isOpenPopUpDelete}
-                        // setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                        isOpenPopUpEdit={isOpenPopUpEdit}
+                        setIsOpenPopUpEdit={setIsOpenPopUpEdit}
                         setGetData={setGetData}
                       />
                     </td>

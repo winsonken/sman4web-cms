@@ -12,6 +12,7 @@ const TableDetailKelas = (props) => {
     isLoading,
     isSuccess,
     isError,
+    modules,
     error,
     isOpenPopUpGanjilAwal,
     setIsOpenPopUpGanjilAwal,
@@ -44,6 +45,9 @@ const TableDetailKelas = (props) => {
   const totalPage = pagination?.total_page;
   const totalRecord = pagination?.total_record;
 
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth();
+
   return (
     <div className="flex flex-col gap-3">
       {isError ? (
@@ -67,12 +71,16 @@ const TableDetailKelas = (props) => {
                 <th scope="col" className="px-6 py-4">
                   Status
                 </th>
-                <th scope="col" className="text-center px-6 py-4">
-                  Status kelas
-                </th>
-                <th scope="col" className="text-center px-6 py-4">
-                  Aksi
-                </th>
+                {modules?.ubah && (
+                  <th scope="col" className="text-center px-6 py-4">
+                    Status kelas
+                  </th>
+                )}
+                {(modules?.ubah || modules?.hapus) && (
+                  <th scope="col" className="text-center px-6 py-4">
+                    Aksi
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -88,7 +96,9 @@ const TableDetailKelas = (props) => {
                     <td className="px-6 py-2">
                       {allKelasSiswaData?.nama_siswa}
                     </td>
-                    <td className="px-6 py-2">-</td>
+                    <td className="px-6 py-2">
+                      {allKelasSiswaData?.no_absen || '-'}
+                    </td>
                     <td className=" gap-2 px-6 py-2">
                       {allKelasSiswaData?.status_kelas_siswa == 1 ? (
                         <p className="text-[#45db6a]">Aktif</p>
@@ -104,107 +114,134 @@ const TableDetailKelas = (props) => {
                         ''
                       )}
                     </td>
-                    <td className="px-6 py-2">
-                      <div className="flex justify-center">
-                        <div className="flex flex-col justify-center items-start gap-2">
-                          <div className="flex flex-row gap-2">
-                            {allKelasSiswaData?.rapot_ganjil_awal == null && (
-                              <ButtonAction
-                                title="Rapot ganjil awal"
-                                isOpenPopUp={isOpenPopUpLulus}
-                                setIsOpenPopUp={setIsOpenPopUpLulus}
-                              />
-                            )}
-
-                            {allKelasSiswaData?.rapot_ganjil_akhir == null && (
-                              <ButtonAction
-                                title="Rapot ganjil akhir"
-                                isOpenPopUp={isOpenPopUpLulus}
-                                setIsOpenPopUp={setIsOpenPopUpLulus}
-                              />
-                            )}
-                          </div>
-
-                          <div className="flex flex-row gap-2">
-                            {allKelasSiswaData?.rapot_genap_awal == null && (
-                              <ButtonAction
-                                title="Rapot genap awal"
-                                isOpenPopUp={isOpenPopUpLulus}
-                                setIsOpenPopUp={setIsOpenPopUpLulus}
-                              />
-                            )}
-
-                            {allKelasSiswaData?.rapot_genap_awal == null && (
-                              <ButtonAction
-                                title="Rapot genap akhir"
-                                isOpenPopUp={isOpenPopUpLulus}
-                                setIsOpenPopUp={setIsOpenPopUpLulus}
-                              />
-                            )}
-                          </div>
-
-                          <div className="flex flex-row gap-2">
-                            {allKelasSiswaData?.status_kelas_siswa == 1 &&
-                              allKelasSiswaData?.no_kelas != 12 && (
-                                <>
+                    {modules?.ubah && (
+                      <td className="px-6 py-2">
+                        <div className="flex justify-center">
+                          <div className="flex flex-col justify-center items-start gap-2">
+                            <div className="flex flex-row gap-2">
+                              {currentMonth >= 8 &&
+                                allKelasSiswaData?.rapot_ganjil_awal ==
+                                  null && (
                                   <ButtonAction
                                     data={allKelasSiswaData}
-                                    title="Naik Kelas"
-                                    isOpenPopUp={isOpenPopUpNaikKelas}
-                                    setIsOpenPopUp={setIsOpenPopUpNaikKelas}
+                                    title="Rapot ganjil awal"
+                                    isOpenPopUp={isOpenPopUpGanjilAwal}
+                                    setIsOpenPopUp={setIsOpenPopUpGanjilAwal}
                                     setGetData={setGetData}
                                   />
+                                )}
+
+                              {currentMonth >= 10 &&
+                                allKelasSiswaData?.rapot_ganjil_akhir ==
+                                  null && (
                                   <ButtonAction
                                     data={allKelasSiswaData}
-                                    title="Tinggal Kelas"
-                                    isOpenPopUp={isOpenPopUpTinggalKelas}
-                                    setIsOpenPopUp={setIsOpenPopUpTinggalKelas}
+                                    title="Rapot ganjil akhir"
+                                    isOpenPopUp={isOpenPopUpGanjilAkhir}
+                                    setIsOpenPopUp={setIsOpenPopUpGanjilAkhir}
                                     setGetData={setGetData}
                                   />
-                                </>
-                              )}
-                          </div>
+                                )}
+                            </div>
 
-                          <div className="flex flex-row gap-2">
-                            {allKelasSiswaData?.no_kelas == 12 && (
-                              <>
-                                <ButtonAction
-                                  data={allKelasSiswaData}
-                                  title="Lulus"
-                                  isOpenPopUp={isOpenPopUpLulus}
-                                  setIsOpenPopUp={setIsOpenPopUpLulus}
-                                  setGetData={setGetData}
-                                />
-                                <ButtonAction
-                                  data={allKelasSiswaData}
-                                  title="Tidak lulus"
-                                  isOpenPopUp={isOpenPopUpTidakLulus}
-                                  setIsOpenPopUp={setIsOpenPopUpTidakLulus}
-                                  setGetData={setGetData}
-                                />
-                              </>
-                            )}
+                            <div className="flex flex-row gap-2">
+                              {currentMonth >= 1 &&
+                                allKelasSiswaData?.rapot_genap_awal == null && (
+                                  <ButtonAction
+                                    data={allKelasSiswaData}
+                                    title="Rapot genap awal"
+                                    isOpenPopUp={isOpenPopUpGenapAwal}
+                                    setIsOpenPopUp={setIsOpenPopUpGenapAwal}
+                                    setGetData={setGetData}
+                                  />
+                                )}
+
+                              {currentMonth >= 4 &&
+                                allKelasSiswaData?.rapot_genap_akhir ==
+                                  null && (
+                                  <ButtonAction
+                                    data={allKelasSiswaData}
+                                    title="Rapot genap akhir"
+                                    isOpenPopUp={isOpenPopUpGenapAkhir}
+                                    setIsOpenPopUp={setIsOpenPopUpGenapAkhir}
+                                    setGetData={setGetData}
+                                  />
+                                )}
+                            </div>
+
+                            <div className="flex flex-row gap-2">
+                              {currentMonth >= 5 &&
+                                allKelasSiswaData?.status_kelas_siswa == 1 &&
+                                allKelasSiswaData?.no_kelas != 12 && (
+                                  <>
+                                    <ButtonAction
+                                      data={allKelasSiswaData}
+                                      title="Naik Kelas"
+                                      isOpenPopUp={isOpenPopUpNaikKelas}
+                                      setIsOpenPopUp={setIsOpenPopUpNaikKelas}
+                                      setGetData={setGetData}
+                                    />
+                                    <ButtonAction
+                                      data={allKelasSiswaData}
+                                      title="Tinggal Kelas"
+                                      isOpenPopUp={isOpenPopUpTinggalKelas}
+                                      setIsOpenPopUp={
+                                        setIsOpenPopUpTinggalKelas
+                                      }
+                                      setGetData={setGetData}
+                                    />
+                                  </>
+                                )}
+                            </div>
+
+                            <div className="flex flex-row gap-2">
+                              {currentMonth >= 2 &&
+                                allKelasSiswaData?.no_kelas == 12 && (
+                                  <>
+                                    <ButtonAction
+                                      data={allKelasSiswaData}
+                                      title="Lulus"
+                                      isOpenPopUp={isOpenPopUpLulus}
+                                      setIsOpenPopUp={setIsOpenPopUpLulus}
+                                      setGetData={setGetData}
+                                    />
+                                    <ButtonAction
+                                      data={allKelasSiswaData}
+                                      title="Tidak lulus"
+                                      isOpenPopUp={isOpenPopUpTidakLulus}
+                                      setIsOpenPopUp={setIsOpenPopUpTidakLulus}
+                                      setGetData={setGetData}
+                                    />
+                                  </>
+                                )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-2">
-                      <div className="flex flex-row justify-center items-center gap-2">
-                        <ButtonEdit
-                          data={allKelasSiswaData}
-                          isOpenPopUpEdit={isOpenPopUpEdit}
-                          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-                          setGetData={setGetData}
-                        />
+                      </td>
+                    )}
+                    {(modules?.ubah || modules?.hapus) && (
+                      <td className="px-6 py-2">
+                        <div className="flex flex-row justify-center items-center gap-2">
+                          {modules?.ubah && (
+                            <ButtonEdit
+                              data={allKelasSiswaData}
+                              isOpenPopUpEdit={isOpenPopUpEdit}
+                              setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                              setGetData={setGetData}
+                            />
+                          )}
 
-                        <ButtonDelete
-                          data={allKelasSiswaData}
-                          isOpenPopUpDelete={isOpenPopUpDelete}
-                          setIsOpenPopUpDelete={setIsOpenPopUpDelete}
-                          setGetData={setGetData}
-                        />
-                      </div>
-                    </td>
+                          {modules?.hapus && (
+                            <ButtonDelete
+                              data={allKelasSiswaData}
+                              isOpenPopUpDelete={isOpenPopUpDelete}
+                              setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+                              setGetData={setGetData}
+                            />
+                          )}
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))
               ) : (
