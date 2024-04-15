@@ -32,7 +32,7 @@ const Input = (props) => {
         value={value}
         min={min || '0'}
         max={max}
-        className={`w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded placeholder:text-main-cream focus:outline-0 caret-second-blue ${className}`}
+        className={`w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded placeholder:text-main-cream focus:outline-0 caret-second-blue disabled:bg-[#106C89] ${className}`}
         onChange={onChange}
         disabled={disabled}
       />

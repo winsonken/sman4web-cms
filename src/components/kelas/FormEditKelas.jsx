@@ -29,22 +29,12 @@ const validationSchema = yup
         ? schema.notRequired()
         : schema.required('Jurusan is required');
     }),
-    angkatan: yup.string().required('Angkatan is required'),
-    tahun_ajaran: yup.string().required('Tahun ajaran is required'),
   })
   .required();
 
 const FormEditKelas = (props) => {
-  const {
-    data,
-    selectTahunAjaranBelumDimulai,
-    selectAngkatanBelumDimulai,
-    selectAngkatanDimulai,
-    selectGuru,
-    selectJurusan,
-    jurusanOption,
-    setIsOpenPopUpEdit,
-  } = props;
+  const { data, selectGuru, selectJurusan, jurusanOption, setIsOpenPopUpEdit } =
+    props;
   const {
     control,
     register,
@@ -58,8 +48,6 @@ const FormEditKelas = (props) => {
 
   const [selectedKelas, setSelectedKelas] = useState('');
   const [selectedJurusan, setSelectedJurusan] = useState('');
-  const [selectedAngkatan, setSelectedAngkatan] = useState('');
-  const [selectedTahunAjaran, setSelectedTahunAjaran] = useState('');
   const [selectedGuru, setSelectedGuru] = useState('');
 
   const handleChange = (e) => {
@@ -79,13 +67,12 @@ const FormEditKelas = (props) => {
     walikelas: '',
     jurusan: '',
     angkatan: '',
+    no_angkatan: '',
     tahun_ajaran: '',
   };
-
   const [formInput, setFormInput] = useState(initialFormInput);
 
-  const [updateKelas, { isLoading, isSuccess, isError, error }] =
-    useUpdateKelasMutation();
+  const [updateKelas, { isLoading }] = useUpdateKelasMutation();
 
   const handleSubmitForm = async () => {
     const payload = {
@@ -110,8 +97,8 @@ const FormEditKelas = (props) => {
 
       walikelas: selectedGuru,
       jurusan: selectedJurusan,
-      angkatan: selectedAngkatan,
-      tahun_ajaran: selectedTahunAjaran,
+      angkatan: formInput?.angkatan,
+      tahun_ajaran: formInput?.tahun_ajaran,
     };
 
     try {
@@ -145,14 +132,13 @@ const FormEditKelas = (props) => {
         walikelas: data?.id_guru,
         jurusan: data?.jurusan,
         angkatan: data?.angkatan,
+        no_angkatan: data?.no_angkatan,
         tahun_ajaran: data?.tahun_ajaran,
       });
     }
     setSelectedKelas(data?.kelas);
     setSelectedGuru(data?.id_guru);
     setSelectedJurusan(data?.jurusan);
-    setSelectedAngkatan(data?.angkatan);
-    setSelectedTahunAjaran(data?.tahun_ajaran);
   }, [data, setFormInput]);
 
   useEffect(() => {
@@ -167,11 +153,6 @@ const FormEditKelas = (props) => {
     });
   }, [formInput, clearErrors, errors]);
 
-  // useEffect(() => {
-  //   setSelectedAngkatan('');
-  //   setSelectedJurusan('');
-  // }, [selectedKelas]);
-
   useEffect(() => {
     if (data) {
       setValue(
@@ -183,6 +164,11 @@ const FormEditKelas = (props) => {
       setValue(
         'alphabet_kelas',
         data?.kelas == 10 ? data?.nama_kelas?.substring(1) : ''
+      );
+      setValue('no_angkatan', data?.no_angkatan);
+      setValue(
+        'tahunAjaran',
+        `${data?.tahun_mulai_ajaran}-${data?.tahun_akhir_ajaran}`
       );
     }
   }, [data, setFormInput, setValue]);
@@ -201,16 +187,6 @@ const FormEditKelas = (props) => {
     setValue('jurusan', selectedJurusan);
     clearErrors('jurusan');
   }, [selectedJurusan, setValue]);
-
-  useEffect(() => {
-    setValue('angkatan', selectedAngkatan);
-    clearErrors('angkatan');
-  }, [selectedAngkatan, setValue]);
-
-  useEffect(() => {
-    setValue('tahun_ajaran', selectedTahunAjaran);
-    clearErrors('tahun_ajaran');
-  }, [selectedTahunAjaran, setValue]);
 
   const selectKelas = [
     { value: 10, label: 10 },
@@ -281,7 +257,7 @@ const FormEditKelas = (props) => {
             />
           )}
 
-          <Controller
+          {/* <Controller
             name="angkatan"
             control={control}
             render={({ field }) => (
@@ -302,9 +278,19 @@ const FormEditKelas = (props) => {
                 errors={errors}
               />
             )}
+          /> */}
+
+          <Input
+            type="text"
+            label="Angkatan"
+            name="no_angkatan"
+            onChange={handleChange}
+            register={register}
+            errors={errors}
+            disabled
           />
 
-          <Controller
+          {/* <Controller
             name="tahun_ajaran"
             control={control}
             render={({ field }) => (
@@ -321,6 +307,16 @@ const FormEditKelas = (props) => {
                 errors={errors}
               />
             )}
+          /> */}
+
+          <Input
+            type="text"
+            label="Tahun ajaran"
+            name="tahunAjaran"
+            onChange={handleChange}
+            register={register}
+            errors={errors}
+            disabled
           />
 
           <Controller
