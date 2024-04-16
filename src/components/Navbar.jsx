@@ -52,7 +52,7 @@ const Navbar = (props) => {
           </p>
 
           <div className="flex flex-col gap-2 mt-2 md:mt-0">
-            <Link>
+            <Link to="/profile">
               <div className="flex items-center gap-1 text-base font-medium text-second-blue md:text-xl hover:text-main-cream duration-200">
                 <span>
                   <FaUserCircle />
@@ -62,7 +62,7 @@ const Navbar = (props) => {
             </Link>
 
             <div
-              className="flex items-center gap-1 text-base font-medium text-second-blue md:text-xl hover:text-main-cream duration-200"
+              className="flex items-center gap-1 text-base font-medium text-second-blue md:text-xl hover:text-main-cream duration-200 cursor-pointer"
               onClick={handleLogout}
             >
               <span>

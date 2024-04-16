@@ -41,7 +41,6 @@ const TableKelulusan = (props) => {
                 <th scope="col" className="px-6 py-4">
                   No
                 </th>
-
                 <th scope="col" className="px-6 py-4">
                   Nama Siswa
                 </th>
@@ -63,7 +62,10 @@ const TableKelulusan = (props) => {
             <tbody>
               {siswaLulusData.length > 0 ? (
                 siswaLulusData.map((allSiswaLulusData, index) => (
-                  <tr className="bg-second-orange border-b">
+                  <tr
+                    key={allSiswaLulusData?.id_siswa}
+                    className="bg-second-orange border-b"
+                  >
                     <th
                       scope="row"
                       className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"

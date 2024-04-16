@@ -96,6 +96,12 @@ const FormDetailGuru = (props) => {
             {data?.status_guru == 1 ? 'Aktif' : ''}
           </p>
         </div>
+        <div>
+          <h1 className="font-medium text-second-blue">Username</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {data?.username}
+          </p>
+        </div>
       </div>
     </div>
   );

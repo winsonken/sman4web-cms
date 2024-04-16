@@ -60,7 +60,10 @@ const TableRole = (props) => {
             <tbody>
               {roleData.length > 0 ? (
                 roleData.map((allRoleData, index) => (
-                  <tr className="bg-second-orange border-b">
+                  <tr
+                    key={allRoleData?.id_role}
+                    className="bg-second-orange border-b"
+                  >
                     <th
                       scope="row"
                       className="px-6 py-1 font-medium text-gray-900 whitespace-nowrap"

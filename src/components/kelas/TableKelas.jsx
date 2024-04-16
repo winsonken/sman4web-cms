@@ -72,7 +72,10 @@ const TableKelas = (props) => {
             <tbody>
               {kelasData.length > 0 ? (
                 kelasData.map((allKelasData, index) => (
-                  <tr className="bg-second-orange border-b">
+                  <tr
+                    key={allKelasData?.id_kelas}
+                    className="bg-second-orange border-b"
+                  >
                     <th
                       scope="row"
                       className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
@@ -89,11 +92,11 @@ const TableKelas = (props) => {
                     </td>
                     <td className="px-6 py-2">
                       <div className="flex flex-row justify-center items-center gap-2">
-                        <div className="w-fit h-fit text-2xl text-black bg-white px-1.5 py-1 flex justify-center items-center rounded-md cursor-pointer">
-                          <Link to="/kelas/detail" state={allKelasData}>
+                        <Link to="/kelas/detail" state={allKelasData}>
+                          <div className="w-fit h-fit text-2xl text-black bg-white px-1.5 py-1 flex justify-center items-center rounded-md cursor-pointer">
                             <IoEyeSharp />
-                          </Link>
-                        </div>
+                          </div>
+                        </Link>
 
                         {modules?.ubah && (
                           <ButtonEdit

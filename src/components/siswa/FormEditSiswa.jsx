@@ -478,7 +478,6 @@ const FormEditSiswa = (props) => {
                 setSelectedValue={setSelectedJurusanValue}
                 placeholder="Select jurusan"
                 isSearchable
-                isClearable
                 errors={errors}
               />
             )}

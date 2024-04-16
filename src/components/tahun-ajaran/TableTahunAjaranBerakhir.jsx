@@ -51,7 +51,10 @@ const TableTahunAjaranBerakhir = (props) => {
             <tbody>
               {tahunAjaranBerakhir.length > 0 ? (
                 tahunAjaranBerakhir.map((allTahunAjaran, index) => (
-                  <tr className="bg-second-orange border-b">
+                  <tr
+                    key={allTahunAjaran?.id_tahun_ajaran}
+                    className="bg-second-orange border-b"
+                  >
                     <th
                       scope="row"
                       className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"

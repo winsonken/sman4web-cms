@@ -14,6 +14,7 @@ export const sman4webApi = createApi({
     },
   }),
   tagTypes: [
+    'Profile',
     'Angkatan',
     'Tahun ajaran',
     'Jurusan',

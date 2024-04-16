@@ -58,7 +58,7 @@ export const siswaApiSlice = sman4webApi.injectEndpoints({
         method: 'PATCH',
         body,
       }),
-      invalidatesTags: ['Siswa'],
+      invalidatesTags: ['Siswa', 'Profile'],
     }),
     updateSetAlumni: builder.mutation({
       query: (body) => ({
@@ -74,12 +74,20 @@ export const siswaApiSlice = sman4webApi.injectEndpoints({
       providesTags: ['Siswa'],
     }),
     getAlumni: builder.query({
-      query: ({ q, page, limit }) =>
-        `/api/v1/siswa/alumni?q=${q}&page=${page}&limit=${limit}`,
+      query: ({ angkatan, q, page, limit }) =>
+        `/api/v1/siswa/alumni?angkatan=${angkatan}&q=${q}&page=${page}&limit=${limit}`,
       providesTags: ['Siswa'],
     }),
     getSiswaBelumAdaKelasOption: builder.query({
       query: () => `/api/v1/siswa/belum-ada-kelas?limit=3000`,
+      providesTags: ['Siswa'],
+    }),
+    getJumlahSiswaAktif: builder.query({
+      query: () => `/api/v1/siswa/jumlah-siswa-aktif`,
+      providesTags: ['Siswa'],
+    }),
+    getJumlahAlumni: builder.query({
+      query: () => `/api/v1/siswa/jumlah-alumni`,
       providesTags: ['Siswa'],
     }),
   }),
@@ -99,4 +107,6 @@ export const {
   useGetSiswaLulusQuery,
   useGetAlumniQuery,
   useGetSiswaBelumAdaKelasOptionQuery,
+  useGetJumlahSiswaAktifQuery,
+  useGetJumlahAlumniQuery,
 } = siswaApiSlice;

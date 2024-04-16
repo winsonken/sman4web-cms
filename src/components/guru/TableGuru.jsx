@@ -73,7 +73,10 @@ const TableGuru = (props) => {
             <tbody>
               {guruData.length > 0 ? (
                 guruData?.map((allGuruData, index) => (
-                  <tr className="bg-second-orange border-b">
+                  <tr
+                    key={allGuruData?.id_guru}
+                    className="bg-second-orange border-b"
+                  >
                     <th
                       scope="row"
                       className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"

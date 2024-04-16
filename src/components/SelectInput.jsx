@@ -24,7 +24,7 @@ const SelectInput = (props) => {
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
-      backgroundColor: '#7FC7D9',
+      backgroundColor: state.isDisabled ? '#106C89' : '#7FC7D9',
       outline: 'none',
       border: 'none',
       boxShadow: 'none',

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+
 import logo from '../assets/logo-sman4.png';
+import { toast } from 'react-toastify';
 import { FaEye } from 'react-icons/fa';
 import { FaEyeSlash } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
@@ -60,11 +62,13 @@ const Login = () => {
       if (!response.error) {
         dispatch(setCredentials({ ...response }));
         navigate('/');
-      } else {
-        console.log(response);
       }
     } catch (error) {
-      console.log(error);
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
     }
   };
 

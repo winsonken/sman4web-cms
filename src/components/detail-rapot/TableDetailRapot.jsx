@@ -81,7 +81,10 @@ const TableDetailRapot = (props) => {
             <tbody>
               {rapotData.length > 0 > 0 ? (
                 rapotData.map((allRapotData, index) => (
-                  <tr className="bg-second-orange border-b">
+                  <tr
+                    key={allRapotData?.id_rapot}
+                    className="bg-second-orange border-b"
+                  >
                     <th
                       scope="row"
                       className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"

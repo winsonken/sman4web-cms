@@ -34,6 +34,10 @@ export const guruApiSlice = sman4webApi.injectEndpoints({
       }),
       invalidatesTags: ['Guru'],
     }),
+    getJumlahGuruAktif: builder.query({
+      query: () => `/api/v1/guru/jumlah-guru-aktif`,
+      providesTags: ['Guru'],
+    }),
   }),
 });
 
@@ -43,4 +47,5 @@ export const {
   useCreateGuruMutation,
   useUpdateGuruMutation,
   useDeleteGuruMutation,
+  useGetJumlahGuruAktifQuery,
 } = guruApiSlice;

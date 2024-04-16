@@ -28,9 +28,6 @@ import DetailPrestasi from './pages/DetailPrestasi';
 import Aktivitas from './pages/Aktivitas';
 import Kelulusan from './pages/Kelulusan';
 import KelasSiswa from './pages/KelasSiswa';
-import ProfileSiswa from './pages/ProfileSiswa';
-import ProfileGuru from './pages/ProfileGuru';
-import ProfileTendik from './pages/ProfileTendik';
 import DetailPelanggaran from './pages/DetailPelanggaran';
 import Tendik from './pages/Tendik';
 
@@ -68,7 +65,11 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         <Route element={<RequireAuth />}>
-          <Route path="/" element={<Dashboard />} />
+          {modulesDashboard?.akses ? (
+            <Route path="/" element={<Dashboard />} />
+          ) : (
+            <Route path="/" element={<Profile />} />
+          )}
 
           {modulesDashboard?.akses && (
             <Route path="/dashboard" element={<Dashboard />} />
@@ -156,10 +157,6 @@ function App() {
           {modulesRole?.akses && <Route path="/role" element={<Role />} />}
 
           <Route path="/*" element={<Error404 />} />
-
-          <Route path="/profile-siswa" element={<ProfileSiswa />} />
-          <Route path="/profile-guru" element={<ProfileGuru />} />
-          <Route path="/profile-tendik" element={<ProfileTendik />} />
         </Route>
       </Routes>
       <ToastContainer />

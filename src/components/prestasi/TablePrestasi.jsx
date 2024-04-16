@@ -59,7 +59,10 @@ const TablePrestasi = (props) => {
             <tbody>
               {prestasiSiswaData.length > 0 > 0 ? (
                 prestasiSiswaData.map((allPrestasiSiswaData, index) => (
-                  <tr className="bg-second-orange border-b">
+                  <tr
+                    key={allPrestasiSiswaData?.id_prestasi}
+                    className="bg-second-orange border-b"
+                  >
                     <th
                       scope="row"
                       className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"

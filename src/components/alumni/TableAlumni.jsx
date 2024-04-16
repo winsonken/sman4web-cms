@@ -65,7 +65,10 @@ const TablePrestasi = (props) => {
             <tbody>
               {alumniData.length > 0 ? (
                 alumniData.map((allAlumniData, index) => (
-                  <tr className="bg-second-orange border-b">
+                  <tr
+                    key={allAlumniData?.id_siswa}
+                    className="bg-second-orange border-b"
+                  >
                     <th
                       scope="row"
                       className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
@@ -106,7 +109,7 @@ const TablePrestasi = (props) => {
                 <tr>
                   <td
                     colSpan="7"
-                    class="px-6 py-3 whitespace-no-wrap bg-second-orange"
+                    className="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
                     <div className="text-sm  text-gray-500 text-center">
                       Data tidak ditemukan

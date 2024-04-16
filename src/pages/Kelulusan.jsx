@@ -26,6 +26,8 @@ import {
 } from '../services/api/siswaApiSlice';
 import { useState } from 'react';
 import useDebounce from '../helpers/useDebounce';
+import { useSelector } from 'react-redux';
+import { selectCurrentModules } from '../services/features/authSlice';
 
 const Kelulusan = () => {
   const [searchFilterSiswaLulus, setSearchFilterSiswaLulus] = useState('');
@@ -70,6 +72,17 @@ const Kelulusan = () => {
     }
   };
 
+  const modules = useSelector(selectCurrentModules);
+
+  const filterModule = (kodeModul) => {
+    const module = modules?.find(
+      (allModules) => allModules?.kode_modul == kodeModul
+    );
+    return module;
+  };
+
+  const modulesKelulusan = filterModule('data_kelulusan');
+
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -77,11 +90,17 @@ const Kelulusan = () => {
           <h1 className="text-xl font-semibold md:text-2xl">Kelulusan</h1>
         </div>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-          <ButtonCustom
-            title="Set alumni"
-            setIsOpenPopUp={setIsOpenPopUpSetAlumni}
-          />
+        <div
+          className={`flex flex-col sm:flex-row gap-3 ${
+            modulesKelulusan?.ubah ? 'sm:justify-between' : 'sm:justify-end'
+          }`}
+        >
+          {modulesKelulusan?.ubah && (
+            <ButtonCustom
+              title="Set alumni"
+              setIsOpenPopUp={setIsOpenPopUpSetAlumni}
+            />
+          )}
           <div className="w-full sm:w-1/2 duration-100 md:w-1/3 2xl:w-1/5">
             <SearchFilter
               searchValue={searchFilterSiswaLulus}

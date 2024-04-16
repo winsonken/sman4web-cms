@@ -50,6 +50,7 @@ const Alumni = () => {
     isError,
     error,
   } = useGetAlumniQuery({
+    angkatan: selectedAngkatanValue,
     q: debouncedSearchAlumni,
     page: currentPage,
     limit: limitPerPage,

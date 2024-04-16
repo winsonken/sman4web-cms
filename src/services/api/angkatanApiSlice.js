@@ -67,6 +67,10 @@ export const angkatanApiSlice = sman4webApi.injectEndpoints({
       }),
       invalidatesTags: ['Angkatan'],
     }),
+    getJumlahAngkatan: builder.query({
+      query: () => `/api/v1/angkatan/jumlah-angkatan`,
+      providesTags: ['Angkatan'],
+    }),
   }),
 });
 
@@ -82,4 +86,5 @@ export const {
   useDeleteAngkatanMutation,
   useUpdateLulusAngkatanMutation,
   useUpdateMulaiAngkatanMutation,
+  useGetJumlahAngkatanQuery,
 } = angkatanApiSlice;

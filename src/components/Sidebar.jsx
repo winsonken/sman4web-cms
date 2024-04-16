@@ -196,31 +196,33 @@ const Sidebar = (props) => {
           {openSidebar
             ? pages.map((pagesList) => (
                 <NavLink
-                  to={pagesList.link}
+                  to={pagesList?.link}
                   className={`nav-link ${
                     pagesList?.access ? 'block' : 'hidden'
                   }`}
+                  key={pagesList?.name}
                 >
                   <div className="flex items-center gap-2 mt-3">
                     <span className="text-2xl text-main-cream">
-                      {pagesList.icon}
+                      {pagesList?.icon}
                     </span>
                     <span className="text-md font-medium text-main-cream md:text-lg">
-                      {pagesList.name}
+                      {pagesList?.name}
                     </span>
                   </div>
                 </NavLink>
               ))
             : pages.map((pagesList) => (
                 <NavLink
-                  to={pagesList.link}
+                  to={pagesList?.link}
                   className={`nav-link ${
                     pagesList?.access ? 'block' : 'hidden'
                   }`}
+                  key={pagesList?.name}
                 >
                   <div className="flex items-center gap-2 mt-3">
                     <span className="text-2xl text-main-cream">
-                      {pagesList.icon}
+                      {pagesList?.icon}
                     </span>
                   </div>
                 </NavLink>

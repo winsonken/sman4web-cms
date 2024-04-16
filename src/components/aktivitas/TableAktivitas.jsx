@@ -53,7 +53,10 @@ const TableAktivitas = (props) => {
             <tbody>
               {siswaData.length > 0 > 0 ? (
                 siswaData.map((allSiswaData, index) => (
-                  <tr className="bg-second-orange border-b">
+                  <tr
+                    key={allSiswaData?.id_siswa}
+                    className="bg-second-orange border-b"
+                  >
                     <th
                       scope="row"
                       className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
@@ -64,24 +67,21 @@ const TableAktivitas = (props) => {
                     <td className="px-6 py-2">{allSiswaData?.nipd}</td>
                     <td className="px-6 py-2 text-center">
                       <div className="flex gap-3 justify-center">
-                        <div className="bg-[#598392] text-base text-white px-5 py-0.5 rounded-md">
-                          <Link to="/aktivitas/prestasi" state={allSiswaData}>
+                        <Link to="/aktivitas/prestasi" state={allSiswaData}>
+                          <div className="bg-[#598392] text-base text-white px-5 py-0.5 rounded-md">
                             Lihat prestasi
-                          </Link>
-                        </div>
-                        <div className="bg-[#598392] text-base text-white px-5 py-0.5 rounded-md">
-                          <Link
-                            to="/aktivitas/pelanggaran"
-                            state={allSiswaData}
-                          >
+                          </div>
+                        </Link>
+                        <Link to="/aktivitas/pelanggaran" state={allSiswaData}>
+                          <div className="bg-[#598392] text-base text-white px-5 py-0.5 rounded-md">
                             Lihat pelanggaran
-                          </Link>
-                        </div>
-                        <div className="bg-[#598392] text-base text-white px-5 py-0.5 rounded-md">
-                          <Link to="/aktivitas/rapot" state={allSiswaData}>
+                          </div>
+                        </Link>
+                        <Link to="/aktivitas/rapot" state={allSiswaData}>
+                          <div className="bg-[#598392] text-base text-white px-5 py-0.5 rounded-md">
                             Lihat rapot
-                          </Link>
-                        </div>
+                          </div>
+                        </Link>
                       </div>
                     </td>
                   </tr>

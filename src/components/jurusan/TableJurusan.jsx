@@ -58,7 +58,10 @@ const TableJurusan = (props) => {
             <tbody>
               {jurusanData.length > 0 ? (
                 jurusanData.map((allJurusanData, index) => (
-                  <tr className="bg-second-orange border-b">
+                  <tr
+                    key={allJurusanData?.id_jurusan}
+                    className="bg-second-orange border-b"
+                  >
                     <th
                       scope="row"
                       className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"

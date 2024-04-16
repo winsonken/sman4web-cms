@@ -73,7 +73,10 @@ const TableTendik = (props) => {
             <tbody>
               {tendikData.length > 0 ? (
                 tendikData?.map((allTendikData, index) => (
-                  <tr className="bg-second-orange border-b">
+                  <tr
+                    key={allTendikData?.id_tendik}
+                    className="bg-second-orange border-b"
+                  >
                     <th
                       scope="row"
                       className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap"
