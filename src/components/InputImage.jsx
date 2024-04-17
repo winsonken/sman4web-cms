@@ -19,6 +19,11 @@ const InputImage = (props) => {
     setSelectedImage('');
     setImageValue && setImageValue('');
   };
+
+  const API_URL =
+    import.meta.env.VITE_PRODUCTION === 'true'
+      ? import.meta.env.VITE_API_URL_PROD
+      : import.meta.env.VITE_API_URL_DEV;
   return (
     <div className="flex flex-col gap-1 w-full h-full">
       <label htmlFor="" className="text-sm font-medium text-second-blue">
@@ -36,7 +41,7 @@ const InputImage = (props) => {
               <img
                 src={
                   imageValue
-                    ? `http://localhost:5500/${imageValue}`
+                    ? `${API_URL}${imageValue}`
                     : URL.createObjectURL(selectedImage)
                 }
                 alt=""

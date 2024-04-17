@@ -46,14 +46,14 @@ const Navbar = (props) => {
       </div>
 
       {openMenu && (
-        <div className="w-[150px] bg-main-blue p-2 absolute top-16 right-2 rounded-md md:p-3 md:right-5 md:w-[250px]">
+        <div className="w-[150px] bg-main-blue p-2 absolute top-16 right-2 rounded-md border border-second-blue z-10 md:p-3 md:right-5 md:w-[250px]">
           <p className="text-xs font-medium text-main-cream md:hidden">
             {nama}
           </p>
 
           <div className="flex flex-col gap-2 mt-2 md:mt-0">
             <Link to="/profile">
-              <div className="flex items-center gap-1 text-base font-medium text-second-blue md:text-xl hover:text-main-cream duration-200">
+              <div className="flex items-center gap-1 text-base font-medium text-main-cream md:text-xl hover:text-second-blue duration-200">
                 <span>
                   <FaUserCircle />
                 </span>
@@ -62,7 +62,7 @@ const Navbar = (props) => {
             </Link>
 
             <div
-              className="flex items-center gap-1 text-base font-medium text-second-blue md:text-xl hover:text-main-cream duration-200 cursor-pointer"
+              className="flex items-center gap-1 text-base font-medium text-main-cream md:text-xl hover:text-second-blue duration-200 cursor-pointer"
               onClick={handleLogout}
             >
               <span>

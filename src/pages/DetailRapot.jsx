@@ -65,6 +65,10 @@ const DetailRapot = () => {
 
   const modulesAktivitas = filterModule('data_aktivitas');
 
+  const API_URL =
+    import.meta.env.VITE_PRODUCTION === 'true'
+      ? import.meta.env.VITE_API_URL_PROD
+      : import.meta.env.VITE_API_URL_DEV;
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -130,7 +134,7 @@ const DetailRapot = () => {
         >
           <div className="w-full h-[350px] sm:h-[500px] md:h-[630px] duration-100 bg-blue-100">
             <embed
-              src={`http://localhost:5500/${getData?.rapot_ganjil_awal}`}
+              src={`${API_URL}${getData?.rapot_ganjil_awal}`}
               type="application/pdf"
               className="w-full h-full"
             />
@@ -146,7 +150,7 @@ const DetailRapot = () => {
         >
           <div className="w-full h-[350px] sm:h-[500px] md:h-[630px] duration-100 bg-blue-100">
             <embed
-              src={`http://localhost:5500/${getData?.rapot_ganjil_akhir}`}
+              src={`${API_URL}${getData?.rapot_ganjil_akhir}`}
               type="application/pdf"
               className="w-full h-full"
             />
@@ -162,7 +166,7 @@ const DetailRapot = () => {
         >
           <div className="w-full h-[350px] sm:h-[500px] md:h-[630px] duration-100 bg-blue-100">
             <embed
-              src={`http://localhost:5500/${getData?.rapot_genap_awal}`}
+              src={`${API_URL}${getData?.rapot_genap_awal}`}
               type="application/pdf"
               className="w-full h-full"
             />
@@ -178,7 +182,7 @@ const DetailRapot = () => {
         >
           <div className="w-full h-[350px] sm:h-[500px] md:h-[630px] duration-100 bg-blue-100">
             <embed
-              src={`http://localhost:5500/${getData?.rapot_genap_akhir}`}
+              src={`${API_URL}${getData?.rapot_genap_akhir}`}
               type="application/pdf"
               className="w-full h-full"
             />

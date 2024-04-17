@@ -32,6 +32,11 @@ const TableGuru = (props) => {
 
   const totalPage = pagination?.total_page;
   const totalRecord = pagination?.total_record;
+
+  const API_URL =
+    import.meta.env.VITE_PRODUCTION === 'true'
+      ? import.meta.env.VITE_API_URL_PROD
+      : import.meta.env.VITE_API_URL_DEV;
   return (
     <div className="flex flex-col gap-3">
       {isError ? (
@@ -87,7 +92,7 @@ const TableGuru = (props) => {
                       <img
                         src={
                           allGuruData?.foto
-                            ? `http://localhost:5500/${allGuruData?.foto}`
+                            ? `${API_URL}${allGuruData?.foto}`
                             : './default-user.jpeg'
                         }
                         alt="Guru"

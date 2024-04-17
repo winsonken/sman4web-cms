@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FiChevronLeft } from 'react-icons/fi';
 import { FiChevronRight } from 'react-icons/fi';
 import { FiChevronsLeft } from 'react-icons/fi';
@@ -32,6 +32,12 @@ const Pagination = (props) => {
   const handlePageChange = (e) => {
     setCurrentPage(e);
   };
+
+useEffect(() => {
+  if (totalPage == 1) {
+    setCurrentPage(1)
+  }
+}, [totalPage])
 
   const pageList = [];
   const maxPage = 5;

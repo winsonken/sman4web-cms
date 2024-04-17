@@ -52,7 +52,7 @@ export const kelasSiswaApiSlice = sman4webApi.injectEndpoints({
         method: 'PATCH',
         body,
       }),
-      invalidatesTags: ['Kelas_siswa'],
+      invalidatesTags: ['Kelas_siswa', 'Angkatan'],
     }),
     updateTidakLulus: builder.mutation({
       query: (body) => ({

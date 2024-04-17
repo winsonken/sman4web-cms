@@ -294,7 +294,6 @@ const FormEditSiswa = (props) => {
     // { value: 0, label: 'Baru' },
     { value: 1, label: 'Aktif' },
     { value: 2, label: 'Lulus' },
-    { value: 3, label: 'Alumni' },
     { value: 4, label: 'Dropout' },
   ];
 

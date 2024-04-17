@@ -197,6 +197,7 @@ const Ppdb = () => {
   };
 
   const modulesPpdb = filterModule('data_ppdb');
+
   return (
     <Layout>
       <div className="flex flex-col gap-5">

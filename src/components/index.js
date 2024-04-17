@@ -26,6 +26,7 @@ import ButtonCustom from './ButtonCustom';
 import PopUpCustom from './PopUpCustom';
 import Loading from './Loading';
 import Error from './Error';
+import PopUpExpired from './PopUpExpired';
 export {
   Button,
   ButtonAction,
@@ -55,4 +56,5 @@ export {
   PopUpCustom,
   Loading,
   Error,
+  PopUpExpired,
 };

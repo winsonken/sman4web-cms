@@ -1,9 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+const API_URL =
+  import.meta.env.VITE_PRODUCTION === 'true'
+    ? import.meta.env.VITE_API_URL_PROD
+    : import.meta.env.VITE_API_URL_DEV;
+
 export const sman4webApi = createApi({
   reducerPath: 'sman4webApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5500',
+    baseUrl: `${API_URL}`,
     prepareHeaders: (headers, { getState }) => {
       let token = getState().auth.token;
 

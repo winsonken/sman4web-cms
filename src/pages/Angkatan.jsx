@@ -328,7 +328,10 @@ const Angkatan = () => {
           className="md:max-w-xl"
         >
           <div className="flex flex-col gap-3">
-            <h1>Apakah anda yakin meluluskan angkatan ini?</h1>
+            <h1>
+              Apakah anda yakin meluluskan angkatan ke-
+              <span className="font-bold">{getData?.no_angkatan}</span>?
+            </h1>
 
             <div className="flex justify-end gap-2">
               <Button

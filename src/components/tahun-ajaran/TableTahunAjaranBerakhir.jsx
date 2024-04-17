@@ -66,12 +66,12 @@ const TableTahunAjaranBerakhir = (props) => {
                       {allTahunAjaran?.tahun_akhir_ajaran}
                     </td>
                     <td className="px-6 py-2">
-                      {allTahunAjaran?.mulai_periode_ganjil}-
-                      {allTahunAjaran?.akhir_periode_ganjil}
+                      [{allTahunAjaran?.mulai_periode_ganjil}] - [
+                      {allTahunAjaran?.akhir_periode_ganjil}]
                     </td>
                     <td className="px-6 py-2">
-                      {allTahunAjaran?.mulai_periode_genap}-
-                      {allTahunAjaran?.akhir_periode_genap}
+                      [{allTahunAjaran?.mulai_periode_genap}] - [
+                      {allTahunAjaran?.akhir_periode_genap}]
                     </td>
                     <td className="px-6 py-2">
                       {allTahunAjaran?.status_tahun_ajaran == 2 ? (

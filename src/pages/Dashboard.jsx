@@ -30,8 +30,8 @@ const Dashboard = () => {
         <div>
           <h1 className="text-xl font-semibold md:text-2xl">Dashboard</h1>
         </div>
-        <div class="grid xl:grid-cols-4 xl:gap-4 lg:grid-cols-2 gap-2 sm:grid-cols-1 mt-5">
-          <div className="bg-[#8BFF79] rounded-lg w-11/12 sm:mt-3">
+        <div className="grid xl:grid-cols-4 xl:gap-4 lg:grid-cols-2 gap-2 sm:grid-cols-1 mt-5">
+          <div className="bg-[#FD8F8F] rounded-lg w-11/12 sm:mt-3">
             <div className="flex flex-row justify-center gap-8 px-6 py-1">
               <div>
                 <PiUsersThreeFill className="size-20" />
@@ -45,7 +45,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="bg-[#F0F681] rounded-lg w-11/12 sm:mt-3">
+          <div className="bg-[#9AFFFF] rounded-lg w-11/12 sm:mt-3">
             <div className="flex flex-row justify-center gap-8 px-6 py-1">
               <div>
                 <FaChalkboardTeacher className="size-20" />
@@ -59,7 +59,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="bg-[#73F5D9] rounded-lg w-11/12 sm:mt-3">
+          <div className="bg-[#AAFF8D] rounded-lg w-11/12 sm:mt-3">
             <div className="flex flex-row justify-center gap-8 px-6 py-1">
               <div>
                 <MdStairs className="size-20" />
@@ -73,7 +73,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="bg-[#8EFFFF] rounded-lg w-11/12 sm:mt-3">
+          <div className="bg-[#FDC795] rounded-lg w-11/12 sm:mt-3">
             <div className="flex flex-row justify-center gap-8 px-6 py-1">
               <div>
                 <FaUserGraduate className="size-16 mt-3" />

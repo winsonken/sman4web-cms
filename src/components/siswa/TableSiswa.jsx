@@ -32,6 +32,11 @@ const TableSiswa = (props) => {
 
   const totalPage = pagination?.total_page;
   const totalRecord = pagination?.total_record;
+
+  const API_URL =
+    import.meta.env.VITE_PRODUCTION === 'true'
+      ? import.meta.env.VITE_API_URL_PROD
+      : import.meta.env.VITE_API_URL_DEV;
   return (
     <div className="flex flex-col gap-3">
       {isError ? (
@@ -88,7 +93,7 @@ const TableSiswa = (props) => {
                       <img
                         src={
                           allSiswaData?.foto
-                            ? `http://localhost:5500/${allSiswaData?.foto}`
+                            ? `${API_URL}${allSiswaData?.foto}`
                             : './default-user.jpeg'
                         }
                         alt="Siswa"

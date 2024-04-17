@@ -23,9 +23,7 @@ const Profile = () => {
   const data = useSelector(selectCurrentUser);
   const role = data?.role;
   const [isOpenPopUpSetJurusan, setIsOpenPopUpSetJurusan] = useState(false);
-  // const decoded = jwtDecode(token);
 
-  // const role = decoded?.role;
   const id_siswa = data?.id_siswa;
   const { data: siswa } = useGetProfileSiswaQuery({ siswa: id_siswa });
   const profileSiswa = siswa?.data?.[0];
