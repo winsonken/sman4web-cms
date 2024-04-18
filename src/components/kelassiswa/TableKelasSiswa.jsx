@@ -94,17 +94,19 @@ const TableKelasSiswa = (props) => {
                       {allKelasSiswaData?.tahun_akhir_ajaran}
                     </td>
                     <td className="px-6 py-2">
-                      {allKelasSiswaData?.status_kelas_siswa == 1
-                        ? 'Aktif'
-                        : allKelasSiswaData?.status_kelas_siswa == 2
-                        ? 'Naik kelas'
-                        : allKelasSiswaData?.status_kelas_siswa == 3
-                        ? 'Tinggal kelas'
-                        : allKelasSiswaData?.status_kelas_siswa == 4
-                        ? 'Lulus'
-                        : allKelasSiswaData?.status_kelas_siswa == 5
-                        ? 'Tidak lulus'
-                        : ''}
+                      {allKelasSiswaData?.status_kelas_siswa == 1 ? (
+                        <p className="text-[#45db6a]">Aktif</p>
+                      ) : allKelasSiswaData?.status_kelas_siswa == 2 ? (
+                        <p className="text-[#51f84e]">Naik Kelas</p>
+                      ) : allKelasSiswaData?.status_kelas_siswa == 3 ? (
+                        <p className="text-[#d14242]">Tinggal Kelas</p>
+                      ) : allKelasSiswaData?.status_kelas_siswa == 4 ? (
+                        <p className="text-[#4ef887]">Lulus</p>
+                      ) : allKelasSiswaData?.status_kelas_siswa == 5 ? (
+                        <p className="text-[#842a2a]">Tidak Lulus</p>
+                      ) : (
+                        ''
+                      )}
                     </td>
                   </tr>
                 ))

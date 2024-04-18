@@ -99,7 +99,7 @@ const TableTahunAjaran = (props) => {
                     </td>
                     <td className="px-6 py-2">
                       {allTahunAjaran?.status_tahun_ajaran == 0 ? (
-                        <p className="text-[#0b0303]">Belum Dimulai</p>
+                        <p className="text-[#cec7cd]">Belum Dimulai</p>
                       ) : allTahunAjaran?.status_tahun_ajaran == 1 ? (
                         <p className="text-[#45db6a]">Dimulai</p>
                       ) : allTahunAjaran?.status_tahun_ajaran == 2 ? (

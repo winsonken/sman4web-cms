@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaMedal } from 'react-icons/fa6';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { toast } from 'react-toastify';
+Loading;
 import {
   Button,
   ButtonAdd,
@@ -12,6 +13,7 @@ import {
   PopUpDelete,
   SelectFilter,
   SearchFilter,
+  Loading,
 } from '../components';
 import {
   FormDetailAddPrestasi,
