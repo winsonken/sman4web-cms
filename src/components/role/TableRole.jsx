@@ -74,7 +74,11 @@ const TableRole = (props) => {
                       {allRoleData?.nama_role}
                     </td>
                     <td className="px-6 py-1">
-                      {allRoleData?.status_role == 1 ? 'Aktif' : 'Tidak aktif'}
+                      {allRoleData?.status_role == 1 ? (
+                        <p className="text-[#45db6a]">Aktif</p>
+                      ) : (
+                        <p className="text-[#d14242]">Tidak aktif</p>
+                      )}
                     </td>
                     {modules?.ubah && (
                       <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">

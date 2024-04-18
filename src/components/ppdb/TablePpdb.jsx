@@ -115,9 +115,9 @@ const TablePpdb = (props) => {
                       {allPpdbData?.status_ppdb == 0 ? (
                         <p className="text-[#ecbb49]"> Menunggu penerimaan </p>
                       ) : allPpdbData?.status_ppdb == 1 ? (
-                        <p className="">Diterima</p>
+                        <p className="text-[#45db6a]">Diterima</p>
                       ) : allPpdbData?.status_ppdb == 2 ? (
-                        'Ditolak'
+                        <p className="text-[#d14242]">Ditolak</p>
                       ) : (
                         ''
                       )}

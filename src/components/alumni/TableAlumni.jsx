@@ -96,7 +96,11 @@ const TablePrestasi = (props) => {
                     <td className="px-6 py-2">{allAlumniData?.nipd}</td>
                     <td className="px-6 py-2">{allAlumniData?.no_angkatan}</td>
                     <td className="px-6 py-2">
-                      {allAlumniData?.status_siswa == 3 ? 'Alumni' : ''}
+                      {allAlumniData?.status_siswa == 3 ? (
+                        <p className="text-[#45db6a]">Alumni</p>
+                      ) : (
+                        ''
+                      )}
                     </td>
                     <td className="px-6 py-2">
                       <div className="flex flex-row justify-center items-center gap-2 ">
