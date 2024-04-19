@@ -11,11 +11,6 @@ const RequireAuth = () => {
   const dispatch = useDispatch();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-  const handleLogout = () => {
-    setShowLogoutModal(false);
-    dispatch(logOut());
-  };
-
   const isTokenExpired = (token) => {
     if (!token) {
       return true;
@@ -28,21 +23,36 @@ const RequireAuth = () => {
     }
 
     const expirationTime = decodedToken.exp * 1000;
-
     const currentTime = new Date().getTime();
 
     return expirationTime < currentTime;
   };
 
   useEffect(() => {
-    const isExpired = isTokenExpired(token);
+    const checkTokenExpiration = () => {
+      const isExpired = isTokenExpired(token);
+      setShowLogoutModal(isExpired);
+    };
 
-    if (isExpired) {
-      setShowLogoutModal(true);
-    } else {
-      setShowLogoutModal(false);
+    checkTokenExpiration();
+
+    const interval = setInterval(checkTokenExpiration, 1000);
+
+    return () => clearInterval(interval);
+  }, [dispatch, token]);
+
+  const handleLogout = () => {
+    setShowLogoutModal(false);
+    dispatch(logOut());
+  };
+
+  const checkIsExpiredPopUp = () => {
+    if (showLogoutModal) {
+      handleLogout();
     }
-  }, [dispatch]);
+  };
+
+  window.addEventListener('beforeunload', checkIsExpiredPopUp);
 
   return token ? (
     <>
