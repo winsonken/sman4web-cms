@@ -101,7 +101,7 @@ const TableAngkatan = (props) => {
                     </td>
                     <td className="px-6 py-2">
                       {allAngkatanData?.status_angkatan == 0 ? (
-                        <p className="text-[#0b0303]">Belum Dimulai</p>
+                        <p className="text-[#cec7cd]">Belum Dimulai</p>
                       ) : allAngkatanData?.status_angkatan == 1 ? (
                         <p className="text-[#45db6a]">Aktif</p>
                       ) : allAngkatanData?.status_angkatan == 2 ? (

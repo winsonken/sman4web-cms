@@ -103,13 +103,15 @@ const TableKelas = (props) => {
                       {allKelasData?.tahun_akhir_ajaran}
                     </td>
                     <td className="px-6 py-2">
-                      {allKelasData?.status_kelas == 0
-                        ? 'Baru'
-                        : allKelasData?.status_kelas == 1
-                        ? 'Aktif'
-                        : allKelasData?.status_kelas == 2
-                        ? 'Berakhir'
-                        : ''}
+                      {allKelasData?.status_kelas == 0 ? (
+                        <p className="text-[#f9ab58]">Baru</p>
+                      ) : allKelasData?.status_kelas == 1 ? (
+                        <p className="text-[#45db6a]">Aktif</p>
+                      ) : allKelasData?.status_kelas == 2 ? (
+                        <p className="text-[#d14242]">Berakhir</p>
+                      ) : (
+                        ''
+                      )}
                     </td>
                     {modules?.ubah && (
                       <td className="px-6 py-2">
