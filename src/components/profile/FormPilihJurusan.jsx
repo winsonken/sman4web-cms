@@ -88,7 +88,11 @@ const FormPilihJurusan = (props) => {
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1">
+          <p className="text-sm font-medium">
+            Silakan pilih jurusan yang anda minati
+          </p>
+
           <Controller
             name="jurusan"
             control={control}

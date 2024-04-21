@@ -255,6 +255,7 @@ const Siswa = () => {
           icon={<PiUsersThreeFill />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          className="overflow-y-auto"
         >
           <FormAddSiswa setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
         </PopUpAdd>
@@ -264,6 +265,7 @@ const Siswa = () => {
           icon={<PiUsersThreeFill />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          className="overflow-y-auto"
         >
           <FormEditSiswa
             setIsOpenPopUpEdit={setIsOpenPopUpEdit}

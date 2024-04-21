@@ -79,12 +79,12 @@ const FormTinggalKelas = (props) => {
   });
 
   const filterKelas = tinggalKelasOption?.data?.filter(
-    (e) => e.tahun_ajaran != tahunAjaran
+    (e) => e.tahun_ajaran != tahunAjaran && e.status_kelas == 0
   );
 
   const selectTinggalKelas = filterKelas?.map((e) => ({
     value: e?.id_kelas,
-    label: e?.nama_kelas,
+    label: `${e?.nama_kelas} - (${e?.tahun_mulai_ajaran}-${e?.tahun_akhir_ajaran})`,
   }));
 
   useEffect(() => {

@@ -286,7 +286,7 @@ const Angkatan = () => {
           icon={<MdStairs />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-          className="md:max-w-2xl"
+          className="md:max-w-2xl overflow-y-none"
         >
           <FormEditAngkatan
             setIsOpenPopUpEdit={setIsOpenPopUpEdit}

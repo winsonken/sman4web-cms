@@ -93,7 +93,7 @@ const Role = () => {
           icon={<MdStairs />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-          className="md:max-w-3xl"
+          className="md:max-w-3xl overflow-y-auto"
         >
           <FormEditRole
             setIsOpenPopUpEdit={setIsOpenPopUpEdit}

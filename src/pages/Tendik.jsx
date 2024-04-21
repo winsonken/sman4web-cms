@@ -155,6 +155,7 @@ const Tendik = () => {
           icon={<GrUserAdmin />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          className="overflow-y-auto"
         >
           <FormAddTendik
             selectRole={selectRole}
@@ -167,6 +168,7 @@ const Tendik = () => {
           icon={<GrUserAdmin />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          className="overflow-y-auto"
         >
           <FormEditTendik
             data={getData}

@@ -23,7 +23,7 @@ const PopUpEdit = (props) => {
         >
           <div className="w-screen h-screen flex justify-center items-center z-50">
             <div
-              className={`bg-white w-4/5 h-fit max-h-[80%] p-3 rounded-md duration-200 overflow-y-auto ${className}`}
+              className={`bg-white w-4/5 h-fit max-h-[80%] p-3 rounded-md duration-200 ${className}`}
               onClick={(e) => {
                 e.stopPropagation();
               }}

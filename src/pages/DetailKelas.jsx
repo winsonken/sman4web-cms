@@ -59,6 +59,7 @@ const DetailKelas = () => {
     tahun_akhir_ajaran,
     jurusan,
     walikelas,
+    status_kelas,
   } = state;
 
   const navigate = useNavigate();
@@ -157,6 +158,16 @@ const DetailKelas = () => {
             <h1 className="text-xl font-semibold md:text-2xl">
               Kelas {nama_kelas}
             </h1>
+            <p>
+              Status kelas:{' '}
+              {status_kelas == 0
+                ? 'Baru'
+                : status_kelas == 1
+                ? 'Aktif'
+                : status_kelas == 2
+                ? 'Berakhir'
+                : ''}
+            </p>
             <p>
               Tahun ajaran {tahun_mulai_ajaran}-{tahun_akhir_ajaran}
             </p>

@@ -23,6 +23,10 @@ const TableKelas = (props) => {
     setIsOpenPopUpEdit,
     isOpenPopUpDelete,
     setIsOpenPopUpDelete,
+    isOpenPopUpMulaiKelas,
+    setIsOpenPopUpMulaiKelas,
+    isOpenPopUpAkhiriKelas,
+    setIsOpenPopUpAkhiriKelas,
     setGetData,
     currentPage,
     setCurrentPage,
@@ -64,6 +68,14 @@ const TableKelas = (props) => {
                 <th scope="col" className="px-6 py-4">
                   Tahun ajaran
                 </th>
+                <th scope="col" className="px-6 py-4">
+                  Status
+                </th>
+                {modules?.ubah && (
+                  <th scope="col" className="px-6 py-4">
+                    Status kelas
+                  </th>
+                )}
                 <th scope="col" className="text-center px-6 py-4">
                   Aksi
                 </th>
@@ -90,6 +102,40 @@ const TableKelas = (props) => {
                       {allKelasData?.tahun_mulai_ajaran}-
                       {allKelasData?.tahun_akhir_ajaran}
                     </td>
+                    <td className="px-6 py-2">
+                      {allKelasData?.status_kelas == 0
+                        ? 'Baru'
+                        : allKelasData?.status_kelas == 1
+                        ? 'Aktif'
+                        : allKelasData?.status_kelas == 2
+                        ? 'Berakhir'
+                        : ''}
+                    </td>
+                    {modules?.ubah && (
+                      <td className="px-6 py-2">
+                        <div className="flex gap-2">
+                          {allKelasData?.status_kelas == 0 && (
+                            <ButtonAction
+                              title="Mulai"
+                              data={allKelasData}
+                              isOpenPopUp={isOpenPopUpMulaiKelas}
+                              setIsOpenPopUp={setIsOpenPopUpMulaiKelas}
+                              setGetData={setGetData}
+                            />
+                          )}
+
+                          {allKelasData?.status_kelas == 1 && (
+                            <ButtonAction
+                              title="Akhiri"
+                              data={allKelasData}
+                              isOpenPopUp={isOpenPopUpAkhiriKelas}
+                              setIsOpenPopUp={setIsOpenPopUpAkhiriKelas}
+                              setGetData={setGetData}
+                            />
+                          )}
+                        </div>
+                      </td>
+                    )}
                     <td className="px-6 py-2">
                       <div className="flex flex-row justify-center items-center gap-2">
                         <Link to="/kelas/detail" state={allKelasData}>
@@ -122,7 +168,7 @@ const TableKelas = (props) => {
               ) : (
                 <tr>
                   <td
-                    colSpan="7"
+                    colSpan="9"
                     className="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
                     <div className="text-sm  text-gray-500 text-center">

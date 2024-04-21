@@ -142,6 +142,7 @@ const Guru = () => {
           icon={<FaChalkboardTeacher />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
+          className="overflow-y-auto"
         >
           <FormAddGuru setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
         </PopUpAdd>
@@ -151,6 +152,7 @@ const Guru = () => {
           icon={<FaChalkboardTeacher />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+          className="overflow-y-auto"
         >
           <FormEditGuru
             data={getData}

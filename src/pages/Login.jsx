@@ -128,7 +128,7 @@ const Login = () => {
             )}
             {serverError && !errors.username && (
               <span className="text-xs font-medium text-main-red">
-                {serverError.data?.message}
+                {serverError?.data?.message}
               </span>
             )}
           </div>
@@ -166,7 +166,7 @@ const Login = () => {
             )}
             {serverError && !errors.password && (
               <span className="text-xs font-medium text-main-red">
-                {serverError?.data.message}
+                {serverError?.data?.message}
               </span>
             )}
           </div>

@@ -49,6 +49,7 @@ const FormEditKelas = (props) => {
   const [selectedKelas, setSelectedKelas] = useState('');
   const [selectedJurusan, setSelectedJurusan] = useState('');
   const [selectedGuru, setSelectedGuru] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,6 +70,7 @@ const FormEditKelas = (props) => {
     angkatan: '',
     no_angkatan: '',
     tahun_ajaran: '',
+    status_kelas: '',
   };
   const [formInput, setFormInput] = useState(initialFormInput);
 
@@ -99,6 +101,7 @@ const FormEditKelas = (props) => {
       jurusan: selectedJurusan,
       angkatan: formInput?.angkatan,
       tahun_ajaran: formInput?.tahun_ajaran,
+      status_kelas: selectedStatus,
     };
 
     try {
@@ -134,11 +137,13 @@ const FormEditKelas = (props) => {
         angkatan: data?.angkatan,
         no_angkatan: data?.no_angkatan,
         tahun_ajaran: data?.tahun_ajaran,
+        status_kelas: data?.status_kelas,
       });
     }
     setSelectedKelas(data?.kelas);
     setSelectedGuru(data?.id_guru);
     setSelectedJurusan(data?.jurusan);
+    setSelectedStatus(data?.status_kelas);
   }, [data, setFormInput]);
 
   useEffect(() => {
@@ -192,6 +197,12 @@ const FormEditKelas = (props) => {
     { value: 10, label: 10 },
     { value: 11, label: 11 },
     { value: 12, label: 12 },
+  ];
+
+  const selectStatusKelas = [
+    { value: 0, label: 'Baru' },
+    { value: 1, label: 'Aktif' },
+    { value: 2, label: 'Berakhir' },
   ];
 
   return (
@@ -252,6 +263,7 @@ const FormEditKelas = (props) => {
                   setSelectedValue={setSelectedJurusan}
                   placeholder="Select jurusan"
                   errors={errors}
+                  disabled
                 />
               )}
             />
@@ -333,6 +345,24 @@ const FormEditKelas = (props) => {
                 placeholder="Select walikelas"
                 isSearchable
                 isClearable
+                errors={errors}
+              />
+            )}
+          />
+
+          <Controller
+            name="status_kelas"
+            control={control}
+            render={({ field }) => (
+              <SelectInput
+                field={field}
+                data={selectStatusKelas}
+                label="Status kelas"
+                name="status_kelas"
+                selectedValue={selectedStatus}
+                setSelectedValue={setSelectedStatus}
+                placeholder="Select status"
+                isSearchable
                 errors={errors}
               />
             )}

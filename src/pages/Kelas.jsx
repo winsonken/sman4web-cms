@@ -15,6 +15,7 @@ import {
   ButtonDetailKelas,
   SelectFilter,
   SearchFilter,
+  Loading,
 } from '../components';
 
 import {
@@ -36,6 +37,8 @@ import {
 import {
   useDeleteKelasMutation,
   useGetKelasQuery,
+  useUpdateBerakhirKelasMutation,
+  useUpdateMulaiKelasMutation,
 } from '../services/api/kelasApiSlice';
 import useDebounce from '../helpers/useDebounce';
 import { useGetJurusanOptionQuery } from '../services/api/jurusanApiSlice';
@@ -53,6 +56,8 @@ const Kelas = () => {
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
+  const [isOpenPopUpMulaiKelas, setIsOpenPopUpMulaiKelas] = useState(false);
+  const [isOpenPopUpAkhiriKelas, setIsOpenPopUpAkhiriKelas] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const limitPerPage = 10;
@@ -145,8 +150,10 @@ const Kelas = () => {
     selectKelas.unshift({ value: '', label: 'Select kelas' });
   }
 
-  const [deleteKelas, { isLoadingDelete, isErrorDelete, errorDelete }] =
-    useDeleteKelasMutation();
+  const [
+    deleteKelas,
+    { isLoading: isLoadingDelete, isErrorDelete, errorDelete },
+  ] = useDeleteKelasMutation();
 
   const handleDelete = async () => {
     try {
@@ -159,6 +166,54 @@ const Kelas = () => {
           theme: 'light',
         });
         setIsOpenPopUpDelete(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
+
+  const [updateMulaiKelas, { isLoading: isLoadingMulaiKelas }] =
+    useUpdateMulaiKelasMutation();
+
+  const handleMulaiKelas = async () => {
+    try {
+      const response = await updateMulaiKelas({
+        id_kelas: getData?.id_kelas,
+      }).unwrap();
+      if (!response.error) {
+        toast.success('Kelas berhasil dimulai!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpMulaiKelas(false);
+      }
+    } catch (error) {
+      const errorMessage = error?.data?.message;
+      toast.error(`${errorMessage}`, {
+        position: 'top-right',
+        theme: 'light',
+      });
+    }
+  };
+
+  const [updateBerakhirKelas, { isLoading: isLoadingBerakhirKelas }] =
+    useUpdateBerakhirKelasMutation();
+
+  const handleBerakhirKelas = async () => {
+    try {
+      const response = await updateBerakhirKelas({
+        id_kelas: getData?.id_kelas,
+      }).unwrap();
+      if (!response.error) {
+        toast.success('Kelas berhasil diakhiri!', {
+          position: 'top-right',
+          theme: 'light',
+        });
+        setIsOpenPopUpAkhiriKelas(false);
       }
     } catch (error) {
       const errorMessage = error?.data?.message;
@@ -247,6 +302,10 @@ const Kelas = () => {
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           isOpenPopUpDelete={isOpenPopUpDelete}
           setIsOpenPopUpDelete={setIsOpenPopUpDelete}
+          isOpenPopUpMulaiKelas={isOpenPopUpMulaiKelas}
+          setIsOpenPopUpMulaiKelas={setIsOpenPopUpMulaiKelas}
+          isOpenPopUpAkhiriKelas={isOpenPopUpAkhiriKelas}
+          setIsOpenPopUpAkhiriKelas={setIsOpenPopUpAkhiriKelas}
           setGetData={setGetData}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
@@ -315,6 +374,60 @@ const Kelas = () => {
             </div>
           </div>
         </PopUpDelete>
+
+        <PopUpAction
+          title="Mulai kelas"
+          icon={<RiDoorOpenFill />}
+          isOpenPopUp={isOpenPopUpMulaiKelas}
+          setIsOpenPopUp={setIsOpenPopUpMulaiKelas}
+          className="md:max-w-xl"
+        >
+          <div className="flex flex-col gap-3">
+            <h1>
+              Apakah anda yakin memulai kelas{' '}
+              <span className="font-bold">{getData?.nama_kelas}</span>?
+            </h1>
+
+            <div className="flex justify-end gap-2">
+              <Button
+                title="Batal"
+                type="cancel"
+                setIsOpenPopUp={setIsOpenPopUpMulaiKelas}
+              />
+              <Button
+                title={isLoadingMulaiKelas ? <Loading /> : 'Simpan'}
+                onClick={handleMulaiKelas}
+              />
+            </div>
+          </div>
+        </PopUpAction>
+
+        <PopUpAction
+          title="Akhiri kelas"
+          icon={<RiDoorOpenFill />}
+          isOpenPopUp={isOpenPopUpAkhiriKelas}
+          setIsOpenPopUp={setIsOpenPopUpAkhiriKelas}
+          className="md:max-w-xl"
+        >
+          <div className="flex flex-col gap-3">
+            <h1>
+              Apakah anda yakin mengakhiri kelas{' '}
+              <span className="font-bold">{getData?.nama_kelas}</span>?
+            </h1>
+
+            <div className="flex justify-end gap-2">
+              <Button
+                title="Batal"
+                type="cancel"
+                setIsOpenPopUp={setIsOpenPopUpAkhiriKelas}
+              />
+              <Button
+                title={isLoadingBerakhirKelas ? <Loading /> : 'Simpan'}
+                onClick={handleBerakhirKelas}
+              />
+            </div>
+          </div>
+        </PopUpAction>
       </div>
     </Layout>
   );

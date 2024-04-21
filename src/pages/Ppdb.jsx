@@ -270,7 +270,7 @@ const Ppdb = () => {
           icon={<FaUserClock />}
           isOpenPopUpAdd={isOpenPopUpAdd}
           setIsOpenPopUpAdd={setIsOpenPopUpAdd}
-          className="xl:w-2/3"
+          className="xl:w-2/3 overflow-y-auto"
         >
           <FormAddPpdb setIsOpenPopUpAdd={setIsOpenPopUpAdd} />
         </PopUpAdd>
@@ -280,7 +280,7 @@ const Ppdb = () => {
           icon={<FaUserClock />}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
-          className="xl:w-2/3"
+          className="xl:w-2/3 overflow-y-auto"
         >
           <FormEditPpdb
             setIsOpenPopUpEdit={setIsOpenPopUpEdit}

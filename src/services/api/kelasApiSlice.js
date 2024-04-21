@@ -40,6 +40,22 @@ export const kelasApiSlice = sman4webApi.injectEndpoints({
         `/api/v1/kelas?tahunAjaran=${tahunAjaran}&kelas=${kelas}&jurusan=${jurusan}&limit=3000`,
       providesTags: ['Kelas'],
     }),
+    updateMulaiKelas: builder.mutation({
+      query: (body) => ({
+        url: '/api/v1/kelas/mulai',
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: ['Kelas'],
+    }),
+    updateBerakhirKelas: builder.mutation({
+      query: (body) => ({
+        url: '/api/v1/kelas/berakhir',
+        method: 'PATCH',
+        body,
+      }),
+      invalidatesTags: ['Kelas'],
+    }),
   }),
 });
 
@@ -50,4 +66,6 @@ export const {
   useDeleteKelasMutation,
   useGetKelasOptionQuery,
   useGetNaikKelasOptionQuery,
+  useUpdateMulaiKelasMutation,
+  useUpdateBerakhirKelasMutation,
 } = kelasApiSlice;
