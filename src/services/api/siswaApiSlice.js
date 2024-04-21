@@ -58,7 +58,7 @@ export const siswaApiSlice = sman4webApi.injectEndpoints({
         method: 'PATCH',
         body,
       }),
-      invalidatesTags: ['Siswa', 'Profile', 'Kelas'],
+      invalidatesTags: ['Siswa', 'Profile', 'Kelas', 'Kelas_siswa'],
     }),
     updateSetAlumni: builder.mutation({
       query: (body) => ({

@@ -75,7 +75,7 @@ const FormNaikKelas = (props) => {
   const { data: naikKelasOption } = useGetNaikKelasOptionQuery({
     tahunAjaran: '',
     kelas: kelas == 10 ? 11 : kelas == 11 ? 12 : '',
-    jurusan: kelas == 10 ? '' : data?.jurusan || '',
+    jurusan: data?.jurusan,
   });
 
   const filterKelas = naikKelasOption?.data?.filter(
