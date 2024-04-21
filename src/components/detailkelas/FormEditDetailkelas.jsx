@@ -155,7 +155,6 @@ const FormEditDetailKelas = (props) => {
       }));
     }
   }, [data, selectedKelas]);
-  console.log(formInput);
 
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
