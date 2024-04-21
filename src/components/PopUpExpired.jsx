@@ -18,7 +18,7 @@ const PopUpExpired = (props) => {
                     <IoIosWarning className="text-red-500 text-3xl" />
                     <h1 className="text-base font-semibold">Session Expired</h1>
                   </div>
-                  <p>Sesi anda telah berakhir silahkan ulang login</p>
+                  <p>Sesi anda telah berakhir silakan login kembali</p>
                 </div>
               </div>
 
