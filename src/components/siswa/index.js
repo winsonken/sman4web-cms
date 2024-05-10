@@ -4,6 +4,10 @@ import TableSiswa from './TableSiswa';
 import FormDetailSiswa from './FormDetailSiswa';
 import TableSiswaBaru from './TableSiswaBaru';
 import FormDetailSiswaBaru from './FormDetailSiswaBaru';
+import TableSiswaDropout from './TableSiswaDropout';
+import FormDetailSiswaDropout from './FormDetailSiswaDropout';
+import FormEditSiswaDropout from './FormEditSiswaDropout';
+
 export {
   FormAddSiswa,
   FormEditSiswa,
@@ -11,4 +15,7 @@ export {
   FormDetailSiswa,
   TableSiswaBaru,
   FormDetailSiswaBaru,
+  TableSiswaDropout,
+  FormDetailSiswaDropout,
+  FormEditSiswaDropout,
 };

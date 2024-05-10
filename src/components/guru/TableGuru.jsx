@@ -109,6 +109,8 @@ const TableGuru = (props) => {
                     <td className="px-6 py-2">
                       {allGuruData?.status_guru == 1 ? (
                         <p className="text-[#45db6a]">Aktif</p>
+                      ) : allGuruData?.status_guru == 2 ? (
+                        <p className="text-red-500">Tidak aktif</p>
                       ) : (
                         ''
                       )}

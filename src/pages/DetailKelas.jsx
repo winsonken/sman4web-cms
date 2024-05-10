@@ -333,6 +333,7 @@ const DetailKelas = () => {
               <span className="font-bold">{getData?.nama_siswa}</span> ke kelas{' '}
               <span className="font-bold">{kelas == 10 ? 11 : 12}</span>?
             </h1>
+            <p className='text-xs'><span className='font-bold'>Note:</span> silahkan ubah angkatan siswa ini di halaman data siswa</p>
             <FormTinggalKelas
               data={getData}
               kelas={kelas}
@@ -373,6 +374,7 @@ const DetailKelas = () => {
               Apakah anda yakin tidak meluluskan{' '}
               <span className="font-bold">{getData?.nama_siswa}</span>?
             </h1>
+            <p className='text-xs'><span className='font-bold'>Note:</span> silahkan ubah angkatan siswa ini di halaman data siswa</p>
             <FormTidakLulus
               data={getData}
               kelas={kelas}

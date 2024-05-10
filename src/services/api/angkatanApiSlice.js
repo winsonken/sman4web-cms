@@ -42,7 +42,7 @@ export const angkatanApiSlice = sman4webApi.injectEndpoints({
         method: 'PATCH',
         body,
       }),
-      invalidatesTags: ['Angkatan'],
+      invalidatesTags: ['Angkatan', 'Siswa'],
     }),
     deleteAngkatan: builder.mutation({
       query: ({ id }) => ({
@@ -65,7 +65,7 @@ export const angkatanApiSlice = sman4webApi.injectEndpoints({
         method: 'PATCH',
         body,
       }),
-      invalidatesTags: ['Angkatan'],
+      invalidatesTags: ['Angkatan', 'Siswa'],
     }),
     getJumlahAngkatan: builder.query({
       query: () => `/api/v1/angkatan/jumlah-angkatan`,

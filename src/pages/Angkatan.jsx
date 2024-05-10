@@ -19,6 +19,7 @@ import {
 import {
   FormAddAngkatan,
   FormEditAngkatan,
+  FormEditAngkatanLulus,
   TableAngkatan,
   TableAngkatanLulus,
 } from '../components/angkatan';
@@ -55,6 +56,8 @@ const Angkatan = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const limitPerPage = 4;
 
+  const [isOpenPopUpEditAngkatanLulus, setIsOpenPopUpEditAngkatanLulus] =
+    useState(false);
   const [currentPageAngkatanLulus, setCurrentPageAngkatanLulus] = useState(1);
   const limitPerPageAngkatanLulus = 5;
   const [getData, setGetData] = useState([]);
@@ -265,6 +268,10 @@ const Angkatan = () => {
             isSuccess={isSuccessAngkatanLulus}
             isError={isErrorAngkatanLulus}
             error={errorAngkatanLulus}
+            modules={modulesAngkatan}
+            isOpenPopUpEdit={isOpenPopUpEditAngkatanLulus}
+            setIsOpenPopUpEdit={setIsOpenPopUpEditAngkatanLulus}
+            setGetData={setGetData}
             currentPage={currentPageAngkatanLulus}
             setCurrentPage={setCurrentPageAngkatanLulus}
             limitPerPage={limitPerPageAngkatanLulus}
@@ -332,7 +339,11 @@ const Angkatan = () => {
               Apakah anda yakin meluluskan angkatan ke-
               <span className="font-bold">{getData?.no_angkatan}</span>?
             </h1>
-            <p className='text-xs'><span className='font-bold'>Note:</span> Pastikan seluruh siswa sudah diluluskan sebelum mengubah status angkatan ini menjadi lulus</p>
+            <p className="text-xs">
+              <span className="font-bold">Note:</span> Pastikan seluruh siswa
+              sudah diluluskan sebelum mengubah status angkatan ini menjadi
+              lulus
+            </p>
 
             <div className="flex justify-end gap-2">
               <Button
@@ -371,6 +382,19 @@ const Angkatan = () => {
             </div>
           </div>
         </PopUpAction>
+
+        <PopUpEdit
+          title="Ubah angkatan lulus"
+          icon={<MdStairs />}
+          isOpenPopUpEdit={isOpenPopUpEditAngkatanLulus}
+          setIsOpenPopUpEdit={setIsOpenPopUpEditAngkatanLulus}
+          className="md:max-w-2xl overflow-y-none"
+        >
+          <FormEditAngkatanLulus
+            setIsOpenPopUpEdit={setIsOpenPopUpEditAngkatanLulus}
+            data={getData}
+          />
+        </PopUpEdit>
       </div>
     </Layout>
   );

@@ -78,6 +78,11 @@ export const siswaApiSlice = sman4webApi.injectEndpoints({
         `/api/v1/siswa/alumni?angkatan=${angkatan}&q=${q}&page=${page}&limit=${limit}`,
       providesTags: ['Siswa'],
     }),
+    getSiswaDropout: builder.query({
+      query: ({ q, page, limit }) =>
+        `/api/v1/siswa/dropout?q=${q}&page=${page}&limit=${limit}`,
+      providesTags: ['Siswa'],
+    }),
     getSiswaBelumAdaKelasOption: builder.query({
       query: () => `/api/v1/siswa/belum-ada-kelas?limit=3000`,
       providesTags: ['Siswa'],
@@ -106,6 +111,7 @@ export const {
   useUpdateSetAlumniMutation,
   useGetSiswaLulusQuery,
   useGetAlumniQuery,
+  useGetSiswaDropoutQuery,
   useGetSiswaBelumAdaKelasOptionQuery,
   useGetJumlahSiswaAktifQuery,
   useGetJumlahAlumniQuery,

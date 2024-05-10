@@ -173,7 +173,7 @@ const TableDetailKelas = (props) => {
                             </div>
 
                             <div className="flex flex-row gap-2">
-                              {currentMonth >= 5 &&
+                              {currentMonth >= 1 &&
                                 allKelasSiswaData?.status_kelas_siswa == 1 &&
                                 allKelasSiswaData?.no_kelas != 12 && (
                                   <>

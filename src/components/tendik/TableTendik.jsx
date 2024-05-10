@@ -109,6 +109,8 @@ const TableTendik = (props) => {
                     <td className="px-6 py-2">
                       {allTendikData?.status_tendik == 1 ? (
                         <p className="text-[#45db6a]">Aktif</p>
+                      ) : allTendikData?.status_tendik == 2 ? (
+                        <p className="text-red-500">Tidak aktif</p>
                       ) : (
                         ''
                       )}

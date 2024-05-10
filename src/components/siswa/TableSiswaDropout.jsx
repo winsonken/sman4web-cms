@@ -7,7 +7,7 @@ import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
 import Error from '../Error';
 
-const TableAngkatanLulus = (props) => {
+const TableSiswaDropout = (props) => {
   const {
     data,
     isLoading,
@@ -15,20 +15,28 @@ const TableAngkatanLulus = (props) => {
     isError,
     error,
     modules,
+    isOpenPopUpDetailSiswaDropout,
+    setIsOpenPopUpDetailSiswaDropout,
     isOpenPopUpEdit,
     setIsOpenPopUpEdit,
+    isOpenPopUpDelete,
+    setIsOpenPopUpDelete,
     setGetData,
     currentPage,
     setCurrentPage,
     limitPerPage,
   } = props;
 
-  const angkatanLulusData = data?.data;
+  const siswaDropoutData = data?.data;
   const pagination = data?.pagination;
 
   const totalPage = pagination?.total_page;
   const totalRecord = pagination?.total_record;
 
+  const API_URL =
+    import.meta.env.VITE_PRODUCTION === 'true'
+      ? import.meta.env.VITE_API_URL_PROD
+      : import.meta.env.VITE_API_URL_DEV;
   return (
     <div className="flex flex-col gap-3">
       {isError ? (
@@ -44,32 +52,35 @@ const TableAngkatanLulus = (props) => {
                   No
                 </th>
                 <th scope="col" className="px-6 py-4">
+                  Foto
+                </th>
+                <th scope="col" className="px-6 py-4">
+                  No pendaftaran
+                </th>
+                <th scope="col" className="px-6 py-4">
+                  Nama siswa
+                </th>
+                <th scope="col" className="px-6 py-4">
+                  NIPD
+                </th>
+                <th scope="col" className="px-6 py-4">
                   Angkatan
-                </th>
-                <th scope="col" className="px-6 py-4">
-                  Tahun
-                </th>
-                <th scope="col" className="px-6 py-4">
-                  Jumlah siswa
-                </th>
-                <th scope="col" className="px-6 py-4">
-                  Siswa lulus
                 </th>
                 <th scope="col" className="px-6 py-4">
                   Status
                 </th>
-                {modules?.ubah && (
-                  <th scope="col" className="text-center px-6 py-4">
-                    Aksi
-                  </th>
-                )}
+
+                <th scope="col" className="text-center px-6 py-4">
+                  Aksi
+                </th>
               </tr>
             </thead>
+
             <tbody>
-              {angkatanLulusData.length > 0 ? (
-                angkatanLulusData.map((allAngkatanLulusData, index) => (
+              {siswaDropoutData.length > 0 ? (
+                siswaDropoutData.map((allSiswaDropoutData, index) => (
                   <tr
-                    key={allAngkatanLulusData?.id_angkatan}
+                    key={allSiswaDropoutData?.id_siswa}
                     className="bg-second-orange border-b"
                   >
                     <th
@@ -79,39 +90,61 @@ const TableAngkatanLulus = (props) => {
                       {index + 1}
                     </th>
                     <td className="px-6 py-2">
-                      {allAngkatanLulusData?.no_angkatan}
+                      <img
+                        src={
+                          allSiswaDropoutData?.foto
+                            ? `${API_URL}${allSiswaDropoutData?.foto}`
+                            : './default-user.jpeg'
+                        }
+                        alt="Siswa"
+                        className="w-20 max-h-12 object-cover rounded-md"
+                        loading="lazy"
+                      />
                     </td>
-                    <td className="px-6 py-2">{allAngkatanLulusData?.tahun}</td>
                     <td className="px-6 py-2">
-                      {allAngkatanLulusData?.jumlah_siswa || '-'}
+                      {allSiswaDropoutData?.no_pendaftaran}
+                    </td>
+                    <td className="px-6 py-2">{allSiswaDropoutData?.nama}</td>
+                    <td className="px-6 py-2">{allSiswaDropoutData?.nipd}</td>
+                    <td className="px-6 py-2">
+                      {allSiswaDropoutData?.no_angkatan}
                     </td>
                     <td className="px-6 py-2">
-                      {allAngkatanLulusData?.siswa_lulus || '-'}
-                    </td>
-                    <td className="px-6 py-2">
-                      {allAngkatanLulusData?.status_angkatan == 2 ? (
-                        <p className="text-[#4ef887]">Lulus</p>
+                      {allSiswaDropoutData?.status_siswa == 4 ? (
+                        <p className="text-red-500">Dropout</p>
                       ) : (
-                        '-'
+                        ''
                       )}
                     </td>
-                    {modules?.ubah && (
-                      <td className="flex flex-row justify-center items-center gap-2 px-6 py-1">
-                        <ButtonEdit
-                          data={allAngkatanLulusData}
-                          isOpenPopUpEdit={isOpenPopUpEdit}
-                          setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+
+                    <td className="px-6 py-1">
+                      <div className="flex flex-row justify-center items-center gap-2">
+                        <ButtonDetail
+                          data={allSiswaDropoutData}
+                          isOpenPopUpDetail={isOpenPopUpDetailSiswaDropout}
+                          setIsOpenPopUpDetail={
+                            setIsOpenPopUpDetailSiswaDropout
+                          }
                           setGetData={setGetData}
                         />
-                      </td>
-                    )}
+
+                        {modules?.ubah && (
+                          <ButtonEdit
+                            data={allSiswaDropoutData}
+                            isOpenPopUpEdit={isOpenPopUpEdit}
+                            setIsOpenPopUpEdit={setIsOpenPopUpEdit}
+                            setGetData={setGetData}
+                          />
+                        )}
+                      </div>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
                     colSpan="8"
-                    className="px-6 py-3 whitespace-no-wrap bg-second-orange"
+                    class="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
                     <div className="text-sm  text-gray-500 text-center">
                       Data tidak ditemukan
@@ -135,4 +168,4 @@ const TableAngkatanLulus = (props) => {
   );
 };
 
-export default TableAngkatanLulus;
+export default TableSiswaDropout;

@@ -61,7 +61,7 @@ const validationSchema = yup
   })
   .required();
 
-const FormEditSiswa = (props) => {
+const FormEditSiswaDropout = (props) => {
   const { data, setIsOpenPopUpEdit } = props;
   const {
     control,
@@ -210,7 +210,7 @@ const FormEditSiswa = (props) => {
         nama_ortu: data?.nama_ortu,
         no_telepon_ortu: data?.no_telepon_ortu,
         image: data?.foto,
-        angkatan: data?.angkatan,
+        angkatan: '',
         jurusan: data?.jurusan,
         status_siswa: data?.status_siswa,
         username: data?.username,
@@ -219,7 +219,7 @@ const FormEditSiswa = (props) => {
       });
     }
     setJenisKelaminValue(data?.jenis_kelamin);
-    setSelectedAngkatanValue(data?.angkatan);
+    // setSelectedAngkatanValue(data?.angkatan);
     setSelectedJurusanValue(data?.jurusan);
     setSelectedStatusValue(data?.status_siswa);
     setImageValue(data?.foto);
@@ -266,7 +266,7 @@ const FormEditSiswa = (props) => {
       setValue('nama_ortu', data?.nama_ortu);
       setValue('no_telepon_ortu', data?.no_telepon_ortu);
       setValue('image', data?.foto);
-      setValue('angkatan', data?.angkatan);
+      // setValue('angkatan', data?.angkatan);
       setValue('jurusan', data?.jurusan);
       setValue('status_siswa', data?.status_siswa);
       setValue('username', data?.username);
@@ -291,9 +291,7 @@ const FormEditSiswa = (props) => {
   ];
 
   const statusSiswa = [
-    // { value: 0, label: 'Baru' },
     { value: 1, label: 'Aktif' },
-    { value: 2, label: 'Lulus' },
     { value: 4, label: 'Dropout' },
   ];
 
@@ -529,4 +527,4 @@ const FormEditSiswa = (props) => {
     </form>
   );
 };
-export default FormEditSiswa;
+export default FormEditSiswaDropout;

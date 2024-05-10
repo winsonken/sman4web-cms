@@ -22,8 +22,11 @@ import FormEditSiswa from '../components/siswa/FormEditSiswa';
 import FormDetailSiswa from '../components/siswa/FormDetailSiswa';
 import {
   FormDetailSiswaBaru,
+  FormDetailSiswaDropout,
+  FormEditSiswaDropout,
   TableSiswa,
   TableSiswaBaru,
+  TableSiswaDropout,
 } from '../components/siswa';
 import { ButtonCustom, Loading, PopUpCustom } from '../components';
 
@@ -32,6 +35,7 @@ import {
   useGetSiswaAktifQuery,
   useDeleteSiswaMutation,
   useUpdateAktifSiswaMutation,
+  useGetSiswaDropoutQuery,
 } from '../services/api/siswaApiSlice';
 import useDebounce from '../helpers/useDebounce';
 import { useGetAngkatanDimulaiOptionQuery } from '../services/api/angkatanApiSlice';
@@ -45,6 +49,12 @@ const Siswa = () => {
   const [searchFilterSiswaBaru, setSearchFilterSiswaBaru] = useState('');
   const debouncedSearchSiswaBaru = useDebounce(searchFilterSiswaBaru, 500);
 
+  const [searchFilterSiswaDropout, setSearchFilterSiswaDropout] = useState('');
+  const debouncedSearchSiswaDropout = useDebounce(
+    searchFilterSiswaDropout,
+    500
+  );
+
   const [selectedAngkatanValue, setSelectedAngkatanValue] = useState('');
 
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
@@ -54,12 +64,20 @@ const Siswa = () => {
   const [isOpenPopUpAktifSiswa, setIsOpenPopUpAktifSiswa] = useState(false);
   const [isOpenPopUpDetailSiswaBaru, setIsOpenPopUpDetailSiswaBaru] =
     useState(false);
+  const [isOpenPopUpEditSiswaDropout, setIsOpenPopUpEditSiswaDropout] =
+    useState(false);
+
+  const [isOpenPopUpDetailSiswaDropout, setIsOpenPopUpDetailSiswaDropout] =
+    useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const limitPerPage = 10;
   const [getData, setGetData] = useState([]);
 
   const [currentPageSiswaBaru, setCurrentPageSiswaBaru] = useState(1);
   const limitPerPageSiswaBaru = 10;
+
+  const [currentPageSiswaDropout, setCurrentPageSiswaDropout] = useState(1);
+  const limitPerPageSiswaDropout = 10;
 
   const {
     data: siswa,
@@ -84,6 +102,18 @@ const Siswa = () => {
     q: debouncedSearchSiswaBaru,
     page: currentPageSiswaBaru,
     limit: limitPerPageSiswaBaru,
+  });
+
+  const {
+    data: siswaDropout,
+    isLoading: isLoadingSiswaDropout,
+    isSuccess: isSuccessSiswaDropout,
+    isError: isErrorSiswaDropout,
+    error: errorSiswaDropout,
+  } = useGetSiswaDropoutQuery({
+    q: debouncedSearchSiswaDropout,
+    page: currentPageSiswaDropout,
+    limit: limitPerPageSiswaDropout,
   });
 
   const { data: angkatanOption } = useGetAngkatanDimulaiOptionQuery();
@@ -250,6 +280,40 @@ const Siswa = () => {
           />
         </div>
 
+        <div className="flex flex-col gap-5 mt-5">
+          <div>
+            <h1 className="text-xl font-semibold md:text-2xl">
+              Siswa DO (Dropout)
+            </h1>
+          </div>
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+            <div className="w-full sm:w-1/2 duration-100 md:w-1/3 2xl:w-1/5">
+              <SearchFilter
+                searchValue={searchFilterSiswaDropout}
+                setSearchValue={setSearchFilterSiswaDropout}
+              />
+            </div>
+          </div>
+
+          <TableSiswaDropout
+            data={siswaDropout}
+            isLoading={isLoadingSiswaDropout}
+            isSuccess={isSuccessSiswaDropout}
+            isError={isErrorSiswaDropout}
+            error={errorSiswaDropout}
+            modules={modulesSiswa}
+            isOpenPopUpDetailSiswaDropout={isOpenPopUpDetailSiswaDropout}
+            setIsOpenPopUpDetailSiswaDropout={setIsOpenPopUpDetailSiswaDropout}
+            isOpenPopUpEdit={isOpenPopUpEditSiswaDropout}
+            setIsOpenPopUpEdit={setIsOpenPopUpEditSiswaDropout}
+            setGetData={setGetData}
+            currentPage={currentPageSiswaDropout}
+            setCurrentPage={setCurrentPageSiswaDropout}
+            limitPerPage={limitPerPageSiswaDropout}
+          />
+        </div>
+
         <PopUpAdd
           title="Tambah siswa"
           icon={<PiUsersThreeFill />}
@@ -346,6 +410,31 @@ const Siswa = () => {
             setIsOpenPopUpDetail={setIsOpenPopUpDetailSiswaBaru}
           />
         </PopUpDetail>
+
+        <PopUpDetail
+          title="Detail siswa dropout"
+          icon={<PiUsersThreeFill />}
+          isOpenPopUpDetail={isOpenPopUpDetailSiswaDropout}
+          setIsOpenPopUpDetail={setIsOpenPopUpDetailSiswaDropout}
+        >
+          <FormDetailSiswaDropout
+            data={getData}
+            setIsOpenPopUpDetail={setIsOpenPopUpDetailSiswaDropout}
+          />
+        </PopUpDetail>
+
+        <PopUpEdit
+          title="Ubah siswa dropout"
+          icon={<PiUsersThreeFill />}
+          isOpenPopUpEdit={isOpenPopUpEditSiswaDropout}
+          setIsOpenPopUpEdit={setIsOpenPopUpEditSiswaDropout}
+          className="overflow-y-auto"
+        >
+          <FormEditSiswaDropout
+            setIsOpenPopUpEdit={setIsOpenPopUpEditSiswaDropout}
+            data={getData}
+          />
+        </PopUpEdit>
       </div>
     </Layout>
   );

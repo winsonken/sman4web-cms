@@ -93,7 +93,11 @@ const FormDetailTendik = (props) => {
         <div>
           <h1 className="font-medium text-second-blue">Status tendik</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            {data?.status_tendik == 1 ? 'Aktif' : ''}
+            {data?.status_tendik == 1
+              ? 'Aktif'
+              : data?.status_tendik == 2
+              ? 'Tidak aktif'
+              : ''}
           </p>
         </div>
         <div>

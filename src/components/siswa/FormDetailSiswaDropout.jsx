@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FormDetailGuru = (props) => {
+const FormDetailSiswaDropout = (props) => {
   const { data } = props;
 
   return (
@@ -13,10 +13,16 @@ const FormDetailGuru = (props) => {
                 ? `http://localhost:5500/${data?.foto}`
                 : './default-user.jpeg'
             }
-            alt="Guru"
+            alt="Siswa"
             className="w-full h-full max-h-52 rounded-md object-cover"
             loading="lazy"
           />
+        </div>
+        <div>
+          <h1 className="font-medium text-second-blue">No pendaftaran</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {data?.no_pendaftaran}
+          </p>
         </div>
         <div>
           <h1 className="font-medium text-second-blue">Nama</h1>
@@ -31,27 +37,21 @@ const FormDetailGuru = (props) => {
           </p>
         </div>
         <div>
+          <h1 className="font-medium text-second-blue">NIPD</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {data?.nipd}
+          </p>
+        </div>
+        <div>
           <h1 className="font-medium text-second-blue">NIK</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
             {data?.nik}
           </p>
         </div>
         <div>
-          <h1 className="font-medium text-second-blue">Jenis PTK</h1>
+          <h1 className="font-medium text-second-blue">No Telepon siswa</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            {data?.jenis_ptk}
-          </p>
-        </div>
-        <div>
-          <h1 className="font-medium text-second-blue">NIP/NRPTK/NIG</h1>
-          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            {data?.no_guru}
-          </p>
-        </div>
-        <div>
-          <h1 className="font-medium text-second-blue">No Telepon guru</h1>
-          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            {data?.no_telepon_guru}
+            {data?.no_telepon_siswa}
           </p>
         </div>
         <div>
@@ -79,25 +79,39 @@ const FormDetailGuru = (props) => {
           </p>
         </div>
         <div>
-          <h1 className="font-medium text-second-blue">Status kawin</h1>
+          <h1 className="font-medium text-second-blue">Agama</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            {data?.status_kawin}
+            {data?.agama}
           </p>
         </div>
         <div>
-          <h1 className="font-medium text-second-blue">Status kepegawaian</h1>
+          <h1 className="font-medium text-second-blue">Nama Ortu</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            {data?.status_kepegawaian}
+            {data?.nama_ortu}
           </p>
         </div>
         <div>
-          <h1 className="font-medium text-second-blue">Status guru</h1>
+          <h1 className="font-medium text-second-blue">No Telepon Ortu</h1>
           <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
-            {data?.status_guru == 1
-              ? 'Aktif'
-              : data?.status_guru == 2
-              ? 'Tidak aktif'
-              : ''}
+            {data?.no_telepon_ortu}
+          </p>
+        </div>
+        <div>
+          <h1 className="font-medium text-second-blue">Angkatan</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {data?.no_angkatan}
+          </p>
+        </div>
+        <div>
+          <h1 className="font-medium text-second-blue">Jurusan</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {data?.nama_jurusan || 'Belum dipilih'}
+          </p>
+        </div>
+        <div>
+          <h1 className="font-medium text-second-blue">Status siswa</h1>
+          <p className="w-full text-sm font-medium text-main-cream  bg-main-blue px-3 py-2 rounded ">
+            {data?.status_siswa == 4 ? 'Dropout' : ''}
           </p>
         </div>
         <div>
@@ -111,4 +125,4 @@ const FormDetailGuru = (props) => {
   );
 };
 
-export default FormDetailGuru;
+export default FormDetailSiswaDropout;
