@@ -22,7 +22,10 @@ import DetailRapot from './pages/DetailRapot';
 import DetailKelas from './pages/DetailKelas';
 import Role from './pages/Role';
 import RequireAuth from './components/RequireAuth';
-import { selectCurrentModules } from './services/features/authSlice';
+import {
+  selectCurrentModules,
+  selectCurrentUser,
+} from './services/features/authSlice';
 import { useSelector } from 'react-redux';
 import DetailPrestasi from './pages/DetailPrestasi';
 import Aktivitas from './pages/Aktivitas';
@@ -33,6 +36,11 @@ import Tendik from './pages/Tendik';
 
 function App() {
   const modules = useSelector(selectCurrentModules);
+  const user = useSelector(selectCurrentUser);
+
+  const isGuru = user?.role == 'guru';
+  const isTendik = user?.role == 'tendik' || user?.role == 'admin';
+  const isSiswa = user?.role == 'siswa' || user?.role == 'alumni';
 
   const filterModule = (kodeModul) => {
     const module = modules?.find(
@@ -71,90 +79,240 @@ function App() {
             <Route path="/" element={<Profile />} />
           )}
 
-          {modulesDashboard?.akses && (
-            <Route path="/dashboard" element={<Dashboard />} />
-          )}
+          {modulesDashboard?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <Route path="/dashboard" element={<Dashboard />} />
+            )}
 
           {modulesProfile?.akses && (
             <Route path="/profile" element={<Profile />} />
           )}
 
-          {modulesAngkatan?.akses && (
-            <Route path="/angkatan" element={<Angkatan />} />
-          )}
+          {modulesAngkatan?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <Route path="/angkatan" element={<Angkatan />} />
+            )}
 
-          {modulesTahunAjaran?.akses && (
-            <Route path="/tahun-ajaran" element={<TahunAjaran />} />
-          )}
+          {modulesTahunAjaran?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <Route path="/tahun-ajaran" element={<TahunAjaran />} />
+            )}
 
-          {moduleKelas?.akses && (
-            <>
-              <Route path="/kelas" element={<Kelas />} />
-              <Route path="/kelas/detail" element={<DetailKelas />} />
-            </>
-          )}
+          {moduleKelas?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <>
+                <Route path="/kelas" element={<Kelas />} />
+                <Route path="/kelas/detail" element={<DetailKelas />} />
+              </>
+            )}
 
-          {modulesSiswa?.akses && <Route path="/siswa" element={<Siswa />} />}
+          {modulesSiswa?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <Route path="/siswa" element={<Siswa />} />
+            )}
 
-          {modulesGuru?.akses && <Route path="/guru" element={<Guru />} />}
+          {modulesGuru?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <Route path="/guru" element={<Guru />} />
+            )}
 
-          {modulesTendik?.akses && (
-            <Route path="/tendik" element={<Tendik />} />
-          )}
+          {modulesTendik?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <Route path="/tendik" element={<Tendik />} />
+            )}
 
-          {modulesAlumni?.akses && (
-            <Route path="/alumni" element={<Alumni />} />
-          )}
+          {modulesAlumni?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <Route path="/alumni" element={<Alumni />} />
+            )}
 
-          {modulesJurusan?.akses && (
-            <Route path="/jurusan" element={<Jurusan />} />
-          )}
+          {modulesJurusan?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <Route path="/jurusan" element={<Jurusan />} />
+            )}
 
-          {modulesAktivitas?.akses && (
-            <>
-              <Route path="/aktivitas" element={<Aktivitas />} />
-              <Route path="/aktivitas/prestasi" element={<DetailPrestasi />} />
-              <Route
-                path="/aktivitas/pelanggaran"
-                element={<DetailPelanggaran />}
-              />
-              <Route path="/aktivitas/rapot" element={<DetailRapot />} />
-            </>
-          )}
+          {modulesAktivitas?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <>
+                <Route path="/aktivitas" element={<Aktivitas />} />
+                <Route
+                  path="/aktivitas/prestasi"
+                  element={<DetailPrestasi />}
+                />
+                <Route
+                  path="/aktivitas/pelanggaran"
+                  element={<DetailPelanggaran />}
+                />
+                <Route path="/aktivitas/rapot" element={<DetailRapot />} />
+              </>
+            )}
 
-          {modulesPpdb?.akses && <Route path="/ppdb" element={<Ppdb />} />}
+          {modulesPpdb?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <Route path="/ppdb" element={<Ppdb />} />
+            )}
 
-          {modulesKelasSiswa?.akses && (
-            <Route path="/kelas-siswa" element={<KelasSiswa />} />
-          )}
+          {modulesKelasSiswa?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <Route path="/kelas-siswa" element={<KelasSiswa />} />
+            )}
 
-          {modulesPrestasi?.akses && (
-            <>
-              <Route path="/prestasi" element={<Prestasi />} />
-            </>
-          )}
+          {modulesPrestasi?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <>
+                <Route path="/prestasi" element={<Prestasi />} />
+              </>
+            )}
 
-          {modulesRapot?.akses && (
-            <>
-              <Route path="/rapot" element={<Rapot />} />
-            </>
-          )}
+          {modulesRapot?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <>
+                <Route path="/rapot" element={<Rapot />} />
+              </>
+            )}
 
-          {modulesRapot?.akses && (
-            <>
-              <Route path="/kelas" element={<Kelas />} />
-            </>
-          )}
+          {modulesRapot?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <>
+                <Route path="/kelas" element={<Kelas />} />
+              </>
+            )}
 
-          {modulesPelanggaran?.akses && (
-            <Route path="/pelanggaran" element={<Pelanggaran />} />
-          )}
+          {modulesPelanggaran?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <Route path="/pelanggaran" element={<Pelanggaran />} />
+            )}
 
-          {modulesKelulusan?.akses && (
-            <Route path="/kelulusan" element={<Kelulusan />} />
-          )}
+          {modulesKelulusan?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa && user?.status_siswa == 2)) && (
+              <Route path="/kelulusan" element={<Kelulusan />} />
+            )}
 
-          {modulesRole?.akses && <Route path="/role" element={<Role />} />}
+          {modulesRole?.akses &&
+            ((isGuru && user?.status_guru == 1) ||
+              (isTendik && user?.status_tendik == 1) ||
+              (isSiswa &&
+                (user?.status_siswa == 0 ||
+                  user?.status_siswa == 1 ||
+                  user?.status_siswa == 2 ||
+                  user?.status_siswa == 3 ||
+                  user?.status_siswa == 4))) && (
+              <Route path="/role" element={<Role />} />
+            )}
 
           <Route path="/*" element={<Error404 />} />
         </Route>

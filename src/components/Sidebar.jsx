@@ -41,6 +41,7 @@ const Sidebar = (props) => {
 
   const isGuru = user?.role == 'guru';
   const isTendik = user?.role == 'tendik' || user?.role == 'admin';
+  const isSiswa = user?.role == 'siswa' || user?.role == 'alumni';
 
   const filterModule = (kodeModul) => {
     const module = modules?.find(
@@ -75,7 +76,13 @@ const Sidebar = (props) => {
       access:
         modulesDashboard?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Profile',
@@ -90,7 +97,13 @@ const Sidebar = (props) => {
       access:
         modulesAngkatan?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Tahun ajaran',
@@ -99,7 +112,13 @@ const Sidebar = (props) => {
       access:
         modulesTahunAjaran?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Kelas',
@@ -108,7 +127,13 @@ const Sidebar = (props) => {
       access:
         moduleKelas?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Siswa',
@@ -117,7 +142,13 @@ const Sidebar = (props) => {
       access:
         modulesSiswa?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Guru',
@@ -126,7 +157,13 @@ const Sidebar = (props) => {
       access:
         modulesGuru?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Tendik',
@@ -135,7 +172,13 @@ const Sidebar = (props) => {
       access:
         modulesTendik?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Alumni',
@@ -144,7 +187,13 @@ const Sidebar = (props) => {
       access:
         modulesAlumni?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Jurusan',
@@ -153,7 +202,13 @@ const Sidebar = (props) => {
       access:
         modulesJurusan?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Aktivitas',
@@ -162,7 +217,13 @@ const Sidebar = (props) => {
       access:
         modulesAktivitas?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'PPDB',
@@ -171,7 +232,13 @@ const Sidebar = (props) => {
       access:
         modulesPpdb?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Kelas siswa',
@@ -180,7 +247,13 @@ const Sidebar = (props) => {
       access:
         modulesKelasSiswa?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Prestasi',
@@ -189,7 +262,13 @@ const Sidebar = (props) => {
       access:
         modulesPrestasi?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Rapot siswa',
@@ -198,7 +277,13 @@ const Sidebar = (props) => {
       access:
         modulesRapot?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Pelanggaran',
@@ -207,7 +292,13 @@ const Sidebar = (props) => {
       access:
         modulesPelanggaran?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
     {
       name: 'Kelulusan',
@@ -216,7 +307,8 @@ const Sidebar = (props) => {
       access:
         modulesKelulusan?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa && user?.status_siswa == 2)),
     },
     {
       name: 'Role',
@@ -225,7 +317,13 @@ const Sidebar = (props) => {
       access:
         modulesRole?.akses &&
         ((isGuru && user?.status_guru == 1) ||
-          (isTendik && user?.status_tendik == 1)),
+          (isTendik && user?.status_tendik == 1) ||
+          (isSiswa &&
+            (user?.status_siswa == 0 ||
+              user?.status_siswa == 1 ||
+              user?.status_siswa == 2 ||
+              user?.status_siswa == 3 ||
+              user?.status_siswa == 4))),
     },
   ];
   return (
