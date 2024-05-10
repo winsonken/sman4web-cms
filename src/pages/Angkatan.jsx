@@ -332,6 +332,7 @@ const Angkatan = () => {
               Apakah anda yakin meluluskan angkatan ke-
               <span className="font-bold">{getData?.no_angkatan}</span>?
             </h1>
+            <p className='text-xs'><span className='font-bold'>Note:</span> Pastikan seluruh siswa sudah diluluskan sebelum mengubah status angkatan ini menjadi lulus</p>
 
             <div className="flex justify-end gap-2">
               <Button
