@@ -3,16 +3,16 @@ import React from 'react';
 const FormDetailSiswaBaru = (props) => {
   const { data } = props;
 
+  const API_URL =
+    import.meta.env.VITE_PRODUCTION === 'true'
+      ? import.meta.env.VITE_API_URL_PROD
+      : import.meta.env.VITE_API_URL_DEV;
   return (
     <div className="">
       <div className="grid grid-flow-row-dense grid-cols-1 sm:grid-cols-2 gap-3 md:grid-cols-3">
         <div className="sm:row-span-3">
           <img
-            src={
-              data?.foto
-                ? `http://localhost:5500/${data?.foto}`
-                : './default-user.jpeg'
-            }
+            src={data?.foto ? `${API_URL}${data?.foto}` : './default-user.jpeg'}
             alt="Siswa Baru"
             className="w-full h-full max-h-52 rounded-md object-cover"
             loading="lazy"

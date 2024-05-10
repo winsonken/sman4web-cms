@@ -46,6 +46,11 @@ const Profile = () => {
   };
 
   const modulesProfile = filterModule('profile');
+
+  const API_URL =
+    import.meta.env.VITE_PRODUCTION === 'true'
+      ? import.meta.env.VITE_API_URL_PROD
+      : import.meta.env.VITE_API_URL_DEV;
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -72,7 +77,7 @@ const Profile = () => {
                 <img
                   src={
                     profileSiswa?.foto
-                      ? `http://localhost:5500/${profileSiswa?.foto}`
+                      ? `${API_URL}${profileSiswa?.foto}`
                       : './default-user.jpeg'
                   }
                   alt="Siswa"
@@ -205,7 +210,7 @@ const Profile = () => {
                 <img
                   src={
                     profileGuru?.foto
-                      ? `http://localhost:5500/${profileGuru?.foto}`
+                      ? `${API_URL}${profileGuru?.foto}`
                       : './default-user.jpeg'
                   }
                   alt="Guru"
@@ -316,7 +321,7 @@ const Profile = () => {
                 <img
                   src={
                     profileTendik?.foto
-                      ? `http://localhost:5500/${profileTendik?.foto}`
+                      ? `${API_URL}${profileTendik?.foto}`
                       : './default-user.jpeg'
                   }
                   alt="Tendik"
