@@ -36,6 +36,8 @@ const Tendik = () => {
   const [searchFilterTendik, setSearchFilterTendik] = useState('');
   const debouncedSearchTendik = useDebounce(searchFilterTendik, 500);
 
+  const [selectedStatusTendik, setSelectedStatusTendik] = useState('');
+
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
@@ -63,6 +65,7 @@ const Tendik = () => {
     isError,
     error,
   } = useGetTendikQuery({
+    status: selectedStatusTendik,
     q: debouncedSearchTendik,
     page: currentPage,
     limit: limitPerPage,
@@ -103,6 +106,15 @@ const Tendik = () => {
 
   const modulesTendik = filterModule('data_tendik');
 
+  const selectStatusTendik = [
+    { value: 1, label: 'Aktif' },
+    { value: 2, label: 'Tidak aktif' },
+  ];
+
+  if (Array.isArray(selectStatusTendik)) {
+    selectStatusTendik.unshift({ value: '', label: 'Select status' });
+  }
+
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -123,11 +135,22 @@ const Tendik = () => {
             />
           )}
 
-          <div className="w-full duration-100 sm:w-1/2 md:w-1/5">
-            <SearchFilter
-              searchValue={searchFilterTendik}
-              setSearchValue={setSearchFilterTendik}
-            />
+          <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3  ">
+            <div className="sm:w-1/2">
+              <SelectFilter
+                placeholder="Select status"
+                data={selectStatusTendik}
+                selectedValue={selectedStatusTendik}
+                setSelectedValue={setSelectedStatusTendik}
+              />
+            </div>
+
+            <div className="sm:w-1/2">
+              <SearchFilter
+                searchValue={searchFilterTendik}
+                setSearchValue={setSearchFilterTendik}
+              />
+            </div>
           </div>
         </div>
 

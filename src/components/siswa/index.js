@@ -7,7 +7,8 @@ import FormDetailSiswaBaru from './FormDetailSiswaBaru';
 import TableSiswaDropout from './TableSiswaDropout';
 import FormDetailSiswaDropout from './FormDetailSiswaDropout';
 import FormEditSiswaDropout from './FormEditSiswaDropout';
-
+import TableRiwayatKelasSiswa from './TableRiwayatKelasSiswa';
+import TableRiwayatKelasSiswaDropout from './TableRiwayatKelasSiswaDropout';
 export {
   FormAddSiswa,
   FormEditSiswa,
@@ -18,4 +19,6 @@ export {
   TableSiswaDropout,
   FormDetailSiswaDropout,
   FormEditSiswaDropout,
+  TableRiwayatKelasSiswa,
+  TableRiwayatKelasSiswaDropout,
 };

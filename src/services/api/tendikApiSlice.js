@@ -3,8 +3,8 @@ import { sman4webApi } from './sman4webApi';
 export const tendikApiSlice = sman4webApi.injectEndpoints({
   endpoints: (builder) => ({
     getTendik: builder.query({
-      query: ({ q, page, limit }) =>
-        `/api/v1/tendik?q=${q}&page=${page}&limit=${limit}`,
+      query: ({ status, q, page, limit }) =>
+        `/api/v1/tendik?status=${status}&q=${q}&page=${page}&limit=${limit}`,
       providesTags: ['Tendik'],
     }),
     createTendik: builder.mutation({

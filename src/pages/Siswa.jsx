@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { PiUsersThreeFill } from 'react-icons/pi';
+import { RiDoorOpenFill } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 
 import Layout from '../components/Layout';
@@ -24,6 +25,8 @@ import {
   FormDetailSiswaBaru,
   FormDetailSiswaDropout,
   FormEditSiswaDropout,
+  TableRiwayatKelasSiswa,
+  TableRiwayatKelasSiswaDropout,
   TableSiswa,
   TableSiswaBaru,
   TableSiswaDropout,
@@ -61,11 +64,16 @@ const Siswa = () => {
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
+  const [isOpenPopUpRiwayatKelas, setIsOpenPopUpRiwayatKelas] = useState(false);
   const [isOpenPopUpAktifSiswa, setIsOpenPopUpAktifSiswa] = useState(false);
   const [isOpenPopUpDetailSiswaBaru, setIsOpenPopUpDetailSiswaBaru] =
     useState(false);
   const [isOpenPopUpEditSiswaDropout, setIsOpenPopUpEditSiswaDropout] =
     useState(false);
+  const [
+    isOpenPopUpRiwayatKelasSiswaDropout,
+    setIsOpenPopUpRiwayatKelasSiswaDropout,
+  ] = useState(false);
 
   const [isOpenPopUpDetailSiswaDropout, setIsOpenPopUpDetailSiswaDropout] =
     useState(false);
@@ -230,6 +238,8 @@ const Siswa = () => {
           modules={modulesSiswa}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+          isOpenPopUpRiwayatKelas={isOpenPopUpRiwayatKelas}
+          setIsOpenPopUpRiwayatKelas={setIsOpenPopUpRiwayatKelas}
           isOpenPopUpEdit={isOpenPopUpEdit}
           setIsOpenPopUpEdit={setIsOpenPopUpEdit}
           isOpenPopUpDelete={isOpenPopUpDelete}
@@ -305,6 +315,8 @@ const Siswa = () => {
             modules={modulesSiswa}
             isOpenPopUpDetailSiswaDropout={isOpenPopUpDetailSiswaDropout}
             setIsOpenPopUpDetailSiswaDropout={setIsOpenPopUpDetailSiswaDropout}
+            isOpenPopUpRiwayatKelas={isOpenPopUpRiwayatKelasSiswaDropout}
+            setIsOpenPopUpRiwayatKelas={setIsOpenPopUpRiwayatKelasSiswaDropout}
             isOpenPopUpEdit={isOpenPopUpEditSiswaDropout}
             setIsOpenPopUpEdit={setIsOpenPopUpEditSiswaDropout}
             setGetData={setGetData}
@@ -375,6 +387,18 @@ const Siswa = () => {
           />
         </PopUpDetail>
 
+        <PopUpDetail
+          title="Riwayat kelas siswa"
+          icon={<RiDoorOpenFill />}
+          isOpenPopUpDetail={isOpenPopUpRiwayatKelas}
+          setIsOpenPopUpDetail={setIsOpenPopUpRiwayatKelas}
+        >
+          <TableRiwayatKelasSiswa
+            data={getData}
+            setIsOpenPopUpDetail={setIsOpenPopUpRiwayatKelas}
+          />
+        </PopUpDetail>
+
         <PopUpCustom
           title="Aktifkan semua siswa"
           icon={<PiUsersThreeFill />}
@@ -435,6 +459,18 @@ const Siswa = () => {
             data={getData}
           />
         </PopUpEdit>
+
+        <PopUpDetail
+          title="Riwayat kelas siswa"
+          icon={<RiDoorOpenFill />}
+          isOpenPopUpDetail={isOpenPopUpRiwayatKelasSiswaDropout}
+          setIsOpenPopUpDetail={setIsOpenPopUpRiwayatKelasSiswaDropout}
+        >
+          <TableRiwayatKelasSiswaDropout
+            data={getData}
+            setIsOpenPopUpDetail={setIsOpenPopUpRiwayatKelasSiswaDropout}
+          />
+        </PopUpDetail>
       </div>
     </Layout>
   );

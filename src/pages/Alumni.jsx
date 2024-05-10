@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 
 import { FaUserGraduate } from 'react-icons/fa';
+import { RiDoorOpenFill } from 'react-icons/ri';
+import { FaMedal } from 'react-icons/fa6';
+import { MdDoNotDisturb } from 'react-icons/md';
 
 import {
   Button,
@@ -20,6 +23,9 @@ import {
   FormEditAlumni,
   FormDetailAlumni,
   TableAlumni,
+  TableRiwayatKelasAlumni,
+  TableRiwayatPrestasiAlumni,
+  TableRiwayatPelanggaranAlumni,
 } from '../components/alumni';
 import { useGetAlumniQuery } from '../services/api/siswaApiSlice';
 import useDebounce from '../helpers/useDebounce';
@@ -42,6 +48,11 @@ const Alumni = () => {
   const [getData, setGetData] = useState([]);
 
   const [isOpenPopUpDetail, setIsOpenPopUpDetail] = useState(false);
+  const [isOpenPopUpRiwayatKelas, setIsOpenPopUpRiwayatKelas] = useState(false);
+  const [isOpenPopUpRiwayatPrestasi, setIsOpenPopUpRiwayatPrestasi] =
+    useState(false);
+  const [isOpenPopUpRiwayatPelanggaran, setIsOpenPopUpRiwayatPelanggaran] =
+    useState(false);
 
   const {
     data: alumni,
@@ -112,6 +123,12 @@ const Alumni = () => {
           setGetData={setGetData}
           isOpenPopUpDetail={isOpenPopUpDetail}
           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+          isOpenPopUpRiwayatKelas={isOpenPopUpRiwayatKelas}
+          setIsOpenPopUpRiwayatKelas={setIsOpenPopUpRiwayatKelas}
+          isOpenPopUpRiwayatPrestasi={isOpenPopUpRiwayatPrestasi}
+          setIsOpenPopUpRiwayatPrestasi={setIsOpenPopUpRiwayatPrestasi}
+          isOpenPopUpRiwayatPelanggaran={isOpenPopUpRiwayatPelanggaran}
+          setIsOpenPopUpRiwayatPelanggaran={setIsOpenPopUpRiwayatPelanggaran}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           limitPerPage={limitPerPage}
@@ -126,6 +143,42 @@ const Alumni = () => {
           <FormDetailAlumni
             data={getData}
             setIsOpenPopUpDetail={setIsOpenPopUpDetail}
+          />
+        </PopUpDetail>
+
+        <PopUpDetail
+          title="Riwayat kelas alumni"
+          icon={<RiDoorOpenFill />}
+          isOpenPopUpDetail={isOpenPopUpRiwayatKelas}
+          setIsOpenPopUpDetail={setIsOpenPopUpRiwayatKelas}
+        >
+          <TableRiwayatKelasAlumni
+            data={getData}
+            setIsOpenPopUpDetail={setIsOpenPopUpRiwayatKelas}
+          />
+        </PopUpDetail>
+
+        <PopUpDetail
+          title="Riwayat prestasi alumni"
+          icon={<FaMedal />}
+          isOpenPopUpDetail={isOpenPopUpRiwayatPrestasi}
+          setIsOpenPopUpDetail={setIsOpenPopUpRiwayatPrestasi}
+        >
+          <TableRiwayatPrestasiAlumni
+            data={getData}
+            setIsOpenPopUpDetail={setIsOpenPopUpRiwayatPrestasi}
+          />
+        </PopUpDetail>
+
+        <PopUpDetail
+          title="Riwayat pelanggaran alumni"
+          icon={<MdDoNotDisturb />}
+          isOpenPopUpDetail={isOpenPopUpRiwayatPelanggaran}
+          setIsOpenPopUpDetail={setIsOpenPopUpRiwayatPelanggaran}
+        >
+          <TableRiwayatPelanggaranAlumni
+            data={getData}
+            setIsOpenPopUpDetail={setIsOpenPopUpRiwayatPelanggaran}
           />
         </PopUpDetail>
       </div>

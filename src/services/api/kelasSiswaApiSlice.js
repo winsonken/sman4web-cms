@@ -7,6 +7,11 @@ export const kelasSiswaApiSlice = sman4webApi.injectEndpoints({
         `/api/v1/kelas-siswa?kelas=${kelas}&q=${q}&page=${page}&limit=${limit}`,
       providesTags: ['Kelas_siswa', 'Rapot'],
     }),
+    getRiwayatKelasSiswa: builder.query({
+      query: ({ siswa, page, limit }) =>
+        `/api/v1/kelas-siswa?siswa=${siswa}&page=${page}&limit=${limit}`,
+      providesTags: ['Kelas_siswa'],
+    }),
     createKelasSiswa: builder.mutation({
       query: (body) => ({
         url: '/api/v1/kelas-siswa',
@@ -67,6 +72,7 @@ export const kelasSiswaApiSlice = sman4webApi.injectEndpoints({
 
 export const {
   useGetKelasSiswaQuery,
+  useGetRiwayatKelasSiswaQuery,
   useCreateKelasSiswaMutation,
   useUpdateKelasSiswaMutation,
   useDeleteKelasSiswaMutation,

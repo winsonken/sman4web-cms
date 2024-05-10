@@ -7,6 +7,9 @@ import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
 import Loading from '../Loading';
 import Error from '../Error';
+import { RiDoorOpenFill } from 'react-icons/ri';
+import { FaMedal } from 'react-icons/fa6';
+import { MdDoNotDisturb } from 'react-icons/md';
 
 const TablePrestasi = (props) => {
   const {
@@ -17,6 +20,12 @@ const TablePrestasi = (props) => {
     error,
     isOpenPopUpDetail,
     setIsOpenPopUpDetail,
+    isOpenPopUpRiwayatKelas,
+    setIsOpenPopUpRiwayatKelas,
+    isOpenPopUpRiwayatPrestasi,
+    setIsOpenPopUpRiwayatPrestasi,
+    isOpenPopUpRiwayatPelanggaran,
+    setIsOpenPopUpRiwayatPelanggaran,
     setGetData,
     currentPage,
     setCurrentPage,
@@ -60,6 +69,9 @@ const TablePrestasi = (props) => {
                   Angkatan
                 </th>
                 <th scope="col" className="px-6 py-4">
+                  Jurusan
+                </th>
+                <th scope="col" className="px-6 py-4">
                   Status
                 </th>
                 <th scope="col" className="text-center px-6 py-4">
@@ -95,6 +107,7 @@ const TablePrestasi = (props) => {
                     <td className="px-6 py-2">{allAlumniData?.nama}</td>
                     <td className="px-6 py-2">{allAlumniData?.nipd}</td>
                     <td className="px-6 py-2">{allAlumniData?.no_angkatan}</td>
+                    <td className="px-6 py-2">{allAlumniData?.nama_jurusan}</td>
                     <td className="px-6 py-2">
                       {allAlumniData?.status_siswa == 3 ? (
                         <p className="text-[#45db6a]">Alumni</p>
@@ -110,6 +123,32 @@ const TablePrestasi = (props) => {
                           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
                           setGetData={setGetData}
                         />
+
+                        <ButtonDetail
+                          data={allAlumniData}
+                          isOpenPopUpDetail={isOpenPopUpRiwayatKelas}
+                          setIsOpenPopUpDetail={setIsOpenPopUpRiwayatKelas}
+                          setGetData={setGetData}
+                          icon={<RiDoorOpenFill />}
+                        />
+
+                        <ButtonDetail
+                          data={allAlumniData}
+                          isOpenPopUpDetail={isOpenPopUpRiwayatPrestasi}
+                          setIsOpenPopUpDetail={setIsOpenPopUpRiwayatPrestasi}
+                          setGetData={setGetData}
+                          icon={<FaMedal />}
+                        />
+
+                        <ButtonDetail
+                          data={allAlumniData}
+                          isOpenPopUpDetail={isOpenPopUpRiwayatPelanggaran}
+                          setIsOpenPopUpDetail={
+                            setIsOpenPopUpRiwayatPelanggaran
+                          }
+                          setGetData={setGetData}
+                          icon={<MdDoNotDisturb />}
+                        />
                       </div>
                     </td>
                   </tr>
@@ -117,7 +156,7 @@ const TablePrestasi = (props) => {
               ) : (
                 <tr>
                   <td
-                    colSpan="7"
+                    colSpan="8"
                     className="px-6 py-3 whitespace-no-wrap bg-second-orange"
                   >
                     <div className="text-sm  text-gray-500 text-center">

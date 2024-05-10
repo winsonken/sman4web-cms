@@ -35,6 +35,8 @@ const Guru = () => {
   const [searchFilterGuru, setSearchFilterGuru] = useState('');
   const debouncedSearchGuru = useDebounce(searchFilterGuru, 500);
 
+  const [selectedStatusGuru, setSelectedStatusGuru] = useState('');
+
   const [isOpenPopUpAdd, setIsOpenPopUpAdd] = useState(false);
   const [isOpenPopUpEdit, setIsOpenPopUpEdit] = useState(false);
   const [isOpenPopUpDelete, setIsOpenPopUpDelete] = useState(false);
@@ -51,6 +53,7 @@ const Guru = () => {
     isError,
     error,
   } = useGetGuruQuery({
+    status: selectedStatusGuru,
     q: debouncedSearchGuru,
     page: currentPage,
     limit: limitPerPage,
@@ -90,6 +93,15 @@ const Guru = () => {
 
   const modulesGuru = filterModule('data_guru');
 
+  const selectStatusGuru = [
+    { value: 1, label: 'Aktif' },
+    { value: 2, label: 'Tidak aktif' },
+  ];
+
+  if (Array.isArray(selectStatusGuru)) {
+    selectStatusGuru.unshift({ value: '', label: 'Select status' });
+  }
+
   return (
     <Layout>
       <div className="flex flex-col gap-5">
@@ -110,11 +122,22 @@ const Guru = () => {
             />
           )}
 
-          <div className="w-full duration-100 sm:w-1/2 md:w-1/5">
-            <SearchFilter
-              searchValue={searchFilterGuru}
-              setSearchValue={setSearchFilterGuru}
-            />
+          <div className="flex flex-col gap-3 sm:w-1/2 sm:flex-row 2xl:w-1/3  ">
+            <div className="sm:w-1/2">
+              <SelectFilter
+                placeholder="Select status"
+                data={selectStatusGuru}
+                selectedValue={selectedStatusGuru}
+                setSelectedValue={setSelectedStatusGuru}
+              />
+            </div>
+
+            <div className="sm:w-1/2">
+              <SearchFilter
+                searchValue={searchFilterGuru}
+                setSearchValue={setSearchFilterGuru}
+              />
+            </div>
           </div>
         </div>
 

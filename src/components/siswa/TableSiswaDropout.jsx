@@ -6,6 +6,7 @@ import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
 import Error from '../Error';
+import { RiDoorOpenFill } from 'react-icons/ri';
 
 const TableSiswaDropout = (props) => {
   const {
@@ -17,6 +18,8 @@ const TableSiswaDropout = (props) => {
     modules,
     isOpenPopUpDetailSiswaDropout,
     setIsOpenPopUpDetailSiswaDropout,
+    isOpenPopUpRiwayatKelas,
+    setIsOpenPopUpRiwayatKelas,
     isOpenPopUpEdit,
     setIsOpenPopUpEdit,
     isOpenPopUpDelete,
@@ -126,6 +129,14 @@ const TableSiswaDropout = (props) => {
                             setIsOpenPopUpDetailSiswaDropout
                           }
                           setGetData={setGetData}
+                        />
+
+                        <ButtonDetail
+                          data={allSiswaDropoutData}
+                          isOpenPopUpDetail={isOpenPopUpRiwayatKelas}
+                          setIsOpenPopUpDetail={setIsOpenPopUpRiwayatKelas}
+                          setGetData={setGetData}
+                          icon={<RiDoorOpenFill />}
                         />
 
                         {modules?.ubah && (

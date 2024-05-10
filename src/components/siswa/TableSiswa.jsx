@@ -6,6 +6,7 @@ import ButtonDetail from '../ButtonDetail';
 import ButtonEdit from '../ButtonEdit';
 import ButtonDelete from '../ButtonDelete';
 import Error from '../Error';
+import { RiDoorOpenFill } from 'react-icons/ri';
 
 const TableSiswa = (props) => {
   const {
@@ -17,6 +18,8 @@ const TableSiswa = (props) => {
     modules,
     isOpenPopUpDetail,
     setIsOpenPopUpDetail,
+    isOpenPopUpRiwayatKelas,
+    setIsOpenPopUpRiwayatKelas,
     isOpenPopUpEdit,
     setIsOpenPopUpEdit,
     isOpenPopUpDelete,
@@ -122,6 +125,14 @@ const TableSiswa = (props) => {
                           isOpenPopUpDetail={isOpenPopUpDetail}
                           setIsOpenPopUpDetail={setIsOpenPopUpDetail}
                           setGetData={setGetData}
+                        />
+
+                        <ButtonDetail
+                          data={allSiswaData}
+                          isOpenPopUpDetail={isOpenPopUpRiwayatKelas}
+                          setIsOpenPopUpDetail={setIsOpenPopUpRiwayatKelas}
+                          setGetData={setGetData}
+                          icon={<RiDoorOpenFill />}
                         />
 
                         {modules?.ubah && (
