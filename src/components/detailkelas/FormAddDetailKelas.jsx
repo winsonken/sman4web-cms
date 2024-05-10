@@ -22,6 +22,7 @@ const FormAddDetailKelas = (props) => {
   const {
     id_kelas,
     namaKelas,
+    tahunAjaran,
     selectSiswaBelumAdaKelas,
     selectKelas,
     setIsOpenPopUpAdd,
@@ -54,6 +55,7 @@ const FormAddDetailKelas = (props) => {
     const payload = {
       kelas: selectedKelas,
       siswa: selectedSiswa,
+      tahun_ajaran: tahunAjaran,
     };
 
     try {

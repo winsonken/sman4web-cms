@@ -99,7 +99,7 @@ const DetailKelas = () => {
 
   const selectSiswaBelumAdaKelas = siswaBelumAdaKelasOption?.data?.map((e) => ({
     value: e?.id_siswa,
-    label: e?.nama,
+    label: `${e?.nama} - ${e?.nipd}`
   }));
 
   const { data: kelasOption } = useGetKelasOptionQuery({
@@ -248,6 +248,7 @@ const DetailKelas = () => {
           <FormAddDetailKelas
             id_kelas={id_kelas}
             namaKelas={nama_kelas}
+            tahunAjaran={tahun_ajaran}
             selectSiswaBelumAdaKelas={selectSiswaBelumAdaKelas}
             selectKelas={selectKelas}
             setIsOpenPopUpAdd={setIsOpenPopUpAdd}
