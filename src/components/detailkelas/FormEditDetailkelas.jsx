@@ -17,7 +17,7 @@ const validationSchema = (originalKelas) =>
         return kelas != originalKelas
           ? schema.nullable()
           : schema
-              .required('No kelas is required')
+              .required('No absen is required')
               .max(100, 'No absen max is 100')
               .min(1, 'No absen min is 1');
       }),
