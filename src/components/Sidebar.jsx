@@ -17,7 +17,11 @@ import { MdDoNotDisturb } from 'react-icons/md';
 import { FaUserPlus } from 'react-icons/fa6';
 import { MdLogout } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
-import { logOut, selectCurrentModules } from '../services/features/authSlice';
+import {
+  logOut,
+  selectCurrentModules,
+  selectCurrentUser,
+} from '../services/features/authSlice';
 import { FiActivity } from 'react-icons/fi';
 import { GiGraduateCap } from 'react-icons/gi';
 import { SiGoogleclassroom } from 'react-icons/si';
@@ -33,6 +37,10 @@ const Sidebar = (props) => {
   };
 
   const modules = useSelector(selectCurrentModules);
+  const user = useSelector(selectCurrentUser);
+
+  const isGuru = user?.role == 'guru';
+  const isTendik = user?.role == 'tendik' || user?.role == 'admin';
 
   const filterModule = (kodeModul) => {
     const module = modules?.find(
@@ -64,7 +72,10 @@ const Sidebar = (props) => {
       name: 'Dashboard',
       link: '/dashboard',
       icon: <BiSolidDashboard />,
-      access: modulesDashboard?.akses,
+      access:
+        modulesDashboard?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Profile',
@@ -76,97 +87,145 @@ const Sidebar = (props) => {
       name: 'Angkatan',
       link: '/angkatan',
       icon: <MdStairs />,
-      access: modulesAngkatan?.akses,
+      access:
+        modulesAngkatan?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Tahun ajaran',
       link: '/tahun-ajaran',
       icon: <FaCalendar />,
-      access: modulesTahunAjaran?.akses,
+      access:
+        modulesTahunAjaran?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Kelas',
       link: '/kelas',
       icon: <RiDoorOpenFill />,
-      access: moduleKelas?.akses,
+      access:
+        moduleKelas?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Siswa',
       link: '/siswa',
       icon: <PiUsersThreeFill />,
-      access: modulesSiswa?.akses,
+      access:
+        modulesSiswa?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Guru',
       link: '/guru',
       icon: <FaChalkboardTeacher />,
-      access: modulesGuru?.akses,
+      access:
+        modulesGuru?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Tendik',
       link: '/tendik',
       icon: <GrUserAdmin />,
-      access: modulesTendik?.akses,
+      access:
+        modulesTendik?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Alumni',
       link: '/alumni',
       icon: <FaUserGraduate />,
-      access: modulesAlumni?.akses,
+      access:
+        modulesAlumni?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Jurusan',
       link: '/jurusan',
       icon: <FaBookOpen />,
-      access: modulesJurusan?.akses,
+      access:
+        modulesJurusan?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Aktivitas',
       link: '/aktivitas',
       icon: <FiActivity />,
-      access: modulesAktivitas?.akses,
+      access:
+        modulesAktivitas?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'PPDB',
       link: '/ppdb',
       icon: <FaUserClock />,
-      access: modulesPpdb?.akses,
+      access:
+        modulesPpdb?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Kelas siswa',
       link: '/kelas-siswa',
       icon: <SiGoogleclassroom />,
-      access: modulesKelasSiswa?.akses,
+      access:
+        modulesKelasSiswa?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Prestasi',
       link: '/prestasi',
       icon: <FaMedal />,
-      access: modulesPrestasi?.akses,
+      access:
+        modulesPrestasi?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Rapot siswa',
       link: '/rapot',
       icon: <PiBookBookmarkFill />,
-      access: modulesRapot?.akses,
+      access:
+        modulesRapot?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Pelanggaran',
       link: '/pelanggaran',
       icon: <MdDoNotDisturb />,
-      access: modulesPelanggaran?.akses,
+      access:
+        modulesPelanggaran?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Kelulusan',
       link: '/kelulusan',
       icon: <GiGraduateCap />,
-      access: modulesKelulusan?.akses,
+      access:
+        modulesKelulusan?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
     {
       name: 'Role',
       link: '/role',
       icon: <FaUserPlus />,
-      access: modulesRole?.akses,
+      access:
+        modulesRole?.akses &&
+        ((isGuru && user?.status_guru == 1) ||
+          (isTendik && user?.status_tendik == 1)),
     },
   ];
   return (
